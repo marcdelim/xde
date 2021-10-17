@@ -19,9 +19,11 @@ class Dashboard extends MX_Controller{
 		$this->app->use_js(array("source"=>$this->environment->assets_path."site/vendor/select2/js/select2.min.js","cache"=>false));
 		$this->app->use_css(array("source"=>$this->environment->assets_path."site/vendor/datatables/css-bootstrap/dataTables.bootstrap.min.css","cache"=>false));
 		$this->app->use_css(array("source"=>$this->environment->assets_path."site/vendor/font-awesome/css/font-awesome.min.css","cache"=>false));
+		
 		$this->app->use_js(array("source"=>"home/landing_page","cache"=>false));
 		$this->app->use_js(array("source"=>$this->environment->assets_path.'site/js/datatable.js',"cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/Chart.bundle.min.js","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/Chart.bundle.min","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/popper.min","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/graph","cache"=>false));
 		$this->app->use_css(array("source"=>"dashboard/graph","cache"=>false));
 		
