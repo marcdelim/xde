@@ -6,6 +6,16 @@ var FirstAttemptChart = new Chart(ctxFirstAttempt, {
         labels: [],
         datasets: [
             {
+                type: 'line',
+                label: 'Percentage',
+                data:[],
+                borderColor: "#FFC300",
+                yAxisID: 'B',
+                fill: false,
+
+                
+            },
+            {
                 data: [],
                 label: "Delivery Volume",
                 borderColor: "#458af7",
@@ -19,17 +29,8 @@ var FirstAttemptChart = new Chart(ctxFirstAttempt, {
                 borderColor: "#FFC300",
                 fill: true,
                 backgroundColor: '#FFC300',
-            }, 
-            {
-                type: 'line',
-                label: 'Percentage',
-                data:[],
-                borderColor: "#FFC300",
-                yAxisID: 'B',
-                fill: false,
-
-                
             }
+            
         ]
     },
     options: {
@@ -70,9 +71,10 @@ async function getFirstAttempt(chart,area_id, area2_id){
         success: function(response){
             var parsed = JSON.parse(response);
             chart.data.labels = parsed.week_no;
-            chart.data.datasets[0].data = parsed.data.del_vol; // or you can iterate for multiple datasets
-            chart.data.datasets[1].data = parsed.data.first;
-            chart.data.datasets[2].data = parsed.data.percentage;
+            chart.data.datasets[0].data = parsed.data.percentage;
+            chart.data.datasets[1].data = parsed.data.del_vol; // or you can iterate for multiple datasets
+            chart.data.datasets[2].data = parsed.data.first;
+            
             chart.update(); // finally update our chart
         }
    });

@@ -7,6 +7,14 @@ var DelOtpPercentageChart = new Chart(ctxDelOtpPercentage, {
         labels: [],
         datasets: [
             {
+                type: 'line',
+                label: 'Percentage',
+                data:[],
+                borderColor: "#ff8c00",
+                yAxisID: 'B',
+                fill: false,
+            },
+            {
                 data: [],
                 label: "Delivery Volume",
                 borderColor: "#458af7",
@@ -20,17 +28,8 @@ var DelOtpPercentageChart = new Chart(ctxDelOtpPercentage, {
                 borderColor: "#ff8c00",
                 fill: true,
                 backgroundColor: '#ff8c00',
-            }, 
-            {
-                type: 'line',
-                label: 'Percentage',
-                data:[],
-                borderColor: "#ff8c00",
-                yAxisID: 'B',
-                fill: false,
-
-                
             }
+            
         ]
     },
     options: {
@@ -67,9 +66,10 @@ async function getDelOtpPercentage(chart,area_id, area2_id){
         success: function(response){
             var parsed = JSON.parse(response);
             chart.data.labels = parsed.week_no;
-            chart.data.datasets[0].data = parsed.data.del_vol;
-            chart.data.datasets[1].data = parsed.data.otp_vol;
-            chart.data.datasets[2].data = parsed.data.percentage;
+            chart.data.datasets[0].data = parsed.data.percentage;
+            chart.data.datasets[1].data = parsed.data.del_vol;
+            chart.data.datasets[2].data = parsed.data.otp_vol;
+           
             chart.update(); // finally update our chart
         }
    });

@@ -1,5 +1,5 @@
-var ctxDelPercentage = $("#chart-del-percentage");
-var DelPercentageChart = new Chart(ctxDelPercentage, {
+var ctxPickupIb = $("#chart-pickup-ib");
+var PickupIbChart = new Chart(ctxPickupIb, {
     type: 'bar',
     
     data: {
@@ -7,7 +7,7 @@ var DelPercentageChart = new Chart(ctxDelPercentage, {
         datasets: [
             {
                 type: 'line',
-                label: 'Percentage',
+                label: 'Average',
                 data:[],
                 borderColor: "#458af7",
                 yAxisID: 'B',
@@ -22,14 +22,8 @@ var DelPercentageChart = new Chart(ctxDelPercentage, {
                 backgroundColor: '#00FF00',
                 fill: false,
                
-            }, 
-            {
-                data: [],
-                label: "Delivery Volume",
-                borderColor: "#458af7",
-                fill: true,
-                backgroundColor: '#458af7',
             }
+            
         ]
     },
     options: {
@@ -44,7 +38,7 @@ var DelPercentageChart = new Chart(ctxDelPercentage, {
                 type: 'linear',
                 position: 'right',
                 ticks: {
-                    max: 100,
+                    max: 3.00,
                     min: 0
                 }
             }],
@@ -57,22 +51,21 @@ var DelPercentageChart = new Chart(ctxDelPercentage, {
 
 $(document).ready(function() {
     
-    getDelPercentage(DelPercentageChart, 'All', 'All');
+    getPickupIb(PickupIbChart, 'All', 'All');
 
 });
 
 
-async function getDelPercentage(chart,area_id, area2_id){
+async function getPickupIb(chart,area_id, area2_id){
     $.ajax({
         type: "GET",
-        url: 'dashboard/del_percentage',
+        url: 'dashboard/pickup_ib',
         data: "area_id="+area_id+"&area2_id="+area2_id,
         success: function(response){
             var parsed = JSON.parse(response);
             chart.data.labels = parsed.week_no;
-            chart.data.datasets[0].data = parsed.data.percentage;
+            chart.data.datasets[0].data = parsed.data.ave;
             chart.data.datasets[1].data = parsed.data.ship_vol;
-            chart.data.datasets[2].data = parsed.data.del_vol;
             chart.update(); // finally update our chart
         }
    });
@@ -81,11 +74,11 @@ async function getDelPercentage(chart,area_id, area2_id){
 //area 1 on change
 $('#area_id').on('change', function() {
     var area2_id = $("#area2_id").find(":selected").text(); //getting value of area 2
-    getDelPercentage(DelPercentageChart, this.value, area2_id);
+    getPickupIb(PickupIbChart, this.value, area2_id);
 });
 
 //area 2 on change
 $('#area2_id').on('change', function() {
     var area_id = $("#area_id").find(":selected").text(); //getting value of area
-    getDelPercentage(DelPercentageChart, area_id, this.value);
+    getPickupIb(PickupIbChart, area_id, this.value);
 });

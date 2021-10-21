@@ -123,4 +123,25 @@
 			}
 		}
 
+		public function get_pickup_ib($area_id, $area2_id){
+			$this->db->select('week_no');
+			$this->db->select('count(xde_id) as ship_vol');
+			$this->db->select('AVG(pickup_to_ho_lt) AS ave');
+			$this->db->from( $this->table );
+			if($area_id != 'All'){
+				$this->db->where('area', $area_id);
+			}
+			if($area2_id != 'All'){
+				$this->db->where('area2', $area2_id);
+			}
+			$this->db->group_by('week_no');
+			$this->db->order_by('week_no');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+		}
+
 	}
