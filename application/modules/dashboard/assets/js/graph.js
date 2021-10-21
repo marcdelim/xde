@@ -1,96 +1,90 @@
-$(document).ready(function() {
-    var ctx = $("#chart-line");
-    var myLineChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: [],
-            datasets: [
-                {
-                    data: [],
-                    label: "Ship Volume",
-                    borderColor: "#458af7",
-                    backgroundColor: '#458af7',
-                    fill: false
-                }, {
-                    data: [],
-                    label: "Delivery Volume",
-                    borderColor: "#8e5ea2",
-                    fill: true,
-                    backgroundColor: '#8e5ea2'
-                }
-            ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Delivery Percentage'
-            }
-        },
-    });
+var ctxDelPercentage = $("#chart-del-percentage");
+var DelPercentageChart = new Chart(ctxDelPercentage, {
+    type: 'bar',
+    
+    data: {
+        labels: [],
+        datasets: [
+            {
+                data: [],
+                label: "Ship Volume",
+                borderColor: "#00FF00",
+                backgroundColor: '#00FF00',
+                fill: false,
+               
+            }, 
+            {
+                data: [],
+                label: "Delivery Volume",
+                borderColor: "#458af7",
+                fill: true,
+                backgroundColor: '#458af7',
+            }, 
+            {
+                type: 'line',
+                label: 'Percentage',
+                data:[],
+                borderColor: "#458af7",
+                yAxisID: 'B',
+                fill: false,
 
-    getDelPercentage(myLineChart)
-   
-    // var ctx = $("#chart-test");
-    // var asia = [2822, 350, 411, 502, 635, 809, 947, 1402, 3700, 5267];
-    // var myLineChart = new Chart(ctx, {
-    //     type: 'bar',
-    //     data: {
-    //         labels: [1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050],
-    //         datasets: [
-    //             {
-    //                 data: [86, 114, 106, 106, 107, 111, 133, 221, 783, 2478],
-    //                 label: "Africa",
-    //                 borderColor: "#458af7",
-    //                 backgroundColor: '#458af7',
-    //                 fill: false
-    //             }, {
-    //                 data: asia,
-    //                 label: "Asia",
-    //                 borderColor: "#8e5ea2",
-    //                 fill: true,
-    //                 backgroundColor: '#8e5ea2'
-    //             }, {
-    //                 type: 'line',
-    //                 label: 'Percentage',
-    //                 data:[250, 350, 450, 550, 650, 850, 1250, 2450, 5000, 4200],
-    //                 borderColor: "#000000",
-    //                 fill: false,
-    //                 scales: {
-    //                     x: {
-    //                         ticks: {
-    //                             // Include a dollar sign in the ticks
-    //                             callback: function(value, index, values) {
-    //                                 return '$' + value;
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //         ]
-    //     },
-    //     options: {
-    //         title: {
-    //             display: true,
-    //             text: 'World population per region (in millions)'
-    //         }
-    //     },
-    // });
+                
+            }
+        ]
+    },
+    options: {
+        scaleShowValues: true,
+       scales: {
+            yAxes: [{
+                id: 'A',
+                type: 'linear',
+                position: 'left',
+            }, {
+                id: 'B',
+                type: 'linear',
+                position: 'right',
+                ticks: {
+                    max: 100,
+                    min: 0
+                }
+            }],
+            
+        }
+    },
+    legend: { display: true }
+});
+
+$(document).ready(function() {
+    
+    getDelPercentage(DelPercentageChart, 'All', 'All');
+
 });
 
 
-async function getDelPercentage(chart){
+async function getDelPercentage(chart,area_id, area2_id){
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: 'dashboard/del_percentage',
-        data: "check",
+        data: "area_id="+area_id+"&area2_id="+area2_id,
         success: function(response){
             var parsed = JSON.parse(response);
-            console.log(parsed);
             chart.data.labels = parsed.week_no;
-            console.log(chart.data.labels);
             chart.data.datasets[0].data = parsed.data.ship_vol; // or you can iterate for multiple datasets
             chart.data.datasets[1].data = parsed.data.del_vol;
+            chart.data.datasets[2].data = parsed.data.percentage;
             chart.update(); // finally update our chart
         }
    });
 }
+
+//area 1 on change
+$('#area_id').on('change', function() {
+    var area2_id = $("#area2_id").find(":selected").text(); //getting value of area 2
+    getDelPercentage(DelPercentageChart, this.value, area2_id);
+});
+
+//area 2 on change
+$('#area2_id').on('change', function() {
+    var area_id = $("#area_id").find(":selected").text(); //getting value of area
+    getDelPercentage(DelPercentageChart, area_id, this.value);
+});

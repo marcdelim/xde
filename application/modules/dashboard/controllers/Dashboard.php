@@ -37,25 +37,37 @@ class Dashboard extends MX_Controller{
 	}
 
 	public function del_percentage(){
-		
-		
-		$datas = $this->xde->get_del_percentage();
+		$area_id = $this->input->get('area_id');
+		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
+		$datas = $this->xde->get_del_percentage($area_id, $area2_id);
 		$week_no = array();
 		$ship_vol = array();
 		$del_vol = array();
-		foreach($datas as $data){
-			$week_no[] = $data->week_no;
-			$ship_vol[] = $data->ship_vol;
-			$del_vol[] = $data->del_vol;
+		if($datas){
+			foreach($datas as $data){
+				$week_no[] = $data->week_no;
+				$ship_vol[] = $data->ship_vol;
+				$del_vol[] = $data->del_vol;
+				$compute = ($data->del_vol/$data->ship_vol) * 100;
+				$percentage[] = round($compute, 2);
+			}
+	
+			$result['week_no'] = $week_no;
+			$result['data'] = array(
+				'ship_vol' => $ship_vol,
+				'del_vol' => $del_vol,
+				'percentage' => $percentage,
+			); 
+		}else{
+			$result['week_no'] = [];
+			$result['data'] = array(
+				'ship_vol' => [],
+				'del_vol' => [],
+				'percentage' => [],
+			); 
 		}
-
-		$result['week_no'] = $week_no;
-		$result['data'] = array(
-			'ship_vol' => $ship_vol,
-			'del_vol' => $del_vol
-		); 
-		// $result['ship_vol'] = $ship_vol;
-		// $result['del_vol'] = $del_vol;
+		
+		
 		
 		echo json_encode($result);
 		exit(0);
