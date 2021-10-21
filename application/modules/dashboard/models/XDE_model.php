@@ -230,4 +230,26 @@
 			}
 		}
 
+		public function get_linehaul_leadtime($area_id, $area2_id){
+			$this->db->select('week_no');
+			$this->db->select('count(xde_id) as ship_vol');
+			$this->db->select('SUM(if(transfer = 1, 1, 0)) AS trans_vol');
+			$this->db->select('AVG(lh_lt) AS ave');
+			$this->db->from( $this->table );
+			if($area_id != 'All'){
+				$this->db->where('area', $area_id);
+			}
+			if($area2_id != 'All'){
+				$this->db->where('area2', $area2_id);
+			}
+			$this->db->group_by('week_no');
+			$this->db->order_by('week_no');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+		}
+
 	}

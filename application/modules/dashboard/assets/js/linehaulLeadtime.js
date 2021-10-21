@@ -1,5 +1,5 @@
-var ctxDelLeadtime = $("#chart-del-leadtime");
-var DelLeadtimeChart = new Chart(ctxDelLeadtime, {
+var ctxLineHaulLeadtime = $("#chart-linehaul-leadtime");
+var LinehaulLeadtimeChart = new Chart(ctxLineHaulLeadtime, {
     type: 'bar',
     
     data: {
@@ -7,9 +7,9 @@ var DelLeadtimeChart = new Chart(ctxDelLeadtime, {
         datasets: [
             {
                 type: 'line',
-                label: 'Average',
+                label: 'Average of LH LT',
                 data:[],
-                borderColor: "#458af7",
+                borderColor: "#808080",
                 yAxisID: 'B',
                 fill: false,
 
@@ -22,14 +22,16 @@ var DelLeadtimeChart = new Chart(ctxDelLeadtime, {
                 backgroundColor: '#00FF00',
                 fill: false,
                
-            }, 
+            },  
             {
                 data: [],
-                label: "Delivery Volume",
-                borderColor: "#458af7",
-                fill: true,
-                backgroundColor: '#458af7',
+                label: "Transfer Volume",
+                borderColor: "#FFC300",
+                backgroundColor: '#FFC300',
+                fill: false,
+               
             }
+            
         ]
     },
     options: {
@@ -41,12 +43,13 @@ var DelLeadtimeChart = new Chart(ctxDelLeadtime, {
                 position: 'left',
             }, {
                 id: 'B',
-                type: 'linear',
                 position: 'right',
                 gridLines:{
                     display: false,
                 }
-            }],
+            },
+        ],
+            
             
         }
     },
@@ -56,22 +59,22 @@ var DelLeadtimeChart = new Chart(ctxDelLeadtime, {
 
 $(document).ready(function() {
     
-    getDelLeadtime(DelLeadtimeChart, 'All', 'All');
+    getLinehaulLeadtime(LinehaulLeadtimeChart, 'All', 'All');
 
 });
 
 
-async function getDelLeadtime(chart,area_id, area2_id){
+async function getLinehaulLeadtime(chart,area_id, area2_id){
     $.ajax({
         type: "GET",
-        url: 'dashboard/del_leadtime',
+        url: 'dashboard/linehaul_leadtime',
         data: "area_id="+area_id+"&area2_id="+area2_id,
         success: function(response){
             var parsed = JSON.parse(response);
             chart.data.labels = parsed.week_no;
             chart.data.datasets[0].data = parsed.data.ave;
             chart.data.datasets[1].data = parsed.data.ship_vol;
-            chart.data.datasets[2].data = parsed.data.del_vol;
+            chart.data.datasets[2].data = parsed.data.trans_vol;
             chart.update(); // finally update our chart
         }
    });
@@ -80,11 +83,11 @@ async function getDelLeadtime(chart,area_id, area2_id){
 //area 1 on change
 $('#area_id').on('change', function() {
     var area2_id = $("#area2_id").find(":selected").text(); //getting value of area 2
-    getDelLeadtime(DelLeadtimeChart, this.value, area2_id);
+    getLinehaulLeadtime(LinehaulLeadtimeChart, this.value, area2_id);
 });
 
 //area 2 on change
 $('#area2_id').on('change', function() {
     var area_id = $("#area_id").find(":selected").text(); //getting value of area
-    getDelLeadtime(DelLeadtimeChart, area_id, this.value);
+    getLinehaulLeadtime(LinehaulLeadtimeChart, area_id, this.value);
 });

@@ -34,6 +34,7 @@ class Dashboard extends MX_Controller{
 		$this->app->use_js(array("source"=>"dashboard/dispatchLeadtime","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/failedPercentage","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/openItems","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/linehaulLeadtime","cache"=>false));
 		
 		$header['header_data'] = "Dashboard";
 		$this->template->adminHeaderTpl($header);
@@ -332,6 +333,44 @@ class Dashboard extends MX_Controller{
 			$result['data'] = array(
 				'ship_vol' => [],
 				'percentage' => [],
+			); 
+		}
+		
+		
+		
+		echo json_encode($result);
+		exit(0);
+		
+	}
+
+	public function linehaul_leadtime(){
+		$area_id = $this->input->get('area_id');
+		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
+		$datas = $this->xde->get_linehaul_leadtime($area_id, $area2_id);
+		$week_no = array();
+		$ship_vol = array();
+		$ship_vol = array();
+		$trans_vol = array();
+		if($datas){
+			foreach($datas as $data){
+				$week_no[] = $data->week_no;
+				$ship_vol[] = $data->ship_vol;
+				$trans_vol[] = $data->trans_vol;
+				$ave[] = round($data->ave, 2);
+			}
+	
+			$result['week_no'] = $week_no;
+			$result['data'] = array(
+				'ship_vol' => $ship_vol,
+				'trans_vol' => $trans_vol,
+				'ave' => $ave,
+			); 
+		}else{
+			$result['week_no'] = [];
+			$result['data'] = array(
+				'ship_vol' => [],
+				'trans_vol' => [],
+				'ave' => [],
 			); 
 		}
 		
