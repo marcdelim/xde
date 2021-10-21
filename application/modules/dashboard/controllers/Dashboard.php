@@ -23,7 +23,6 @@ class Dashboard extends MX_Controller{
 		$this->app->use_js(array("source"=>"home/landing_page","cache"=>false));
 		$this->app->use_js(array("source"=>$this->environment->assets_path.'site/js/datatable.js',"cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/Chart.bundle.min","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/popper.min","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/graph","cache"=>false));
 		$this->app->use_css(array("source"=>"dashboard/graph","cache"=>false));
 		
@@ -37,6 +36,31 @@ class Dashboard extends MX_Controller{
 		$this->template->adminFooterTpl();
 	}
 
+	public function del_percentage(){
+		
+		
+		$datas = $this->xde->get_del_percentage();
+		$week_no = array();
+		$ship_vol = array();
+		$del_vol = array();
+		foreach($datas as $data){
+			$week_no[] = $data->week_no;
+			$ship_vol[] = $data->ship_vol;
+			$del_vol[] = $data->del_vol;
+		}
+
+		$result['week_no'] = $week_no;
+		$result['data'] = array(
+			'ship_vol' => $ship_vol,
+			'del_vol' => $del_vol
+		); 
+		// $result['ship_vol'] = $ship_vol;
+		// $result['del_vol'] = $del_vol;
+		
+		echo json_encode($result);
+		exit(0);
+		
+	}
 
 
 

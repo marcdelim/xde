@@ -6,7 +6,7 @@
 		public function __construct () {
 			parent::__construct();
 			$this->load->database();
-			$this->table = 'tbl_items';
+			$this->table = 'xde_table';
 			$this->id = 'xde_id';
 		}
 
@@ -58,6 +58,21 @@
 			$this->db->update( $this->table, $data, $where );
 			$query = $this->db->get_where( $this->table, $where );
 			return $query->row();
+		}
+
+		public function get_del_percentage(){
+			$this->db->select('week_no');
+			$this->db->select('count(xde_id) as ship_vol');
+			$this->db->select('SUM(if(status = "delivery_successful", 1, 0)) AS del_vol');
+			$this->db->from( $this->table );
+			$this->db->group_by('week_no');
+			$this->db->order_by('week_no');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
 		}
 
 	}
