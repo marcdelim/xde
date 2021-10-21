@@ -252,4 +252,25 @@
 			}
 		}
 
+		public function get_delivery_performance($area_id, $area2_id){
+			$this->db->select('week_no as "Week No."');
+			$this->db->select('count(xde_id) as "Ship Vol"');
+			$this->db->select('SUM(if(status = "delivery_successful", 1, 0)) AS "Del Vol"');
+			$this->db->from( $this->table );
+			if($area_id != 'All'){
+				$this->db->where('area', $area_id);
+			}
+			if($area2_id != 'All'){
+				$this->db->where('area2', $area2_id);
+			}
+			$this->db->group_by('week_no');
+			$this->db->order_by('week_no');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+		}
+
 	}

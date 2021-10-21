@@ -35,6 +35,8 @@ class Dashboard extends MX_Controller{
 		$this->app->use_js(array("source"=>"dashboard/failedPercentage","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/openItems","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/linehaulLeadtime","cache"=>false));
+
+		$this->app->use_js(array("source"=>"dashboard/deliveryPerformance","cache"=>false));
 		
 		$header['header_data'] = "Dashboard";
 		$this->template->adminHeaderTpl($header);
@@ -45,6 +47,7 @@ class Dashboard extends MX_Controller{
 		$this->template->adminFooterTpl();
 	}
 
+	//graphs
 	public function del_percentage(){
 		$area_id = $this->input->get('area_id');
 		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
@@ -380,6 +383,43 @@ class Dashboard extends MX_Controller{
 		exit(0);
 		
 	}
+
+	//tables
+	public function delivery_performance(){
+		$area_id = $this->input->get('area_id');
+		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
+		$data = $this->xde->get_delivery_performance($area_id, $area2_id);
+	
+		if($data){
+			// foreach($datas as $data){
+			// 	$week_no[] = $data->week_no;
+			// 	$ship_vol[] = $data->ship_vol;
+			// 	$trans_vol[] = $data->trans_vol;
+			// 	$ave[] = round($data->ave, 2);
+			// }
+	
+			// $result['week_no'] = $week_no;
+			// $result['data'] = array(
+			// 	'ship_vol' => $ship_vol,
+			// 	'trans_vol' => $trans_vol,
+			// 	'ave' => $ave,
+			// ); 
+			$result['data'] = $data;
+		}else{
+			$result['week_no'] = [];
+			$result['data'] = array(
+				'ship_vol' => [],
+				'trans_vol' => [],
+				'ave' => [],
+			); 
+		}
+		
+		
+		
+		echo json_encode($data);
+		exit(0);
+	}
+
 
 	
 
