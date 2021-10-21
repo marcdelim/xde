@@ -23,9 +23,11 @@ class Dashboard extends MX_Controller{
 		$this->app->use_js(array("source"=>"home/landing_page","cache"=>false));
 		$this->app->use_js(array("source"=>$this->environment->assets_path.'site/js/datatable.js',"cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/Chart.bundle.min","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/graph","cache"=>false));
 		$this->app->use_css(array("source"=>"dashboard/graph","cache"=>false));
-		
+
+
+		$this->app->use_js(array("source"=>"dashboard/deliveryPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/deliveryOTPPercentage","cache"=>false));
 		
 		$header['header_data'] = "Dashboard";
 		$this->template->adminHeaderTpl($header);
@@ -48,7 +50,7 @@ class Dashboard extends MX_Controller{
 				$week_no[] = $data->week_no;
 				$ship_vol[] = $data->ship_vol;
 				$del_vol[] = $data->del_vol;
-				$compute = ($data->del_vol/$data->ship_vol) * 100;
+				$compute = ($data->del_vol > 0 AND $data->ship_vol > 0) ? ($data->del_vol/$data->ship_vol) * 100 : 0;
 				$percentage[] = round($compute, 2);
 			}
 	
@@ -63,6 +65,44 @@ class Dashboard extends MX_Controller{
 			$result['data'] = array(
 				'ship_vol' => [],
 				'del_vol' => [],
+				'percentage' => [],
+			); 
+		}
+		
+		
+		
+		echo json_encode($result);
+		exit(0);
+		
+	}
+
+	public function del_otp_percentage(){
+		$area_id = $this->input->get('area_id');
+		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
+		$datas = $this->xde->get_del_otp_percentage($area_id, $area2_id);
+		$week_no = array();
+		$del_vol = array();
+		$otp_vol = array();
+		if($datas){
+			foreach($datas as $data){
+				$week_no[] = $data->week_no;
+				$del_vol[] = $data->del_vol;
+				$otp_vol[] = $data->otp_vol;
+				$compute = ($data->otp_vol > 0 AND $data->del_vol > 0) ? ($data->otp_vol/$data->del_vol) * 100 : 0 ;
+				$percentage[] = round($compute, 2);
+			}
+	
+			$result['week_no'] = $week_no;
+			$result['data'] = array(
+				'del_vol' => $del_vol,
+				'otp_vol' => $otp_vol,
+				'percentage' => $percentage,
+			); 
+		}else{
+			$result['week_no'] = [];
+			$result['data'] = array(
+				'del_vol' => [],
+				'otp_vol' => [],
 				'percentage' => [],
 			); 
 		}
