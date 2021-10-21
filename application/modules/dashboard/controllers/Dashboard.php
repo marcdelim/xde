@@ -32,6 +32,7 @@ class Dashboard extends MX_Controller{
 		$this->app->use_js(array("source"=>"dashboard/pickupIb","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/delLeadtime","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/dispatchLeadtime","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/failedPercentage","cache"=>false));
 		
 		$header['header_data'] = "Dashboard";
 		$this->template->adminHeaderTpl($header);
@@ -189,7 +190,7 @@ class Dashboard extends MX_Controller{
 		exit(0);
 		
 	}
-	
+
 	public function dispatch_leadtime(){
 		$area_id = $this->input->get('area_id');
 		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
@@ -254,6 +255,44 @@ class Dashboard extends MX_Controller{
 				'ship_vol' => [],
 				'del_vol' => [],
 				'ave' => [],
+			); 
+		}
+		
+		
+		
+		echo json_encode($result);
+		exit(0);
+		
+	}
+
+	public function failed_percentage(){
+		$area_id = $this->input->get('area_id');
+		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
+		$datas = $this->xde->get_failed_percentage($area_id, $area2_id);
+		$week_no = array();
+		$ship_vol = array();
+		$failed_vol = array();
+		if($datas){
+			foreach($datas as $data){
+				$week_no[] = $data->week_no;
+				$ship_vol[] = $data->ship_vol;
+				$failed_vol[] = $data->failed_vol;
+				$compute = ($data->failed_vol > 0 AND $data->ship_vol > 0) ? ($data->failed_vol/$data->ship_vol) * 100 : 0;
+				$percentage[] = round($compute, 2);
+			}
+	
+			$result['week_no'] = $week_no;
+			$result['data'] = array(
+				'ship_vol' => $ship_vol,
+				'failed_vol' => $failed_vol,
+				'percentage' => $percentage,
+			); 
+		}else{
+			$result['week_no'] = [];
+			$result['data'] = array(
+				'ship_vol' => [],
+				'failed_vol' => [],
+				'percentage' => [],
 			); 
 		}
 		

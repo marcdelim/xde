@@ -1,5 +1,5 @@
-var ctxDelLeadtime = $("#chart-del-leadtime");
-var DelLeadtimeChart = new Chart(ctxDelLeadtime, {
+var ctxFailedPercentage = $("#chart-failed-percentage");
+var FailedPercentageChart = new Chart(ctxFailedPercentage, {
     type: 'bar',
     
     data: {
@@ -7,9 +7,9 @@ var DelLeadtimeChart = new Chart(ctxDelLeadtime, {
         datasets: [
             {
                 type: 'line',
-                label: 'Average',
+                label: 'Percentage',
                 data:[],
-                borderColor: "#458af7",
+                borderColor: "#C70039",
                 yAxisID: 'B',
                 fill: false,
 
@@ -25,10 +25,10 @@ var DelLeadtimeChart = new Chart(ctxDelLeadtime, {
             }, 
             {
                 data: [],
-                label: "Delivery Volume",
-                borderColor: "#458af7",
+                label: "Failed Volume",
+                borderColor: "#C70039",
                 fill: true,
-                backgroundColor: '#458af7',
+                backgroundColor: '#C70039',
             }
         ]
     },
@@ -56,22 +56,22 @@ var DelLeadtimeChart = new Chart(ctxDelLeadtime, {
 
 $(document).ready(function() {
     
-    getDelLeadtime(DelLeadtimeChart, 'All', 'All');
+    getFailedPercentage(FailedPercentageChart, 'All', 'All');
 
 });
 
 
-async function getDelLeadtime(chart,area_id, area2_id){
+async function getFailedPercentage(chart,area_id, area2_id){
     $.ajax({
         type: "GET",
-        url: 'dashboard/del_leadtime',
+        url: 'dashboard/failed_percentage',
         data: "area_id="+area_id+"&area2_id="+area2_id,
         success: function(response){
             var parsed = JSON.parse(response);
             chart.data.labels = parsed.week_no;
-            chart.data.datasets[0].data = parsed.data.ave;
+            chart.data.datasets[0].data = parsed.data.percentage;
             chart.data.datasets[1].data = parsed.data.ship_vol;
-            chart.data.datasets[2].data = parsed.data.del_vol;
+            chart.data.datasets[2].data = parsed.data.failed_vol;
             chart.update(); // finally update our chart
         }
    });
@@ -80,11 +80,11 @@ async function getDelLeadtime(chart,area_id, area2_id){
 //area 1 on change
 $('#area_id').on('change', function() {
     var area2_id = $("#area2_id").find(":selected").text(); //getting value of area 2
-    getDelLeadtime(DelPercentageChart, this.value, area2_id);
+    getFailedPercentage(FailedPercentageChart, this.value, area2_id);
 });
 
 //area 2 on change
 $('#area2_id').on('change', function() {
     var area_id = $("#area_id").find(":selected").text(); //getting value of area
-    getDelLeadtime(DelPercentageChart, area_id, this.value);
+    getFailedPercentage(FailedPercentageChart, area_id, this.value);
 });

@@ -188,4 +188,25 @@
 			}
 		}
 
+		public function get_failed_percentage($area_id, $area2_id){
+			$this->db->select('week_no');
+			$this->db->select('count(xde_id) as ship_vol');
+			$this->db->select('SUM(if(fd = "1", 1, 0)) AS failed_vol');
+			$this->db->from( $this->table );
+			if($area_id != 'All'){
+				$this->db->where('area', $area_id);
+			}
+			if($area2_id != 'All'){
+				$this->db->where('area2', $area2_id);
+			}
+			$this->db->group_by('week_no');
+			$this->db->order_by('week_no');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+		}
+
 	}
