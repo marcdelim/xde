@@ -144,6 +144,28 @@
 			}
 		}
 
+		public function get_dispatch_leadtime($area_id, $area2_id){
+			$this->db->select('week_no');
+			$this->db->select('count(xde_id) as ship_vol');
+			$this->db->select('SUM(if(first_attempt_dispatch_vol = "1", 1, 0)) AS dis_vol');
+			$this->db->select('AVG(lm_dispatch_lt) AS ave');
+			$this->db->from( $this->table );
+			if($area_id != 'All'){
+				$this->db->where('area', $area_id);
+			}
+			if($area2_id != 'All'){
+				$this->db->where('area2', $area2_id);
+			}
+			$this->db->group_by('week_no');
+			$this->db->order_by('week_no');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+		}
+
 		public function get_del_leadtime($area_id, $area2_id){
 			$this->db->select('week_no');
 			$this->db->select('count(xde_id) as ship_vol');

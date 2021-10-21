@@ -31,6 +31,7 @@ class Dashboard extends MX_Controller{
 		$this->app->use_js(array("source"=>"dashboard/firstAttempt","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/pickupIb","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/delLeadtime","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/dispatchLeadtime","cache"=>false));
 		
 		$header['header_data'] = "Dashboard";
 		$this->template->adminHeaderTpl($header);
@@ -188,6 +189,43 @@ class Dashboard extends MX_Controller{
 		exit(0);
 		
 	}
+	
+	public function dispatch_leadtime(){
+		$area_id = $this->input->get('area_id');
+		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
+		$datas = $this->xde->get_dispatch_leadtime($area_id, $area2_id);
+		$week_no = array();
+		$ship_vol = array();
+		$dis_vol = array();
+		if($datas){
+			foreach($datas as $data){
+				$week_no[] = $data->week_no;
+				$ship_vol[] = $data->ship_vol;
+				$dis_vol[] = $data->dis_vol;
+				$ave[] = round($data->ave, 2);
+			}
+	
+			$result['week_no'] = $week_no;
+			$result['data'] = array(
+				'ship_vol' => $ship_vol,
+				'dis_vol' => $dis_vol,
+				'ave' => $ave,
+			); 
+		}else{
+			$result['week_no'] = [];
+			$result['data'] = array(
+				'ship_vol' => [],
+				'dis_vol' => [],
+				'ave' => [],
+			); 
+		}
+		
+		
+		
+		echo json_encode($result);
+		exit(0);
+		
+	}
 
 	public function del_leadtime(){
 		$area_id = $this->input->get('area_id');
@@ -225,6 +263,8 @@ class Dashboard extends MX_Controller{
 		exit(0);
 		
 	}
+
+	
 
 
 
