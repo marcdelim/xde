@@ -102,4 +102,25 @@
 			}
 		}
 
+		public function get_first_attempt($area_id, $area2_id){
+			$this->db->select('week_no');
+			$this->db->select('SUM(if(status = "delivery_successful", 1, 0)) AS del_vol');
+			$this->db->select('SUM(if(first_attempt_status= "delivery_successful", 1, 0)) AS first');
+			$this->db->from( $this->table );
+			if($area_id != 'All'){
+				$this->db->where('area', $area_id);
+			}
+			if($area2_id != 'All'){
+				$this->db->where('area2', $area2_id);
+			}
+			$this->db->group_by('week_no');
+			$this->db->order_by('week_no');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+		}
+
 	}

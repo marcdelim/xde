@@ -28,6 +28,7 @@ class Dashboard extends MX_Controller{
 
 		$this->app->use_js(array("source"=>"dashboard/deliveryPercentage","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/deliveryOTPPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/firstAttempt","cache"=>false));
 		
 		$header['header_data'] = "Dashboard";
 		$this->template->adminHeaderTpl($header);
@@ -103,6 +104,44 @@ class Dashboard extends MX_Controller{
 			$result['data'] = array(
 				'del_vol' => [],
 				'otp_vol' => [],
+				'percentage' => [],
+			); 
+		}
+		
+		
+		
+		echo json_encode($result);
+		exit(0);
+		
+	}
+
+	public function first_attempt(){
+		$area_id = $this->input->get('area_id');
+		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
+		$datas = $this->xde->get_first_attempt($area_id, $area2_id);
+		$week_no = array();
+		$del_vol = array();
+		$otp_vol = array();
+		if($datas){
+			foreach($datas as $data){
+				$week_no[] = $data->week_no;
+				$del_vol[] = $data->del_vol;
+				$first[] = $data->first;
+				$compute = ($data->first > 0 AND $data->del_vol > 0) ? ($data->first/$data->del_vol) * 100 : 0 ;
+				$percentage[] = round($compute, 2);
+			}
+	
+			$result['week_no'] = $week_no;
+			$result['data'] = array(
+				'del_vol' => $del_vol,
+				'first' => $first,
+				'percentage' => $percentage,
+			); 
+		}else{
+			$result['week_no'] = [];
+			$result['data'] = array(
+				'del_vol' => [],
+				'first' => [],
 				'percentage' => [],
 			); 
 		}

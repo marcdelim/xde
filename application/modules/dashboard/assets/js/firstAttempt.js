@@ -1,6 +1,5 @@
-//delivery OTP Percentage
-var ctxDelOtpPercentage = $("#chart-del-otp-percentage");
-var DelOtpPercentageChart = new Chart(ctxDelOtpPercentage, {
+var ctxFirstAttempt = $("#chart-first-attempt");
+var FirstAttemptChart = new Chart(ctxFirstAttempt, {
     type: 'bar',
     
     data: {
@@ -16,16 +15,16 @@ var DelOtpPercentageChart = new Chart(ctxDelOtpPercentage, {
             }, 
             {
                 data: [],
-                label: "OTP Volume",
-                borderColor: "#ff8c00",
+                label: "1st Attempt",
+                borderColor: "#FFC300",
                 fill: true,
-                backgroundColor: '#ff8c00',
+                backgroundColor: '#FFC300',
             }, 
             {
                 type: 'line',
                 label: 'Percentage',
                 data:[],
-                borderColor: "#ff8c00",
+                borderColor: "#FFC300",
                 yAxisID: 'B',
                 fill: false,
 
@@ -54,21 +53,25 @@ var DelOtpPercentageChart = new Chart(ctxDelOtpPercentage, {
     },
     legend: { display: true }
 });
+
+
 $(document).ready(function() {
-    getDelOtpPercentage(DelOtpPercentageChart, 'All', 'All');
+    
+    getFirstAttempt(FirstAttemptChart, 'All', 'All');
 
 });
 
-async function getDelOtpPercentage(chart,area_id, area2_id){
+
+async function getFirstAttempt(chart,area_id, area2_id){
     $.ajax({
         type: "GET",
-        url: 'dashboard/del_otp_percentage',
+        url: 'dashboard/first_attempt',
         data: "area_id="+area_id+"&area2_id="+area2_id,
         success: function(response){
             var parsed = JSON.parse(response);
             chart.data.labels = parsed.week_no;
-            chart.data.datasets[0].data = parsed.data.del_vol;
-            chart.data.datasets[1].data = parsed.data.otp_vol;
+            chart.data.datasets[0].data = parsed.data.del_vol; // or you can iterate for multiple datasets
+            chart.data.datasets[1].data = parsed.data.first;
             chart.data.datasets[2].data = parsed.data.percentage;
             chart.update(); // finally update our chart
         }
@@ -78,11 +81,11 @@ async function getDelOtpPercentage(chart,area_id, area2_id){
 //area 1 on change
 $('#area_id').on('change', function() {
     var area2_id = $("#area2_id").find(":selected").text(); //getting value of area 2
-    getDelOtpPercentage(DelOtpPercentageChart, this.value, area2_id);
+    getFirstAttempt(FirstAttemptChart, this.value, area2_id);
 });
 
 //area 2 on change
 $('#area2_id').on('change', function() {
     var area_id = $("#area_id").find(":selected").text(); //getting value of area
-    getDelOtpPercentage(DelOtpPercentageChart, area_id, this.value);
+    getFirstAttempt(FirstAttemptChart, area_id, this.value);
 });
