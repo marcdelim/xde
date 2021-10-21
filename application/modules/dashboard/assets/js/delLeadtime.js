@@ -1,5 +1,5 @@
-var ctxFirstAttempt = $("#chart-first-attempt");
-var FirstAttemptChart = new Chart(ctxFirstAttempt, {
+var ctxDelLeadtime = $("#del-leadtime");
+var DelLeadtimeChart = new Chart(ctxDelLeadtime, {
     type: 'bar',
     
     data: {
@@ -7,9 +7,9 @@ var FirstAttemptChart = new Chart(ctxFirstAttempt, {
         datasets: [
             {
                 type: 'line',
-                label: 'Percentage',
+                label: 'Average',
                 data:[],
-                borderColor: "#FFC300",
+                borderColor: "#458af7",
                 yAxisID: 'B',
                 fill: false,
 
@@ -17,20 +17,19 @@ var FirstAttemptChart = new Chart(ctxFirstAttempt, {
             },
             {
                 data: [],
-                label: "Delivery Volume",
-                borderColor: "#458af7",
-                backgroundColor: '#458af7',
+                label: "Ship Volume",
+                borderColor: "#00FF00",
+                backgroundColor: '#00FF00',
                 fill: false,
                
             }, 
             {
                 data: [],
-                label: "1st Attempt",
-                borderColor: "#FFC300",
+                label: "Delivery Volume",
+                borderColor: "#458af7",
                 fill: true,
-                backgroundColor: '#FFC300',
+                backgroundColor: '#458af7',
             }
-            
         ]
     },
     options: {
@@ -44,10 +43,6 @@ var FirstAttemptChart = new Chart(ctxFirstAttempt, {
                 id: 'B',
                 type: 'linear',
                 position: 'right',
-                ticks: {
-                    max: 100,
-                    min: 0
-                },
                 gridLines:{
                     display: false,
                 }
@@ -61,23 +56,22 @@ var FirstAttemptChart = new Chart(ctxFirstAttempt, {
 
 $(document).ready(function() {
     
-    getFirstAttempt(FirstAttemptChart, 'All', 'All');
+    getDelLeadtime(DelLeadtimeChart, 'All', 'All');
 
 });
 
 
-async function getFirstAttempt(chart,area_id, area2_id){
+async function getDelLeadtime(chart,area_id, area2_id){
     $.ajax({
         type: "GET",
-        url: 'dashboard/first_attempt',
+        url: 'dashboard/del_leadtime',
         data: "area_id="+area_id+"&area2_id="+area2_id,
         success: function(response){
             var parsed = JSON.parse(response);
             chart.data.labels = parsed.week_no;
-            chart.data.datasets[0].data = parsed.data.percentage;
-            chart.data.datasets[1].data = parsed.data.del_vol; // or you can iterate for multiple datasets
-            chart.data.datasets[2].data = parsed.data.first;
-            
+            chart.data.datasets[0].data = parsed.data.ave;
+            chart.data.datasets[1].data = parsed.data.ship_vol;
+            chart.data.datasets[2].data = parsed.data.del_vol;
             chart.update(); // finally update our chart
         }
    });
@@ -86,11 +80,11 @@ async function getFirstAttempt(chart,area_id, area2_id){
 //area 1 on change
 $('#area_id').on('change', function() {
     var area2_id = $("#area2_id").find(":selected").text(); //getting value of area 2
-    getFirstAttempt(FirstAttemptChart, this.value, area2_id);
+    getDelLeadtime(DelPercentageChart, this.value, area2_id);
 });
 
 //area 2 on change
 $('#area2_id').on('change', function() {
     var area_id = $("#area_id").find(":selected").text(); //getting value of area
-    getFirstAttempt(FirstAttemptChart, area_id, this.value);
+    getDelLeadtime(DelPercentageChart, area_id, this.value);
 });

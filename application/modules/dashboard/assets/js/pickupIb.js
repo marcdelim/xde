@@ -35,13 +35,13 @@ var PickupIbChart = new Chart(ctxPickupIb, {
                 position: 'left',
             }, {
                 id: 'B',
-                type: 'linear',
                 position: 'right',
-                ticks: {
-                    max: 3.00,
-                    min: 0
+                gridLines:{
+                    display: false,
                 }
-            }],
+            },
+        ],
+            
             
         }
     },

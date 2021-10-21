@@ -46,6 +46,9 @@ var DelOtpPercentageChart = new Chart(ctxDelOtpPercentage, {
                 ticks: {
                     max: 100,
                     min: 0
+                },
+                gridLines:{
+                    display: false,
                 }
             }],
             

@@ -46,6 +46,9 @@ var DelPercentageChart = new Chart(ctxDelPercentage, {
                 ticks: {
                     max: 100,
                     min: 0
+                },
+                gridLines:{
+                    display: false,
                 }
             }],
             
