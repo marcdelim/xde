@@ -5,10 +5,6 @@
         </div>
         <div class="container-fluid" style="margin-top: 20px;" >
             <div class="col-md-12">
-                <a class="btn btn-danger" href="<?php echo base_url() ?>pod">
-					
-					<span>Back</span>
-				</a>
                 <div class="panel panel-default" style="margin-top: 20px;">
                     
                 <div class="page-content page-container" id="page-content">
