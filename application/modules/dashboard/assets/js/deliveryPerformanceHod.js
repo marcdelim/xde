@@ -24,21 +24,21 @@ function generateTableHead(table, data) {
 
   $(document).ready(function() {
     
-    getDeliveryPerformance('All', 'All');
+    getDeliveryPerformanceHod('All', 'All');
 
 });
 
 
-async function getDeliveryPerformance(area_id, area2_id){
+async function getDeliveryPerformanceHod(area_id, area2_id){
     $.ajax({
         type: "GET",
-        url: 'dashboard/delivery_performance',
+        url: 'dashboard/delivery_performance_hod',
         data: "area_id="+area_id+"&area2_id="+area2_id,
         success: function(response){
             let queryData =  JSON.parse(response);
-            $('#delivery-performance tbody').empty();
-            $('#delivery-performance thead').empty();
-            let table = document.querySelector("#delivery-performance");
+            $('#delivery-performance-hod tbody').empty();
+            $('#delivery-performance-hod thead').empty();
+            let table = document.querySelector("#delivery-performance-hod");
             let header = Object.keys(queryData[0]);
             generateTable(table, queryData);
             generateTableHead(table, header);
@@ -49,11 +49,11 @@ async function getDeliveryPerformance(area_id, area2_id){
 //area 1 on change
 $('#area_id').on('change', function() {
     var area2_id = $("#area2_id").find(":selected").text(); //getting value of area 2
-    getDeliveryPerformance(this.value, area2_id);
+    getDeliveryPerformanceHod(this.value, area2_id);
 });
 
 //area 2 on change
 $('#area2_id').on('change', function() {
     var area_id = $("#area_id").find(":selected").text(); //getting value of area
-    getDeliveryPerformance(area_id, this.value);
+    getDeliveryPerformanceHod(area_id, this.value);
 });

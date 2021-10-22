@@ -252,8 +252,17 @@
 			}
 		}
 
-		public function get_delivery_performance($area_id, $area2_id){
-			$this->db->select('week_no as "Week No."');
+		public function get_delivery_performance($area_id, $area2_id, $hod = false){
+			if($hod){
+				$label_select='Date(handover_date) as "HOD"';
+				$ave = 'ROUND(count(xde_id)) AS "Daily Ave"';
+				$group = "Date(handover_date)";
+			}else{
+				$label_select='week_no as "Week No."';
+				$ave = 'ROUND(count(xde_id) / 7) AS "Daily Ave"';
+				$group = "week_no";
+			}
+			$this->db->select($label_select);
 			$this->db->select('count(xde_id) as "Ship Vol"');
 			$this->db->select('SUM(if(status = "delivery_successful", 1, 0)) AS "Del Vol"');
 			$this->db->select('ROUND(AVG(lt),2) AS "Average of LT"');
@@ -266,7 +275,7 @@
 			$this->db->select('ROUND(AVG(lh_lt),2) AS "Average of LH LT"');
 			$this->db->select('SUM(if(first_attempt_dispatch_vol = "1", 1, 0)) AS "LM Dispatch Vol"');
 			$this->db->select('ROUND(AVG(lm_dispatch_lt),2) AS "Average of LM Dispatch LT",');
-			$this->db->select('ROUND(count(xde_id) / 7) AS "Daily Ave"');
+			$this->db->select($ave);
 			$this->db->select('ROUND((SUM(if(status = "delivery_successful", 1, 0))/count(*) * 100), 2) AS "Delivery %"');
 			$this->db->select('ROUND((SUM(if(fd = "1", 1, 0))/count(*) * 100), 2) AS "Failed Delivery %"');
 			$this->db->select('ROUND((SUM(if(open = 1, 1, 0))/count(*) * 100), 2) AS "Open %"');
@@ -279,8 +288,8 @@
 			if($area2_id != 'All'){
 				$this->db->where('area2', $area2_id);
 			}
-			$this->db->group_by('week_no');
-			$this->db->order_by('week_no');
+			$this->db->group_by($group);
+			$this->db->order_by($group);
 			$query = $this->db->get();
 
 			$this->db->select('"Total" as "Week No."');
@@ -309,7 +318,6 @@
 			if($area2_id != 'All'){
 				$this->db->where('area2', $area2_id);
 			}
-			$this->db->order_by('week_no');
 			$query2 = $this->db->get();
 			if ( $query->result() != NULL ) {
 				$query_result = array_merge($query->result(), $query2->result());
