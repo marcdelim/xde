@@ -189,7 +189,7 @@
                                     <div class="col-sm-8 col-md-12" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Lazada LM Delivery Performance</div>
-                                            <div class="card-body">
+                                            <div class="card-body" style="overflow-x: auto">
                                                 <table id="delivery-performance" class="table">
                                         
                                                 </table>
