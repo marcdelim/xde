@@ -76,4 +76,21 @@
 			}
 		}
 
+		public function get_failed_table($payment_type){
+			$this->db->select('week_no as "Week No."');
+			$this->db->select('count(xde_id) as "Ship Vol"');
+			$this->db->select('SUM(if(fd = 1, 1, 0)) as "FD Vol"');
+			$this->db->select('ROUND((SUM(if(fd = 1, 1, 0))/count(*) * 100), 2) AS "FD %"');
+			$this->db->from( $this->table );
+			$this->db->where( 'payment_type', $payment_type);
+			$this->db->group_by('week_no');
+			$this->db->order_by('week_no');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+		}
+
 	}

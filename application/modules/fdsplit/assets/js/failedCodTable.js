@@ -24,36 +24,23 @@ function generateTableHead(table, data) {
 
   $(document).ready(function() {
     
-    getDeliveryPerformance('All', 'All');
+    getFailedCodTable();
 
 });
 
 
-async function getDeliveryPerformance(area_id, area2_id){
+async function getFailedCodTable(){
     $.ajax({
         type: "GET",
-        url: 'dashboard/delivery_performance',
-        data: "area_id="+area_id+"&area2_id="+area2_id,
+        url: 'fdsplit/failed_cod_tbl',
         success: function(response){
             let queryData =  JSON.parse(response);
-            $('#delivery-performance tbody').empty();
-            $('#delivery-performance thead').empty();
-            let table = document.querySelector("#delivery-performance");
+            $('#failed-cod tbody').empty();
+            $('#failed-cod thead').empty();
+            let table = document.querySelector("#failed-cod");
             let header = Object.keys(queryData[0]);
             generateTable(table, queryData);
             generateTableHead(table, header);
         }
    });
 }
-
-//area 1 on change
-$('#area_id').on('change', function() {
-    var area2_id = $("#area2_id").find(":selected").text(); //getting value of area 2
-    getDeliveryPerformance(this.value, area2_id);
-});
-
-//area 2 on change
-$('#area2_id').on('change', function() {
-    var area_id = $("#area_id").find(":selected").text(); //getting value of area
-    getDeliveryPerformance(area_id, this.value);
-});

@@ -28,6 +28,7 @@ class Fdsplit extends MX_Controller{
 
 		$this->app->use_js(array("source"=>"fdsplit/failedCod","cache"=>false));
 		$this->app->use_js(array("source"=>"fdsplit/failedNonCod","cache"=>false));
+		$this->app->use_js(array("source"=>"fdsplit/failedCodTable","cache"=>false));
 		
 		$header['header_data'] = "FD Split";
 		$this->template->adminHeaderTpl($header);
@@ -113,10 +114,8 @@ class Fdsplit extends MX_Controller{
 
 
 	//tables
-	public function delivery_performance(){
-		$area_id = $this->input->get('area_id');
-		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
-		$data = $this->xde->get_delivery_performance($area_id, $area2_id);
+	public function failed_cod_tbl(){
+		$data = $this->fds->get_failed_table('COD');
 	
 		if($data){
 			$result['data'] = $data;
