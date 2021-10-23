@@ -111,4 +111,32 @@
 			}
 		}
 
+		public function get_failed_count($payment_type){
+			$this->db->select('count(*) as count');
+			$this->db->from( $this->table );
+			$this->db->where('payment_type', $payment_type);
+			$this->db->where('fd', 1);
+			$query = $this->db->get();
+			$row = $query->row();
+			return (isset( $row )) ? $row : FALSE;
+		}
+
+		public function get_failed_reason($payment_type, $count){
+			$this->db->select('fd_reason as "FD Reasons"');
+			$this->db->select('SUM(if(fd = 1, 1, 0)) as "FD Vol"');
+			$this->db->select('ROUND((SUM(if(fd = 1, 1, 0))/'.$count.' * 100), 2) AS "FD %"');
+			$this->db->select('FORMAT(ROUND(SUM(if(fd = 1, declared_value, 0)), 2), 2) as "Total Amount"');
+			$this->db->from( $this->table );
+			$this->db->where('payment_type', $payment_type);
+			$this->db->where('fd', 1);
+			$this->db->group_by('fd_reason');
+			$this->db->order_by('fd_reason');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+		}
+
 	}
