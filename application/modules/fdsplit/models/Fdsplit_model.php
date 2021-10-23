@@ -60,11 +60,12 @@
 			return $query->row();
 		}
 
-		public function get_failed_cod(){
+		public function get_failed($payment_type){
 			$this->db->select('week_no');
 			$this->db->select('count(xde_id) as ship_vol');
-			$this->db->select('SUM(if(fd = 1, 1, 0)) as failed_cod');
+			$this->db->select('SUM(if(fd = 1, 1, 0)) as failed');
 			$this->db->from( $this->table );
+			$this->db->where( 'payment_type', $payment_type);
 			$this->db->group_by('week_no');
 			$this->db->order_by('week_no');
 			$query = $this->db->get();

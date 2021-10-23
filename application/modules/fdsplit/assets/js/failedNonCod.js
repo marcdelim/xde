@@ -1,5 +1,5 @@
-var ctxFailedCod = $("#chart-failed-cod");
-var FailedCodChart = new Chart(ctxFailedCod, {
+var ctxFailedNonCod = $("#chart-failed-non-cod");
+var FailedNonCodChart = new Chart(ctxFailedNonCod, {
     type: 'bar',
     
     data: {
@@ -60,15 +60,15 @@ var FailedCodChart = new Chart(ctxFailedCod, {
 
 $(document).ready(function() {
     
-    getFailedCod(FailedCodChart);
+    getFailedNonCod(FailedNonCodChart);
 
 });
 
 
-async function getFailedCod(chart){
+async function getFailedNonCod(chart){
     $.ajax({
         type: "GET",
-        url: 'fdsplit/failed_cod',
+        url: 'fdsplit/failed_non_cod',
         success: function(response){
             var parsed = JSON.parse(response);
             chart.data.labels = parsed.week_no;

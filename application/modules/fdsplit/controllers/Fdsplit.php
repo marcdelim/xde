@@ -27,6 +27,7 @@ class Fdsplit extends MX_Controller{
 		$this->app->use_css(array("source"=>"dashboard/table","cache"=>false));
 
 		$this->app->use_js(array("source"=>"fdsplit/failedCod","cache"=>false));
+		$this->app->use_js(array("source"=>"fdsplit/failedNonCod","cache"=>false));
 		
 		$header['header_data'] = "FD Split";
 		$this->template->adminHeaderTpl($header);
@@ -39,30 +40,66 @@ class Fdsplit extends MX_Controller{
 
 	//graphs
 	public function failed_cod(){
-		$datas = $this->fds->get_failed_cod();
+		$datas = $this->fds->get_failed('COD');
 		$week_no = array();
 		$ship_vol = array();
-		$failed_cod = array();
+		$failed = array();
 		if($datas){
 			foreach($datas as $data){
 				$week_no[] = $data->week_no;
 				$ship_vol[] = $data->ship_vol;
-				$failed_cod[] = $data->failed_cod;
-				$compute = ($data->failed_cod > 0 AND $data->ship_vol > 0) ? ($data->failed_cod/$data->ship_vol) * 100 : 0;
+				$failed[] = $data->failed;
+				$compute = ($data->failed > 0 AND $data->ship_vol > 0) ? ($data->failed/$data->ship_vol) * 100 : 0;
 				$percentage[] = round($compute, 2);
 			}
 	
 			$result['week_no'] = $week_no;
 			$result['data'] = array(
 				'ship_vol' => $ship_vol,
-				'failed_cod' => $failed_cod,
+				'failed' => $failed,
 				'percentage' => $percentage,
 			); 
 		}else{
 			$result['week_no'] = [];
 			$result['data'] = array(
 				'ship_vol' => [],
-				'failed_cod' => [],
+				'failed' => [],
+				'percentage' => [],
+			); 
+		}
+		
+		
+		
+		echo json_encode($result);
+		exit(0);
+		
+	}
+
+	public function failed_non_cod(){
+		$datas = $this->fds->get_failed('N-COD');
+		$week_no = array();
+		$ship_vol = array();
+		$failed = array();
+		if($datas){
+			foreach($datas as $data){
+				$week_no[] = $data->week_no;
+				$ship_vol[] = $data->ship_vol;
+				$failed[] = $data->failed;
+				$compute = ($data->failed > 0 AND $data->ship_vol > 0) ? ($data->failed/$data->ship_vol) * 100 : 0;
+				$percentage[] = round($compute, 2);
+			}
+	
+			$result['week_no'] = $week_no;
+			$result['data'] = array(
+				'ship_vol' => $ship_vol,
+				'failed' => $failed,
+				'percentage' => $percentage,
+			); 
+		}else{
+			$result['week_no'] = [];
+			$result['data'] = array(
+				'ship_vol' => [],
+				'failed' => [],
 				'percentage' => [],
 			); 
 		}
