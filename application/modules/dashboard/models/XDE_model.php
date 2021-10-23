@@ -259,7 +259,7 @@
 				$group = "Date(handover_date)";
 			}else{
 				$label_select='week_no as "Week No."';
-				$ave = 'ROUND(count(xde_id) / 7) AS "Daily Ave"';
+				$ave = 'ROUND(count(xde_id) / 6) AS "Daily Ave"';
 				$group = "week_no";
 			}
 			$this->db->select($label_select);
@@ -305,7 +305,7 @@
 			$this->db->select('ROUND(AVG(lh_lt),2) AS "Average of LH LT"');
 			$this->db->select('SUM(if(first_attempt_dispatch_vol = "1", 1, 0)) AS "LM Dispatch Vol"');
 			$this->db->select('ROUND(AVG(lm_dispatch_lt),2) AS "Average of LM Dispatch LT",');
-			$this->db->select('ROUND(count(xde_id) / 7) AS "Daily Ave"');
+			$this->db->select('ROUND(count(xde_id) / 6) AS "Daily Ave"');
 			$this->db->select('ROUND((SUM(if(status = "delivery_successful", 1, 0))/count(*) * 100), 2) AS "Delivery %"');
 			$this->db->select('ROUND((SUM(if(fd = "1", 1, 0))/count(*) * 100), 2) AS "Failed Delivery %"');
 			$this->db->select('ROUND((SUM(if(open = 1, 1, 0))/count(*) * 100), 2) AS "Open %"');
