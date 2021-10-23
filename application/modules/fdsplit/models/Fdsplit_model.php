@@ -93,12 +93,12 @@
 			}
 		}
 
-		public function get_failed_cod_area($payment_type){
+		public function get_failed_area($payment_type){
 			$this->db->select('consignee_province as "Area"');
 			$this->db->select('count(xde_id) as "Ship Vol"');
 			$this->db->select('SUM(if(fd = 1, 1, 0)) as "FD Vol"');
 			$this->db->select('ROUND((SUM(if(fd = 1, 1, 0))/count(*) * 100), 2) AS "FD %"');
-			$this->db->select('FORMAT(ROUND(SUM(if(fd = 1, total_price, 0)), 2), 2) as "Total Amount"');
+			$this->db->select('FORMAT(ROUND(SUM(if(fd = 1, declared_value, 0)), 2), 2) as "Total Amount"');
 			$this->db->from( $this->table );
 			$this->db->where( 'payment_type', $payment_type);
 			$this->db->group_by('consignee_province');

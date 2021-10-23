@@ -79,6 +79,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                        <div class="card">
+                                            <div class="card-header">Failed Delivery (N-COD) </div>
+                                            <div class="card-body" style="overflow-x: auto; overflow-y:auto; height: 400px">
+                                                <table id="failed-area-non-cod" class="table">
+                                        
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>                               
                             </div>
                         </div>

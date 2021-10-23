@@ -24,20 +24,20 @@ function generateTableHead(table, data) {
 
   $(document).ready(function() {
     
-    getFailedAreaCodTable();
+    getFailedAreaNonCodTable();
 
 });
 
 
-async function getFailedAreaCodTable(){
+async function getFailedAreaNonCodTable(){
     $.ajax({
         type: "GET",
-        url: 'fdsplit/failed_area_cod',
+        url: 'fdsplit/failed_area_non_cod',
         success: function(response){
             let queryData =  JSON.parse(response);
-            $('#failed-area-cod tbody').empty();
-            $('#failed-area-cod thead').empty();
-            let table = document.querySelector("#failed-area-cod");
+            $('#failed-area-non-cod tbody').empty();
+            $('#failed-area-non-cod thead').empty();
+            let table = document.querySelector("#failed-area-non-cod");
             let header = Object.keys(queryData[0]);
             generateTable(table, queryData);
             generateTableHead(table, header);
