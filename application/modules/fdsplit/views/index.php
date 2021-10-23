@@ -59,19 +59,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>    
-                                <div class="row">
-                                    <div class="col-sm-8 col-md-12" style="margin-top:10px">
+                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
                                         <div class="card">
-                                            <div class="card-header">Lazada LM Delivery Performance HOD</div>
-                                            <div class="card-body" style="overflow-x: auto; overflow-y:auto; height: 400px">
-                                                <table id="delivery-performance-hod" class="table">
+                                            <div class="card-header">Failed Delivery (N-COD)</div>
+                                            <div class="card-body" style="overflow-x: auto;">
+                                                <table id="failed-non-cod" class="table">
 
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
-                                </div>                            
+                                </div>                               
                             </div>
                         </div>
                     </div>
