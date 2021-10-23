@@ -86,8 +86,17 @@
 			$this->db->group_by('week_no');
 			$this->db->order_by('week_no');
 			$query = $this->db->get();
+			
+			$this->db->select('"Grand Total" as "Week No."');
+			$this->db->select('count(xde_id) as "Ship Vol"');
+			$this->db->select('SUM(if(fd = 1, 1, 0)) as "FD Vol"');
+			$this->db->select('ROUND((SUM(if(fd = 1, 1, 0))/count(*) * 100), 2) AS "FD %"');
+			$this->db->from( $this->table );
+			$this->db->where( 'payment_type', $payment_type);
+			$query2 = $this->db->get();
 			if ( $query->result() != NULL ) {
-				return $query->result();
+				$query_result = array_merge($query->result(), $query2->result());
+				return $query_result;
 			} else {
 				return FALSE;
 			}
