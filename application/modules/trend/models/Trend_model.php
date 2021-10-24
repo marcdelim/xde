@@ -187,4 +187,29 @@
 
 		}
 
+		public function get_volume_percentage_table($count){
+			$this->db->select('area as Area');
+			$this->db->select('count(xde_id) as Volume');
+			$this->db->select('ROUND(('.$count.'/6)/4, 2) AS "Daily Ave"');
+			$this->db->select('ROUND((count(xde_id) /'.$count.') * 100, 2) AS "Volume %"');
+			$this->db->from( $this->table );
+			$this->db->group_by('area');
+			$this->db->order_by('area');
+			$query = $this->db->get();
+
+			$this->db->select('"Grand Total" as Area');
+			$this->db->select('count(xde_id) as Volume');
+			$this->db->select('ROUND(('.$count.'/6)/4, 2) AS "Daily Ave"');
+			$this->db->select('ROUND((count(xde_id) /'.$count.') * 100, 2) AS "Volume %"');
+			$this->db->from( $this->table );
+			$query2 = $this->db->get();
+
+			if ( $query->result() != NULL ) {
+				$query_result = array_merge($query->result(), $query2->result());
+				return $query_result;
+			} else {
+				return FALSE;
+			}
+		}
+
 	}

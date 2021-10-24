@@ -32,6 +32,7 @@ class Trend extends MX_Controller{
 		$this->app->use_js(array("source"=>"trend/weeklyVolumeSharingTable","cache"=>false));
 
 		$this->app->use_js(array("source"=>"trend/volumePercent","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/volumeTable","cache"=>false));
 		
 		$header['header_data'] = "Weekly Trend";
 		$this->template->adminHeaderTpl($header);
@@ -147,6 +148,21 @@ class Trend extends MX_Controller{
 		$count = $this->trend->get_count();
 
 		$data = $this->trend->get_volume_sharing_table($count->count);
+	
+		if($data){
+			$result['data'] = $data;
+		}else{
+			
+			$result['data'] = []; 
+		}
+		echo json_encode($data);
+		exit(0);
+	}
+
+	public function volume_table(){
+		$count = $this->trend->get_count();
+
+		$data = $this->trend->get_volume_percentage_table($count->count);
 	
 		if($data){
 			$result['data'] = $data;

@@ -93,7 +93,7 @@
                                         <div class="card">
                                             <div class="card-header">Volume Percentage per LM Area </div>
                                             <div class="card-body" style="overflow-x: auto;">
-                                                <table id="volume-percent" class="table color">
+                                                <table id="volume-table" class="table color">
                                         
                                                 </table>
                                             </div>
