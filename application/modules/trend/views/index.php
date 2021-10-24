@@ -35,7 +35,7 @@
                                         <div class="card">
                                             <div class="card-header">Weekly Volume Trend </div>
                                             <div class="card-body" style="overflow-x: auto;">
-                                                <table id="trend-table" class="table">
+                                                <table id="trend-table" class="table color">
                                         
                                                 </table>
                                             </div>
@@ -64,7 +64,7 @@
                                         <div class="card">
                                             <div class="card-header">Volume Sharing per LM Area </div>
                                             <div class="card-body" style="overflow-x: auto;">
-                                                <table id="volume-sharing" class="table">
+                                                <table id="volume-sharing" class="table color">
                                         
                                                 </table>
                                             </div>

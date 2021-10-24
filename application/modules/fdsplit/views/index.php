@@ -53,7 +53,7 @@
                                         <div class="card">
                                             <div class="card-header">Failed Delivery (COD) </div>
                                             <div class="card-body" style="overflow-x: auto; ">
-                                                <table id="failed-cod" class="table">
+                                                <table id="failed-cod" class="table color">
                                         
                                                 </table>
                                             </div>
@@ -63,7 +63,7 @@
                                         <div class="card">
                                             <div class="card-header">Failed Delivery (N-COD)</div>
                                             <div class="card-body" style="overflow-x: auto;">
-                                                <table id="failed-non-cod" class="table">
+                                                <table id="failed-non-cod" class="table color">
 
                                                 </table>
                                             </div>

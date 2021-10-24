@@ -190,7 +190,7 @@
                                         <div class="card">
                                             <div class="card-header">Lazada LM Delivery Performance</div>
                                             <div class="card-body" style="overflow-x: auto; ">
-                                                <table id="delivery-performance" class="table">
+                                                <table id="delivery-performance" class="table color">
                                         
                                                 </table>
                                             </div>
@@ -202,7 +202,7 @@
                                         <div class="card">
                                             <div class="card-header">Lazada LM Delivery Performance HOD</div>
                                             <div class="card-body" style="overflow-x: auto; overflow-y:auto; height: 400px">
-                                                <table id="delivery-performance-hod" class="table">
+                                                <table id="delivery-performance-hod" class="table color">
 
                                                 </table>
                                             </div>
