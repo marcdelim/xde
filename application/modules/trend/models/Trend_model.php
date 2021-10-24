@@ -169,4 +169,22 @@
 			}
 		}
 
+		public function get_volume_percentage($count){
+		
+			$this->db->select('area');
+			$this->db->select('count(xde_id) as volume');
+			$this->db->select('ROUND(('.$count.'/6)/4, 2) AS "ave"');
+			$this->db->select('ROUND((count(xde_id) /'.$count.') * 100, 2) AS "percentage"');
+			$this->db->from( $this->table );
+			$this->db->group_by('area');
+			$this->db->order_by('area');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+
+		}
+
 	}
