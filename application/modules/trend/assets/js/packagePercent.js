@@ -1,5 +1,5 @@
-var ctx = $("#chart-volume-percent");
-var myVolumePercent = new Chart(ctx,{
+var ctx = $("#chart-package-type");
+var myPieChart = new Chart(ctx,{
     type: 'pie',
     data: {
         labels: [],
@@ -11,7 +11,6 @@ var myVolumePercent = new Chart(ctx,{
                     "#0000FF",
                     "#FFA500",
                     '#808080',
-                    '#FFFF00'
                 ]
             }]
     }
@@ -20,19 +19,18 @@ var myVolumePercent = new Chart(ctx,{
 
 $(document).ready(function() {
     
-    getVolumePercent(myVolumePercent);
+    getPackagePercent(myPieChart);
 
 });
 
 
-async function getVolumePercent(chart){
+async function getPackagePercent(chart){
     $.ajax({
         type: "GET",
-        url: 'trend/volume_percentage',
+        url: 'trend/package_percentage',
         success: function(response){
             var parsed = JSON.parse(response);
-            console.log(parsed);
-            chart.data.labels = parsed.area;
+            chart.data.labels = parsed.package;
             chart.data.datasets[0].data = parsed.data.percentage;
             chart.update(); // finally update our chart
         }

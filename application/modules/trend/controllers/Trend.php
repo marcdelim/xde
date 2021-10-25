@@ -12,12 +12,12 @@ class Trend extends MX_Controller{
 		$this->load->module("site/template");
 		$this->load->model("Trend_model", 'trend');
 		include("SimpleXLSX.php");
-		if(empty($this->session->userdata('login'))){
-			redirect('login');
-		}
-		if(($this->session->userdata('temp_pass'))){
-			redirect('changepass');
-		}
+		// if(empty($this->session->userdata('login'))){
+		// 	redirect('login');
+		// }
+		// if(($this->session->userdata('temp_pass'))){
+		// 	redirect('changepass');
+		// }
 	}
 	
 	public function index(){
@@ -40,6 +40,9 @@ class Trend extends MX_Controller{
 		$this->app->use_js(array("source"=>"trend/volumePercent","cache"=>false));
 		$this->app->use_js(array("source"=>"trend/volumeTable","cache"=>false));
 		
+		$this->app->use_js(array("source"=>"trend/packagePercent","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/packageTable","cache"=>false));
+
 		$header['header_data'] = "Weekly Trend";
 		$this->template->adminHeaderTpl($header);
 		$this->template->adminSideBarTpl();
@@ -135,6 +138,39 @@ class Trend extends MX_Controller{
 		
 	}
 
+	public function package_percentage(){
+		$datas = $this->trend->get_package_percentage();
+		$package = array();
+		$percentage = array();
+		
+		if($datas){
+
+			$package = array('Fast Freight', 'Mid Bulky', 'Bulky', 'Super Bulky');
+			$percentage[] = $datas->fast_freight + $datas->fast_freight_weight;
+			$percentage[] = $datas->mid_bulky + $datas->mid_bulky_weight;
+			$percentage[] = $datas->bulky + $datas->bulky_weight;
+			$percentage[] = $datas->super_bulky + $datas->super_bulky_weight;
+	
+			$result['package'] = $package;
+			$result['data'] = array(
+				'percentage' => $percentage,
+				
+			); 
+		}else{
+			$result['package'] = [];
+			$result['data'] = array(
+				'percentage' => $percentage,
+				
+			); 
+		}
+		
+		
+		
+		echo json_encode($result);
+		exit(0);
+		
+	}
+
 
 	//tables
 	public function trend_table(){
@@ -179,4 +215,50 @@ class Trend extends MX_Controller{
 		echo json_encode($data);
 		exit(0);
 	}
+
+	public function package_table(){
+		$count = $this->trend->get_count();
+		$data = $this->trend->get_package_percentage();
+		$output_data = array();
+		if($data){
+			$output_data[] = array(
+				"Package Type" => "Fast Freight",
+				"Volume"	=> $data->fast_freight + $data->fast_freight_weight,
+				"Daily Ave" => number_format((($data->fast_freight + $data->fast_freight_weight) /6)/4,2),
+				"Volume %"	=> number_format(($data->fast_freight + $data->fast_freight_weight)/$count->count * 100,2)
+			);
+			$output_data[] = array(
+				"Package Type" => "Mid Bulky",
+				"Volume"	=> $data->mid_bulky + $data->mid_bulky_weight,
+				"Daily Ave" => number_format((($data->mid_bulky + $data->mid_bulky_weight) /6)/4,2),
+				"Volume %"	=> number_format(($data->mid_bulky + $data->mid_bulky_weight)/$count->count * 100,2)
+			);
+			$output_data[] = array(
+				"Package Type" => "Bulky",
+				"Volume"	=> $data->bulky + $data->bulky_weight,
+				"Daily Ave" => number_format((($data->bulky + $data->bulky_weight) /6)/4,2),
+				"Volume %"	=> number_format(($data->bulky + $data->bulky_weight)/$count->count * 100,2)
+			);
+			$output_data[] = array(
+				"Package Type" => "Super Bulky",
+				"Volume"	=> $data->super_bulky + $data->super_bulky_weight,
+				"Daily Ave" => number_format((($data->super_bulky + $data->super_bulky_weight) /6)/4,2),
+				"Volume %"	=> number_format(($data->super_bulky + $data->super_bulky_weight)/$count->count  * 100,2)
+			);
+			$output_data[] = array(
+				"Package Type" => "Grand Total",
+				"Volume"	=> $count->count,
+				"Daily Ave" => number_format(($count->count /6)/4,2),
+				"Volume %"	=> number_format($count->count/$count->count  * 100,2)
+			);
+			$result['data'] = $output_data;
+		}else{
+			
+			$result['data'] = []; 
+		}
+		echo json_encode($result['data']);
+		exit(0);
+	}
+
+	
 }

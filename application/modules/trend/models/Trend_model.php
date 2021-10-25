@@ -212,4 +212,42 @@
 			}
 		}
 
+		public function get_package_percentage(){
+		
+			$this->db->select('SUM(IF((package_length * package_width  * package_height)/6000 >= 0 AND 
+			(package_length * package_width  * package_height)/6000 <= 3 AND 
+			(package_length * package_width  * package_height)/6000 >= package_weight, 1, 0)) 
+			as "fast_freight"');
+			$this->db->select('SUM(IF((package_length * package_width  * package_height)/6000 > 3 AND 
+			(package_length * package_width  * package_height)/6000 <= 7 AND 
+			(package_length * package_width  * package_height)/6000 >= package_weight, 1, 0)) 
+			 as "mid_bulky"');
+			$this->db->select('SUM(IF((package_length * package_width  * package_height)/6000 > 7 AND 
+			(package_length * package_width  * package_height)/6000 < 15.1 AND 
+			(package_length * package_width  * package_height)/6000 >= package_weight, 1, 0)) 
+			 as "bulky"');
+			$this->db->select('SUM(IF((package_length * package_width  * package_height)/6000 >= 15.1 AND 
+			(package_length * package_width  * package_height)/6000 >= package_weight, 1, 0)) 
+			 as "super_bulky"');
+			$this->db->select('SUM(IF( package_weight >= 0 AND 
+			package_weight <= 3 AND 
+		   (package_length * package_width  * package_height)/6000 < package_weight, 1, 0)) 
+			as "fast_freight_weight"');
+			$this->db->select('SUM(IF( package_weight > 3 AND 
+			package_weight <= 7 AND 
+		   (package_length * package_width  * package_height)/6000 < package_weight, 1, 0)) 
+			as "mid_bulky_weight"');
+			$this->db->select('SUM(IF( package_weight > 7 AND 
+			package_weight < 15.1 AND 
+		   (package_length * package_width  * package_height)/6000 < package_weight, 1, 0)) 
+			as "bulky_weight"');
+			$this->db->select('SUM(IF( package_weight >= 15.1 AND 
+			(package_length * package_width  * package_height)/6000 < package_weight, 1, 0)) 
+			 as "super_bulky_weight"');
+			$this->db->from( $this->table );
+			$query = $this->db->get();
+			$row = $query->row();
+			return (isset( $row )) ? $row : FALSE;
+		}
+
 	}
