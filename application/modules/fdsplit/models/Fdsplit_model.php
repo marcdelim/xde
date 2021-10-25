@@ -79,20 +79,18 @@
 		public function get_failed_table($payment_type){
 			$this->db->select('week_no as "Week No."');
 			$this->db->select('count(xde_id) as "Ship Vol"');
-			$this->db->select('SUM(if(fd = 1, 1, 0)) as "FD Vol"');
-			$this->db->select('ROUND((SUM(if(fd = 1, 1, 0))/count(*) * 100), 2) AS "FD %"');
+			$this->db->select('SUM(if(fd = 1 and payment_type = "'.$payment_type.'" , 1, 0)) as "FD Vol"');
+			$this->db->select('ROUND((SUM(if(fd = 1 and payment_type = "'.$payment_type.'", 1, 0))/count(*) * 100), 2) AS "FD %"');
 			$this->db->from( $this->table );
-			$this->db->where( 'payment_type', $payment_type);
 			$this->db->group_by('week_no');
 			$this->db->order_by('week_no');
 			$query = $this->db->get();
 			
 			$this->db->select('"Grand Total" as "Week No."');
 			$this->db->select('count(xde_id) as "Ship Vol"');
-			$this->db->select('SUM(if(fd = 1, 1, 0)) as "FD Vol"');
-			$this->db->select('ROUND((SUM(if(fd = 1, 1, 0))/count(*) * 100), 2) AS "FD %"');
+			$this->db->select('SUM(if(fd = 1 and payment_type = "'.$payment_type.'" , 1, 0)) as "FD Vol"');
+			$this->db->select('ROUND((SUM(if(fd = 1 and payment_type = "'.$payment_type.'", 1, 0))/count(*) * 100), 2) AS "FD %"');
 			$this->db->from( $this->table );
-			$this->db->where( 'payment_type', $payment_type);
 			$query2 = $this->db->get();
 			if ( $query->result() != NULL ) {
 				$query_result = array_merge($query->result(), $query2->result());
@@ -105,11 +103,10 @@
 		public function get_failed_area($payment_type){
 			$this->db->select('consignee_province as "Area"');
 			$this->db->select('count(xde_id) as "Ship Vol"');
-			$this->db->select('SUM(if(fd = 1, 1, 0)) as "FD Vol"');
-			$this->db->select('ROUND((SUM(if(fd = 1, 1, 0))/count(*) * 100), 2) AS "FD %"');
-			$this->db->select('FORMAT(ROUND(SUM(if(fd = 1, declared_value, 0)), 2), 2) as "Total Amount"');
-			$this->db->from( $this->table );
-			$this->db->where( 'payment_type', $payment_type);
+			$this->db->select('SUM(if(fd = 1 and payment_type = "'.$payment_type.'", 1, 0)) as "FD Vol"');
+			$this->db->select('ROUND((SUM(if(fd = 1 and payment_type = "'.$payment_type.'", 1, 0))/count(*) * 100), 2) AS "FD %"');
+			$this->db->select('FORMAT(ROUND(SUM(if(fd = 1 and payment_type = "'.$payment_type.'", declared_value, 0)), 2), 2) as "Total Amount"');
+			$this->db->from( $this->table );	
 			$this->db->group_by('consignee_province');
 			$this->db->order_by('consignee_province');
 			$query = $this->db->get();
@@ -132,11 +129,10 @@
 
 		public function get_failed_reason($payment_type, $count){
 			$this->db->select('fd_reason as "FD Reasons"');
-			$this->db->select('SUM(if(fd = 1, 1, 0)) as "FD Vol"');
-			$this->db->select('ROUND((SUM(if(fd = 1, 1, 0))/'.$count.' * 100), 2) AS "FD %"');
-			$this->db->select('FORMAT(ROUND(SUM(if(fd = 1, declared_value, 0)), 2), 2) as "Total Amount"');
+			$this->db->select('SUM(if(fd = 1 and payment_type = "'.$payment_type.'", 1, 0)) as "FD Vol"');
+			$this->db->select('ROUND((SUM(if(fd = 1 and payment_type = "'.$payment_type.'", 1, 0))/'.$count.' * 100), 2) AS "FD %"');
+			$this->db->select('FORMAT(ROUND(SUM(if(fd = 1 and payment_type = "'.$payment_type.'", declared_value, 0)), 2), 2) as "Total Amount"');
 			$this->db->from( $this->table );
-			$this->db->where('payment_type', $payment_type);
 			$this->db->where('fd', 1);
 			$this->db->group_by('fd_reason');
 			$this->db->order_by('fd_reason');
