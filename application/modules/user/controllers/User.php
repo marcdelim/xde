@@ -10,12 +10,12 @@ class User extends MX_Controller{
         $this->load->module("core/app");
 		$this->load->module("site/template");
 		$this->load->model("user/User_model", "user");
-		// if(empty($this->session->userdata('login'))){
-		// 	redirect('login');
-		// }
-		// if(($this->session->userdata('temp_pass'))){
-		// 	redirect('changepass');
-		// }
+		if(empty($this->session->userdata('login'))){
+			redirect('login');
+		}
+		if(($this->session->userdata('temp_pass'))){
+			redirect('changepass');
+		}
 	}
 	
 	public function index(){

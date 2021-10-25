@@ -12,6 +12,12 @@ class Fdsplit extends MX_Controller{
 		$this->load->module("site/template");
 		$this->load->model("Fdsplit_model", 'fds');
 		include("SimpleXLSX.php");
+		if(empty($this->session->userdata('login'))){
+			redirect('login');
+		}
+		if(($this->session->userdata('temp_pass'))){
+			redirect('changepass');
+		}
 	}
 	
 	public function index(){
