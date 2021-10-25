@@ -26,25 +26,16 @@
                         <input class="form-control" type="hidden" name="user_id" id="user_id" value="<?php echo $user->user_id ?>">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-group col-md-6" style="margin-top:12px">
+                                <div class="form-group col-md-4" style="margin-top:12px">
                                     <label for="code">Username:</label>
                                     <input class="form-control" type="text" name="username" id="username" value="<?php echo $user->username ?>" required>
 
                                 </div>
-                                <div class="form-group col-md-6" style="margin-top:12px">
-                                    <label for="address_id">Role:</label>
-                                    <select class="form-control selectpicker" data-container="body" data-live-search="true" id="role_id" name="role_id" required>
-                                        <option value="" selected>Select Role</option>
-                                        <?php foreach($roles as $role): ?>
-                                            <option value="<?php echo $role->role_id ?>" <?php if($role->role_id == $user->role_id) echo "selected" ?> ><?php echo $role->role_name ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>   
-                                <div class="form-group col-md-6" style="margin-top:12px">
+                                <div class="form-group col-md-4" style="margin-top:12px">
                                     <label for="name">First Name:</label>
                                     <input class="form-control" type="text" name="first_name" id="first_name" value="<?php echo $user->first_name ?>" required>
                                 </div>
-                                <div class="form-group col-md-6" style="margin-top:12px">
+                                <div class="form-group col-md-4" style="margin-top:12px">
                                     <label for="name">Last Name:</label>
                                     <input class="form-control" type="text" name="last_name" id="last_name" value="<?php echo $user->last_name ?>" required>
                                 </div>

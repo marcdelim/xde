@@ -13,7 +13,6 @@
 					<thead>
 						<th>Username</th>
 						<th>Full Name</th>
-						<th>Role</th>
 						<th>User Status</th>
 						<th>Action</th>
 					</thead>
@@ -22,8 +21,7 @@
 							<tr>
 								<td><?php echo $user->username ?></td>
 								<td><?php echo $user->first_name." ".$user->last_name ?></td>
-								<td><?php echo $user->role_name ?></td>
-								<td><?php if($user->user_status) echo "Active"; else echo "Deactivated" ?></td>
+								<td><?php if($user->status) echo "Active"; else echo "Deactivated" ?></td>
 								
 								<td> 
 									<a class="btn btn-primary" href="user/update/<?php echo $user->user_id ?>">
