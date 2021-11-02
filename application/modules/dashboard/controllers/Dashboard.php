@@ -32,18 +32,17 @@ class Dashboard extends MX_Controller{
 		$this->app->use_css(array("source"=>"dashboard/graph","cache"=>false));
 		$this->app->use_css(array("source"=>"dashboard/table","cache"=>false));
 
-		$this->app->use_js(array("source"=>"dashboard/deliveryPercentage","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/deliveryOTPPercentage","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/firstAttempt","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/pickupIb","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/deliveryLeadtime","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/dispatchLeadtime","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/failedPercentage","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/openItems","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/linehaulLeadtime","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/weekly/deliveryPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/weekly/deliveryOTPPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/weekly/firstAttempt","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/weekly/pickupIb","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/weekly/deliveryLeadtime","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/weekly/dispatchLeadtime","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/weekly/failedPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/weekly/openItems","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/weekly/linehaulLeadtime","cache"=>false));
 
-		$this->app->use_js(array("source"=>"dashboard/deliveryPerformance","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/deliveryPerformanceHod","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/weekly/deliveryPerformance","cache"=>false));
 		
 		$header['header_data'] = "Dashboard";
 		$this->template->adminHeaderTpl($header);
@@ -429,23 +428,6 @@ class Dashboard extends MX_Controller{
 		exit(0);
 	}
 
-	public function delivery_performance_hod(){
-		$area_id = $this->input->get('area_id');
-		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
-		$data = $this->xde->get_delivery_performance($area_id, $area2_id, true);
-	
-		if($data){
-			$result['data'] = $data;
-		}else{
-			
-			$result['data'] = []; 
-		}
-		
-		
-		
-		echo json_encode($data);
-		exit(0);
-	}
 
 
 	

@@ -453,7 +453,7 @@
 			$this->db->order_by($select_group);
 			$query = $this->db->get();
 
-			$this->db->select('"Grand Total" as "Week No."');
+			$this->db->select('"Grand Total" as '.ucwords(str_replace('_', ' ',$select_group)));
 			$this->db->select('count(xde_id) as "Ship Vol"');
 			$this->db->select('SUM(if(status = "delivery_successful", 1, 0)) AS "Del Vol"');
 			$this->db->select('ROUND(AVG(lt),2) AS "Average of LT"');
@@ -466,7 +466,7 @@
 			$this->db->select('ROUND(AVG(lh_lt),2) AS "Average of LH LT"');
 			$this->db->select('SUM(if(first_attempt_dispatch_vol = "1", 1, 0)) AS "LM Dispatch Vol"');
 			$this->db->select('ROUND(AVG(lm_dispatch_lt),2) AS "Average of LM Dispatch LT",');
-			$this->db->select('ROUND(count(xde_id)) AS "Daily Ave"');
+			$this->db->select('ROUND(count(xde_id)) AS "'.$select_group.'Ave"');
 			$this->db->select('ROUND((SUM(if(status = "delivery_successful", 1, 0))/count(*) * 100), 2) AS "Delivery %"');
 			$this->db->select('ROUND((SUM(if(fd = "1", 1, 0))/count(*) * 100), 2) AS "Failed Delivery %"');
 			$this->db->select('ROUND((SUM(if(open = 1, 1, 0))/count(*) * 100), 2) AS "Open %"');
