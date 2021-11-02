@@ -218,28 +218,30 @@ class Dashboard extends MX_Controller{
 	}
 
 	public function dispatch_leadtime(){
-		$area_id = $this->input->get('area_id');
-		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
-		$datas = $this->xde->get_dispatch_leadtime($area_id, $area2_id);
-		$week_no = array();
-		$ship_vol = array();
-		$dis_vol = array();
+		$group = $this->input->get('group');
+		$area = $this->input->get('area');
+		$area2 = str_replace("-", " ",$this->input->get('area2'));
+		$area2 = str_replace("-", " ",$this->input->get('area2'));
+		$province = str_replace("-", " ",$this->input->get('province'));
+		$city = str_replace("-", " ",$this->input->get('city'));
+		$payment = $this->input->get('payment');
+		$datas = $this->xde->get_dispatch_leadtime($group, $area, $area2, $province, $city, $payment);
 		if($datas){
 			foreach($datas as $data){
-				$week_no[] = $data->week_no;
+				$label[] = $data->$group;
 				$ship_vol[] = $data->ship_vol;
 				$dis_vol[] = $data->dis_vol;
 				$ave[] = round($data->ave, 2);
 			}
 	
-			$result['week_no'] = $week_no;
+			$result['label'] = $label;
 			$result['data'] = array(
 				'ship_vol' => $ship_vol,
 				'dis_vol' => $dis_vol,
 				'ave' => $ave,
 			); 
 		}else{
-			$result['week_no'] = [];
+			$result['label'] = [];
 			$result['data'] = array(
 				'ship_vol' => [],
 				'dis_vol' => [],
