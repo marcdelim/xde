@@ -296,29 +296,31 @@ class Dashboard extends MX_Controller{
 	}
 
 	public function failed_percentage(){
-		$area_id = $this->input->get('area_id');
-		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
-		$datas = $this->xde->get_failed_percentage($area_id, $area2_id);
-		$week_no = array();
-		$ship_vol = array();
-		$failed_vol = array();
+		$group = $this->input->get('group');
+		$area = $this->input->get('area');
+		$area2 = str_replace("-", " ",$this->input->get('area2'));
+		$area2 = str_replace("-", " ",$this->input->get('area2'));
+		$province = str_replace("-", " ",$this->input->get('province'));
+		$city = str_replace("-", " ",$this->input->get('city'));
+		$payment = $this->input->get('payment');
+		$datas = $this->xde->get_failed_percentage($group, $area, $area2, $province, $city, $payment);
 		if($datas){
 			foreach($datas as $data){
-				$week_no[] = $data->week_no;
+				$label[] = $data->$group;
 				$ship_vol[] = $data->ship_vol;
 				$failed_vol[] = $data->failed_vol;
 				$compute = ($data->failed_vol > 0 AND $data->ship_vol > 0) ? ($data->failed_vol/$data->ship_vol) * 100 : 0;
 				$percentage[] = round($compute, 2);
 			}
 	
-			$result['week_no'] = $week_no;
+			$result['label'] = $label;
 			$result['data'] = array(
 				'ship_vol' => $ship_vol,
 				'failed_vol' => $failed_vol,
 				'percentage' => $percentage,
 			); 
 		}else{
-			$result['week_no'] = [];
+			$result['label'] = [];
 			$result['data'] = array(
 				'ship_vol' => [],
 				'failed_vol' => [],
