@@ -13,12 +13,12 @@ class Trend extends MX_Controller{
 		$this->load->model("dashboard/XDE_model", 'xde');
 		$this->load->model("Trend_model", 'trend');
 		include("SimpleXLSX.php");
-		if(empty($this->session->userdata('login'))){
-			redirect('login');
-		}
-		if(($this->session->userdata('temp_pass'))){
-			redirect('changepass');
-		}
+		// if(empty($this->session->userdata('login'))){
+		// 	redirect('login');
+		// }
+		// if(($this->session->userdata('temp_pass'))){
+		// 	redirect('changepass');
+		// }
 	}
 	
 	public function index(){
@@ -33,10 +33,10 @@ class Trend extends MX_Controller{
 		$this->app->use_css(array("source"=>"dashboard/graph","cache"=>false));
 		$this->app->use_css(array("source"=>"dashboard/table","cache"=>false));
 
-		$this->app->use_js(array("source"=>"trend/weekly/weeklyTrend","cache"=>false));
-		$this->app->use_js(array("source"=>"trend/weekly/weeklyTrendTable","cache"=>false));
-		$this->app->use_js(array("source"=>"trend/weekly/weeklyVolumeSharing","cache"=>false));
-		$this->app->use_js(array("source"=>"trend/weekly/weeklyVolumeSharingTable","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/weekly/trends","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/weekly/trendTable","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/weekly/volumeSharing","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/weekly/volumeSharingTable","cache"=>false));
 
 		$this->app->use_js(array("source"=>"trend/weekly/volumePercent","cache"=>false));
 		$this->app->use_js(array("source"=>"trend/weekly/volumeTable","cache"=>false));
@@ -56,12 +56,12 @@ class Trend extends MX_Controller{
 	}
 
 	//graphs
-	public function weekly_trend(){
+	public function trends(){
 		$group = $this->input->get('group');
 		$province = str_replace("-", " ",$this->input->get('province'));
 		$city = str_replace("-", " ",$this->input->get('city'));
 		$payment = $this->input->get('payment');
-		$datas = $this->trend->get_weekly_volume($group, $province, $city, $payment);
+		$datas = $this->trend->get_volume($group, $province, $city, $payment);
 		
 		if($datas){
 			foreach($datas as $data){

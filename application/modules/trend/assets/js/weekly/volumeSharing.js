@@ -1,5 +1,5 @@
-var ctx = $("#chart-trend");
-var weeklyTrendChart = new Chart(ctx, {
+var ctxVolumeSharing = $("#chart-volume-sharing");
+var chartVolumeSharing = new Chart(ctxVolumeSharing, {
     type: 'bar',
     data: {
        labels: [], // responsible for how many bars are gonna show on the chart
@@ -7,22 +7,6 @@ var weeklyTrendChart = new Chart(ctx, {
        // data[0] = labels[0] (data for first bar - 'Standing costs') | data[1] = labels[1] (data for second bar - 'Running costs')
        // put 0, if there is no data for the particular bar
        datasets: [
-        {
-            type: 'line',
-            label: 'Volume',
-            data:[],
-            borderColor: "#00FF00",
-            stacked: false,
-            fill: false,
-        },
-        {
-            type: 'line',
-            label: 'Daily Ave',
-            data:[],
-            borderColor: "#00008b",
-            stacked: false,
-            fill: false,
-        },
         {
           label: 'GMA',
           data: [],
@@ -65,34 +49,32 @@ var weeklyTrendChart = new Chart(ctx, {
 
  $(document).ready(function() {
     
-    getWeeklyVolume(weeklyTrendChart, 'All', 'All', 'All');
+    getVolumeSharing(chartVolumeSharing, 'All', 'All', 'All');
 
 });
 
 
-async function getWeeklyVolume(chart, province, city, payment){
-    $.ajax({
-        type: "GET",
-        url: 'trend/weekly_trend',
-        data: "group=week_no&province="+province+"&city="+city+"&payment="+payment,
-        success: function(response){
-            var parsed = JSON.parse(response);
-            chart.data.labels = parsed.label;
-            chart.data.datasets[0].data = parsed.data.volume;
-            chart.data.datasets[1].data = parsed.data.ave;
-            chart.data.datasets[2].data = parsed.data.gma;
-            chart.data.datasets[3].data = parsed.data.north;
-            chart.data.datasets[4].data = parsed.data.south;
-            chart.data.datasets[5].data = parsed.data.visayas;
-            chart.data.datasets[6].data = parsed.data.mindanao;
-            chart.update(); // finally update our chart
-        }
-   });
+async function getVolumeSharing(chart, province, city, payment){
+   $.ajax({
+       type: "GET",
+       url: 'trend/trends',
+       data: "group=week_no&province="+province+"&city="+city+"&payment="+payment,
+       success: function(response){
+           var parsed = JSON.parse(response);
+           chart.data.labels = parsed.label;
+           chart.data.datasets[0].data = parsed.data.gma;
+           chart.data.datasets[1].data = parsed.data.north;
+           chart.data.datasets[2].data = parsed.data.south;
+           chart.data.datasets[3].data = parsed.data.visayas;
+           chart.data.datasets[4].data = parsed.data.mindanao;
+           chart.update(); // finally update our chart
+       }
+  });
 }
 
 $( ".selectpicker" ).change(function() {
    var province = $("#province_id").find(":selected").text();
    var city = $("#city_id").find(":selected").text();
    var payment = $("#payment_id").find(":selected").text();
-   getWeeklyVolume(weeklyTrendChart, province, city, payment);
+   getVolumeSharing(chartVolumeSharing, province, city, payment);
 });

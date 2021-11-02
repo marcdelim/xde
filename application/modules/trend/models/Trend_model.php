@@ -60,7 +60,7 @@
 			return $query->row();
 		}
 
-		public function get_weekly_volume($group, $province, $city, $payment){
+		public function get_volume($group, $province, $city, $payment){
 			$select_group = ($group =='handover_date') ?  'date(handover_date) as handover_date' : $group;
 			$this->db->select($select_group);
 			$this->db->select('SUM(if(area = "GMA", 1, 0)) AS "gma"');
