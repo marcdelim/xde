@@ -408,9 +408,13 @@ class Dashboard extends MX_Controller{
 
 	//tables
 	public function delivery_performance(){
-		$area_id = $this->input->get('area_id');
-		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
-		$data = $this->xde->get_delivery_performance($area_id, $area2_id);
+		$group = $this->input->get('group');
+		$area = $this->input->get('area');
+		$area2 = str_replace("-", " ",$this->input->get('area2'));
+		$province = str_replace("-", " ",$this->input->get('province'));
+		$city = str_replace("-", " ",$this->input->get('city'));
+		$payment = $this->input->get('payment');
+		$data = $this->xde->get_delivery_performance($group, $area, $area2, $province, $city, $payment);
 	
 		if($data){
 			$result['data'] = $data;

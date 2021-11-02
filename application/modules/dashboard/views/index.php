@@ -217,19 +217,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>    
-                                <div class="row">
-                                    <div class="col-sm-8 col-md-12" style="margin-top:10px">
-                                        <div class="card">
-                                            <div class="card-header">Lazada LM Delivery Performance HOD</div>
-                                            <div class="card-body" style="overflow-x: auto; overflow-y:auto; height: 400px">
-                                                <table id="delivery-performance-hod" class="table color">
-
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>                            
+                                </div>                          
                             </div>
                         </div>
                     </div>

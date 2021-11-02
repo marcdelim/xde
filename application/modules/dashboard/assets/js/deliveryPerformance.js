@@ -24,16 +24,16 @@ function generateTableHead(table, data) {
 
   $(document).ready(function() {
     
-    getDeliveryPerformance('All', 'All');
+    getDeliveryPerformance('All', 'All', 'All', 'All', 'All');
 
 });
 
 
-async function getDeliveryPerformance(area_id, area2_id){
+async function getDeliveryPerformance(area, area2, province, city, payment){
     $.ajax({
         type: "GET",
         url: 'dashboard/delivery_performance',
-        data: "area_id="+area_id+"&area2_id="+area2_id,
+        data: "group=week_no&area="+area+"&area2="+area2+"&province="+province+"&city="+city+"&payment="+payment,
         success: function(response){
             let queryData =  JSON.parse(response);
             $('#delivery-performance tbody').empty();
@@ -46,14 +46,12 @@ async function getDeliveryPerformance(area_id, area2_id){
    });
 }
 
-//area 1 on change
-$('#area_id').on('change', function() {
-    var area2_id = $("#area2_id").find(":selected").text(); //getting value of area 2
-    getDeliveryPerformance(this.value, area2_id);
-});
-
-//area 2 on change
-$('#area2_id').on('change', function() {
-    var area_id = $("#area_id").find(":selected").text(); //getting value of area
-    getDeliveryPerformance(area_id, this.value);
+$( ".selectpicker" ).change(function() {
+  //var id = $(this).attr("id");
+  var area = $("#area_id").find(":selected").text();
+  var area2 = $("#area2_id").find(":selected").text();
+  var province = $("#province_id").find(":selected").text();
+  var city = $("#city_id").find(":selected").text();
+  var payment = $("#payment_id").find(":selected").text();
+  getDeliveryPerformance(area, area2, province, city, payment);
 });

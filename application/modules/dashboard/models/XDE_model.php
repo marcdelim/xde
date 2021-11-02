@@ -412,17 +412,9 @@
 			}
 		}
 
-		public function get_delivery_performance($area_id, $area2_id, $hod = false){
-			if($hod){
-				$label_select='Date(handover_date) as "HOD"';
-				$ave = 'ROUND(count(xde_id)) AS "Daily Ave"';
-				$group = "Date(handover_date)";
-			}else{
-				$label_select='week_no as "Week No."';
-				$ave = 'ROUND(count(xde_id) / 6) AS "Daily Ave"';
-				$group = "week_no";
-			}
-			$this->db->select($label_select);
+		public function get_delivery_performance($group, $area, $area2, $province, $city, $payment){
+			$select_group = $group =='handover_date' ?  'date(handover_date) as handover_date' : $group;
+			$this->db->select($select_group.' as '.ucwords(str_replace('_', ' ',$select_group)));
 			$this->db->select('count(xde_id) as "Ship Vol"');
 			$this->db->select('SUM(if(status = "delivery_successful", 1, 0)) AS "Del Vol"');
 			$this->db->select('ROUND(AVG(lt),2) AS "Average of LT"');
@@ -435,21 +427,30 @@
 			$this->db->select('ROUND(AVG(lh_lt),2) AS "Average of LH LT"');
 			$this->db->select('SUM(if(first_attempt_dispatch_vol = "1", 1, 0)) AS "LM Dispatch Vol"');
 			$this->db->select('ROUND(AVG(lm_dispatch_lt),2) AS "Average of LM Dispatch LT",');
-			$this->db->select($ave);
+			$this->db->select('ROUND(count(xde_id)) AS "'.$select_group.'Ave"');
 			$this->db->select('ROUND((SUM(if(status = "delivery_successful", 1, 0))/count(*) * 100), 2) AS "Delivery %"');
 			$this->db->select('ROUND((SUM(if(fd = "1", 1, 0))/count(*) * 100), 2) AS "Failed Delivery %"');
 			$this->db->select('ROUND((SUM(if(open = 1, 1, 0))/count(*) * 100), 2) AS "Open %"');
 			$this->db->select('ROUND((SUM(if(otp = 1, 1, 0))/SUM(if(status = "delivery_successful", 1, 0)) * 100), 2) AS "OTP %"');
 			$this->db->select('ROUND((SUM(if(first_attempt_status = "delivery_successful", 1, 0))/count(*) * 100), 2) AS "1st Attempt %"');
 			$this->db->from( $this->table );
-			if($area_id != 'All'){
-				$this->db->where('area', $area_id);
+			if($area != 'All'){
+				$this->db->where('area', $area);
 			}
-			if($area2_id != 'All'){
-				$this->db->where('area2', $area2_id);
+			if($area2 != 'All'){
+				$this->db->where('area2', $area2);
 			}
-			$this->db->group_by($group);
-			$this->db->order_by($group);
+			if($province != 'All'){
+				$this->db->where('consignee_province', $province);
+			}
+			if($city != 'All'){
+				$this->db->where('consignee_city', $city);
+			}
+			if($payment != 'All'){
+				$this->db->where('payment_type', $payment);
+			}
+			$this->db->group_by($select_group);
+			$this->db->order_by($select_group);
 			$query = $this->db->get();
 
 			$this->db->select('"Grand Total" as "Week No."');
@@ -465,18 +466,27 @@
 			$this->db->select('ROUND(AVG(lh_lt),2) AS "Average of LH LT"');
 			$this->db->select('SUM(if(first_attempt_dispatch_vol = "1", 1, 0)) AS "LM Dispatch Vol"');
 			$this->db->select('ROUND(AVG(lm_dispatch_lt),2) AS "Average of LM Dispatch LT",');
-			$this->db->select('ROUND(count(xde_id) / 6) AS "Daily Ave"');
+			$this->db->select('ROUND(count(xde_id)) AS "Daily Ave"');
 			$this->db->select('ROUND((SUM(if(status = "delivery_successful", 1, 0))/count(*) * 100), 2) AS "Delivery %"');
 			$this->db->select('ROUND((SUM(if(fd = "1", 1, 0))/count(*) * 100), 2) AS "Failed Delivery %"');
 			$this->db->select('ROUND((SUM(if(open = 1, 1, 0))/count(*) * 100), 2) AS "Open %"');
 			$this->db->select('ROUND((SUM(if(otp = 1, 1, 0))/SUM(if(status = "delivery_successful", 1, 0)) * 100), 2) AS "OTP %"');
 			$this->db->select('ROUND((SUM(if(first_attempt_status = "delivery_successful", 1, 0))/count(*) * 100), 2) AS "1st Attempt %"');
 			$this->db->from( $this->table );
-			if($area_id != 'All'){
-				$this->db->where('area', $area_id);
+			if($area != 'All'){
+				$this->db->where('area', $area);
 			}
-			if($area2_id != 'All'){
-				$this->db->where('area2', $area2_id);
+			if($area2 != 'All'){
+				$this->db->where('area2', $area2);
+			}
+			if($province != 'All'){
+				$this->db->where('consignee_province', $province);
+			}
+			if($city != 'All'){
+				$this->db->where('consignee_city', $city);
+			}
+			if($payment != 'All'){
+				$this->db->where('payment_type', $payment);
 			}
 			$query2 = $this->db->get();
 			if ( $query->result() != NULL ) {
