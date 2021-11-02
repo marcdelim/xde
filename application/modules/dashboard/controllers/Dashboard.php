@@ -94,6 +94,43 @@ class Dashboard extends MX_Controller{
 		$this->template->adminFooterTpl();
 	}
 
+	public function monthly(){
+		$this->app->use_css(array("source"=>$this->environment->assets_path."site/vendor/select2/css/select2.min.css","cache"=>false));
+		$this->app->use_js(array("source"=>$this->environment->assets_path."site/vendor/select2/js/select2.min.js","cache"=>false));
+		$this->app->use_css(array("source"=>$this->environment->assets_path."site/vendor/datatables/css-bootstrap/dataTables.bootstrap.min.css","cache"=>false));
+		$this->app->use_css(array("source"=>$this->environment->assets_path."site/vendor/font-awesome/css/font-awesome.min.css","cache"=>false));
+		
+		$this->app->use_js(array("source"=>"home/landing_page","cache"=>false));
+		$this->app->use_js(array("source"=>$this->environment->assets_path.'site/js/datatable.js',"cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/Chart.bundle.min","cache"=>false));
+		$this->app->use_css(array("source"=>"dashboard/graph","cache"=>false));
+		$this->app->use_css(array("source"=>"dashboard/table","cache"=>false));
+
+		$this->app->use_js(array("source"=>"dashboard/monthly/deliveryPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/monthly/deliveryOTPPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/monthly/firstAttempt","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/monthly/pickupIb","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/monthly/deliveryLeadtime","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/monthly/dispatchLeadtime","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/monthly/failedPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/monthly/openItems","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/monthly/linehaulLeadtime","cache"=>false));
+
+		$this->app->use_js(array("source"=>"dashboard/monthly/deliveryPerformance","cache"=>false));
+		
+		$header['header_data'] = "Monthly Dashboard";
+		$this->template->adminHeaderTpl($header);
+		$this->template->adminSideBarTpl();
+		
+		$data['areas'] = $this->xde->find_all_area() ? $this->xde->find_all_area() : [];
+		$data['area2s'] = $this->xde->find_all_area2() ? $this->xde->find_all_area2() : [];
+		$data['provinces'] = $this->xde->find_all_province() ? $this->xde->find_all_province() : [];
+		$data['cities'] = $this->xde->find_all_city() ? $this->xde->find_all_city() : [];
+		$data['payments'] = $this->xde->find_all_payment() ? $this->xde->find_all_payment() : [];
+		$this->load->view('monthly', $data);
+		$this->template->adminFooterTpl();
+	}
+
 	//graphs
 	public function del_percentage(){
 		$group = $this->input->get('group');
