@@ -1,7 +1,7 @@
 <?php 
 
 $config['site'] = array(
-	'system_name' => 'Request for Payment Form',
+	'system_name' => 'Dashboard',
 	'system_description' => 'Requesting of Payment',
 	'system_slug' => 'WMS',
 	'company' => 'MetroPac Movers, Inc.',
