@@ -103,29 +103,34 @@ class Dashboard extends MX_Controller{
 	}
 
 	public function del_otp_percentage(){
-		$area_id = $this->input->get('area_id');
-		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
-		$datas = $this->xde->get_del_otp_percentage($area_id, $area2_id);
+		$group = $this->input->get('group');
+		$area = $this->input->get('area');
+		$area2 = str_replace("-", " ",$this->input->get('area2'));
+		$area2 = str_replace("-", " ",$this->input->get('area2'));
+		$province = str_replace("-", " ",$this->input->get('province'));
+		$city = str_replace("-", " ",$this->input->get('city'));
+		$payment = $this->input->get('payment');
+		$datas = $this->xde->get_del_otp_percentage($group, $area, $area2, $province, $city, $payment);
 		$week_no = array();
 		$del_vol = array();
 		$otp_vol = array();
 		if($datas){
 			foreach($datas as $data){
-				$week_no[] = $data->week_no;
+				$label[] = $data->$group;
 				$del_vol[] = $data->del_vol;
 				$otp_vol[] = $data->otp_vol;
 				$compute = ($data->otp_vol > 0 AND $data->del_vol > 0) ? ($data->otp_vol/$data->del_vol) * 100 : 0 ;
 				$percentage[] = round($compute, 2);
 			}
 	
-			$result['week_no'] = $week_no;
+			$result['label'] = $label;
 			$result['data'] = array(
 				'del_vol' => $del_vol,
 				'otp_vol' => $otp_vol,
 				'percentage' => $percentage,
 			); 
 		}else{
-			$result['week_no'] = [];
+			$result['label'] = [];
 			$result['data'] = array(
 				'del_vol' => [],
 				'otp_vol' => [],

@@ -65,7 +65,7 @@ $(document).ready(function() {
 });
 
 
-async function getDelPercentage(chart,area, area2, province, city, payment){
+async function getDelPercentage(chart, area, area2, province, city, payment){
     $.ajax({
         type: "GET",
         url: 'dashboard/del_percentage',
@@ -81,17 +81,6 @@ async function getDelPercentage(chart,area, area2, province, city, payment){
    });
 }
 
-//area 1 on change
-// $('#area_id').on('change', function() {
-//     var area2_id = $("#area2_id").find(":selected").text(); //getting value of area 2
-//     getDelPercentage(DelPercentageChart, this.value, area2_id);
-// });
-
-// //area 2 on change
-// $('#area2_id').on('change', function() {
-//     var area_id = $("#area_id").find(":selected").text(); //getting value of area
-//     getDelPercentage(DelPercentageChart, area_id, this.value);
-// });
 
 $( ".selectpicker" ).change(function() {
     //var id = $(this).attr("id");
