@@ -249,7 +249,7 @@
 		
 			$this->db->select('area');
 			$this->db->select('count(xde_id) as volume');
-			$this->db->select('ROUND(('.$count.'/6)/4, 2) AS "ave"');
+			$this->db->select('ROUND((count(xde_id)/6)/4, 2) AS "ave"');
 			$this->db->select('ROUND((count(xde_id) /'.$count.') * 100, 2) AS "percentage"');
 			$this->db->from( $this->table );
 			if($province != 'All'){
@@ -275,7 +275,7 @@
 		public function get_volume_percentage_table($count, $group, $province, $city, $payment){
 			$this->db->select('area as Area');
 			$this->db->select('count(xde_id) as Volume');
-			$this->db->select('ROUND(('.$count.'/6)/4, 2) AS "Daily Ave"');
+			$this->db->select('ROUND((count(xde_id)/6)/4, 2) AS "Daily Ave"');
 			$this->db->select('ROUND((count(xde_id) /'.$count.') * 100, 2) AS "Volume %"');
 			$this->db->from( $this->table );
 			if($province != 'All'){
