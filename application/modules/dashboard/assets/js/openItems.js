@@ -53,19 +53,19 @@ var OpenItemsChart = new Chart(ctxOpenItems, {
 
 $(document).ready(function() {
     
-    getOpenItems(OpenItemsChart, 'All', 'All');
+    getOpenItems(OpenItemsChart, 'All', 'All', 'All', 'All', 'All');
 
 });
 
 
-async function getOpenItems(chart,area_id, area2_id){
+async function getOpenItems(chart, area, area2, province, city, payment){
     $.ajax({
         type: "GET",
         url: 'dashboard/open_items',
-        data: "area_id="+area_id+"&area2_id="+area2_id,
+        data: "group=week_no&area="+area+"&area2="+area2+"&province="+province+"&city="+city+"&payment="+payment,
         success: function(response){
             var parsed = JSON.parse(response);
-            chart.data.labels = parsed.week_no;
+            chart.data.labels = parsed.label;
             chart.data.datasets[0].data = parsed.data.percentage;
             chart.data.datasets[1].data = parsed.data.ship_vol;
             chart.update(); // finally update our chart
@@ -74,13 +74,12 @@ async function getOpenItems(chart,area_id, area2_id){
 }
 
 //area 1 on change
-$('#area_id').on('change', function() {
-    var area2_id = $("#area2_id").find(":selected").text(); //getting value of area 2
-    getOpenItems(OpenItemsChart, this.value, area2_id);
-});
-
-//area 2 on change
-$('#area2_id').on('change', function() {
-    var area_id = $("#area_id").find(":selected").text(); //getting value of area
-    getOpenItems(OpenItemsChart, area_id, this.value);
+$( ".selectpicker" ).change(function() {
+    //var id = $(this).attr("id");
+    var area = $("#area_id").find(":selected").text();
+    var area2 = $("#area2_id").find(":selected").text();
+    var province = $("#province_id").find(":selected").text();
+    var city = $("#city_id").find(":selected").text();
+    var payment = $("#payment_id").find(":selected").text();
+    getOpenItems(OpenItemsChart, area, area2, province, city, payment);
 });
