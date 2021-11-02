@@ -61,19 +61,19 @@ var FirstAttemptChart = new Chart(ctxFirstAttempt, {
 
 $(document).ready(function() {
     
-    getFirstAttempt(FirstAttemptChart, 'All', 'All');
+    getFirstAttempt(FirstAttemptChart, 'All', 'All', 'All', 'All', 'All');
 
 });
 
 
-async function getFirstAttempt(chart,area_id, area2_id){
+async function getFirstAttempt(chart, area, area2, province, city, payment){
     $.ajax({
         type: "GET",
         url: 'dashboard/first_attempt',
-        data: "area_id="+area_id+"&area2_id="+area2_id,
+        data: "group=week_no&area="+area+"&area2="+area2+"&province="+province+"&city="+city+"&payment="+payment,
         success: function(response){
             var parsed = JSON.parse(response);
-            chart.data.labels = parsed.week_no;
+            chart.data.labels = parsed.label;
             chart.data.datasets[0].data = parsed.data.percentage;
             chart.data.datasets[1].data = parsed.data.del_vol; // or you can iterate for multiple datasets
             chart.data.datasets[2].data = parsed.data.first;
@@ -83,14 +83,12 @@ async function getFirstAttempt(chart,area_id, area2_id){
    });
 }
 
-//area 1 on change
-$('#area_id').on('change', function() {
-    var area2_id = $("#area2_id").find(":selected").text(); //getting value of area 2
-    getFirstAttempt(FirstAttemptChart, this.value, area2_id);
-});
-
-//area 2 on change
-$('#area2_id').on('change', function() {
-    var area_id = $("#area_id").find(":selected").text(); //getting value of area
-    getFirstAttempt(FirstAttemptChart, area_id, this.value);
+$( ".selectpicker" ).change(function() {
+    //var id = $(this).attr("id");
+    var area = $("#area_id").find(":selected").text();
+    var area2 = $("#area2_id").find(":selected").text();
+    var province = $("#province_id").find(":selected").text();
+    var city = $("#city_id").find(":selected").text();
+    var payment = $("#payment_id").find(":selected").text();
+    getFirstAttempt(FirstAttemptChart, area, area2, province, city, payment);
 });

@@ -68,9 +68,6 @@ class Dashboard extends MX_Controller{
 		$city = str_replace("-", " ",$this->input->get('city'));
 		$payment = $this->input->get('payment');
 		$datas = $this->xde->get_del_percentage($group, $area, $area2, $province, $city, $payment);
-		$week_no = array();
-		$ship_vol = array();
-		$del_vol = array();
 		if($datas){
 			foreach($datas as $data){
 				$label[] = $data->$group;
@@ -111,9 +108,6 @@ class Dashboard extends MX_Controller{
 		$city = str_replace("-", " ",$this->input->get('city'));
 		$payment = $this->input->get('payment');
 		$datas = $this->xde->get_del_otp_percentage($group, $area, $area2, $province, $city, $payment);
-		$week_no = array();
-		$del_vol = array();
-		$otp_vol = array();
 		if($datas){
 			foreach($datas as $data){
 				$label[] = $data->$group;
@@ -146,29 +140,32 @@ class Dashboard extends MX_Controller{
 	}
 
 	public function first_attempt(){
-		$area_id = $this->input->get('area_id');
-		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
-		$datas = $this->xde->get_first_attempt($area_id, $area2_id);
-		$week_no = array();
-		$del_vol = array();
-		$otp_vol = array();
+		$group = $this->input->get('group');
+		$area = $this->input->get('area');
+		$area2 = str_replace("-", " ",$this->input->get('area2'));
+		$area2 = str_replace("-", " ",$this->input->get('area2'));
+		$province = str_replace("-", " ",$this->input->get('province'));
+		$city = str_replace("-", " ",$this->input->get('city'));
+		$payment = $this->input->get('payment');
+		$datas = $this->xde->get_first_attempt($group, $area, $area2, $province, $city, $payment);
+		
 		if($datas){
 			foreach($datas as $data){
-				$week_no[] = $data->week_no;
+				$label[] = $data->$group;
 				$del_vol[] = $data->del_vol;
 				$first[] = $data->first;
 				$compute = ($data->first > 0 AND $data->del_vol > 0) ? ($data->first/$data->del_vol) * 100 : 0 ;
 				$percentage[] = round($compute, 2);
 			}
 	
-			$result['week_no'] = $week_no;
+			$result['label'] = $label;
 			$result['data'] = array(
 				'del_vol' => $del_vol,
 				'first' => $first,
 				'percentage' => $percentage,
 			); 
 		}else{
-			$result['week_no'] = [];
+			$result['label'] = [];
 			$result['data'] = array(
 				'del_vol' => [],
 				'first' => [],
