@@ -1,5 +1,5 @@
 var ctx = $("#chart-trend");
-var chart = new Chart(ctx, {
+var weeklyTrendChart = new Chart(ctx, {
     type: 'bar',
     data: {
        labels: [], // responsible for how many bars are gonna show on the chart
@@ -65,18 +65,19 @@ var chart = new Chart(ctx, {
 
  $(document).ready(function() {
     
-    getWeeklyVolume(chart);
+    getWeeklyVolume(weeklyTrendChart, 'All', 'All', 'All');
 
 });
 
 
-async function getWeeklyVolume(chart){
+async function getWeeklyVolume(chart, province, city, payment){
     $.ajax({
         type: "GET",
         url: 'trend/weekly_trend',
+        data: "group=week_no&province="+province+"&city="+city+"&payment="+payment,
         success: function(response){
             var parsed = JSON.parse(response);
-            chart.data.labels = parsed.week_no;
+            chart.data.labels = parsed.label;
             chart.data.datasets[0].data = parsed.data.volume;
             chart.data.datasets[1].data = parsed.data.ave;
             chart.data.datasets[2].data = parsed.data.gma;
@@ -88,3 +89,10 @@ async function getWeeklyVolume(chart){
         }
    });
 }
+
+$( ".selectpicker" ).change(function() {
+   var province = $("#province_id").find(":selected").text();
+   var city = $("#city_id").find(":selected").text();
+   var payment = $("#payment_id").find(":selected").text();
+   getWeeklyVolume(weeklyTrendChart, province, city, payment);
+});

@@ -19,14 +19,15 @@ var myPieChart = new Chart(ctx,{
 
 $(document).ready(function() {
     
-    getPackagePercent(myPieChart);
+    getPackagePercent(myPieChart, 'All', 'All', 'All');
 
 });
 
 
-async function getPackagePercent(chart){
+async function getPackagePercent(chart, province, city, payment){
     $.ajax({
         type: "GET",
+        data: "province="+province+"&city="+city+"&payment="+payment,
         url: 'trend/package_percentage',
         success: function(response){
             var parsed = JSON.parse(response);
@@ -36,4 +37,11 @@ async function getPackagePercent(chart){
         }
    });
 }
+
+$( ".selectpicker" ).change(function() {
+    var province = $("#province_id").find(":selected").text();
+    var city = $("#city_id").find(":selected").text();
+    var payment = $("#payment_id").find(":selected").text();
+    getPackagePercent(myPieChart, province, city, payment);
+ });
 

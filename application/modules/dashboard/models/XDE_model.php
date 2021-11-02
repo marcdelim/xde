@@ -453,7 +453,7 @@
 			$this->db->order_by($group);
 			$query = $this->db->get();
 
-			$this->db->select('"Grand Total" as '.ucwords(str_replace(array('_', 'date(', ')'), ' ',$select_group)).'"');
+			$this->db->select('"Grand Total" as total');
 			$this->db->select('count(xde_id) as "Ship Vol"');
 			$this->db->select('SUM(if(status = "delivery_successful", 1, 0)) AS "Del Vol"');
 			$this->db->select('ROUND(AVG(lt),2) AS "Average of LT"');

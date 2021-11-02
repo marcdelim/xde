@@ -24,23 +24,31 @@ function generateTableHead(table, data) {
 
   $(document).ready(function() {
     
-    getVolumeSharingTable();
+    getTrendTable('All', 'All', 'All');
 
 });
 
 
-async function getVolumeSharingTable(){
+async function getTrendTable(province, city, payment){
     $.ajax({
         type: "GET",
-        url: 'trend/volume_sharing_table',
+        data: "group=week_no&province="+province+"&city="+city+"&payment="+payment,
+        url: 'trend/trend_table',
         success: function(response){
             let queryData =  JSON.parse(response);
-            $('#volume-sharing tbody').empty();
-            $('#volume-sharing thead').empty();
-            let table = document.querySelector("#volume-sharing");
+            $('#trend-table tbody').empty();
+            $('#trend-table thead').empty();
+            let table = document.querySelector("#trend-table");
             let header = Object.keys(queryData[0]);
             generateTable(table, queryData);
             generateTableHead(table, header);
         }
    });
 }
+
+$( ".selectpicker" ).change(function() {
+  var province = $("#province_id").find(":selected").text();
+  var city = $("#city_id").find(":selected").text();
+  var payment = $("#payment_id").find(":selected").text();
+  getTrendTable(province, city, payment);
+});

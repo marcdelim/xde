@@ -20,22 +20,29 @@ var myVolumePercent = new Chart(ctx,{
 
 $(document).ready(function() {
     
-    getVolumePercent(myVolumePercent);
+    getVolumePercent(myVolumePercent, 'All', 'All', 'All');
 
 });
 
 
-async function getVolumePercent(chart){
+async function getVolumePercent(chart, province, city, payment){
     $.ajax({
         type: "GET",
+        data: "province="+province+"&city="+city+"&payment="+payment,
         url: 'trend/volume_percentage',
         success: function(response){
             var parsed = JSON.parse(response);
-            console.log(parsed);
             chart.data.labels = parsed.area;
             chart.data.datasets[0].data = parsed.data.percentage;
             chart.update(); // finally update our chart
         }
    });
 }
+
+$( ".selectpicker" ).change(function() {
+    var province = $("#province_id").find(":selected").text();
+    var city = $("#city_id").find(":selected").text();
+    var payment = $("#payment_id").find(":selected").text();
+    getVolumePercent(myVolumePercent, province, city, payment);
+ });
 

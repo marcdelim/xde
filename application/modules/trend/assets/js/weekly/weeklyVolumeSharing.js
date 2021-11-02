@@ -49,24 +49,32 @@ var chartVolumeSharing = new Chart(ctxVolumeSharing, {
 
  $(document).ready(function() {
     
-    getVolumeSharing(chartVolumeSharing);
+    getVolumeSharing(chartVolumeSharing, 'All', 'All', 'All');
 
 });
 
 
-async function getVolumeSharing(chart){
-    $.ajax({
-        type: "GET",
-        url: 'trend/weekly_trend',
-        success: function(response){
-            var parsed = JSON.parse(response);
-            chart.data.labels = parsed.week_no;
-            chart.data.datasets[0].data = parsed.data.gma;
-            chart.data.datasets[1].data = parsed.data.north;
-            chart.data.datasets[2].data = parsed.data.south;
-            chart.data.datasets[3].data = parsed.data.visayas;
-            chart.data.datasets[4].data = parsed.data.mindanao;
-            chart.update(); // finally update our chart
-        }
-   });
+async function getVolumeSharing(chart, province, city, payment){
+   $.ajax({
+       type: "GET",
+       url: 'trend/weekly_trend',
+       data: "group=week_no&province="+province+"&city="+city+"&payment="+payment,
+       success: function(response){
+           var parsed = JSON.parse(response);
+           chart.data.labels = parsed.label;
+           chart.data.datasets[0].data = parsed.data.gma;
+           chart.data.datasets[1].data = parsed.data.north;
+           chart.data.datasets[2].data = parsed.data.south;
+           chart.data.datasets[3].data = parsed.data.visayas;
+           chart.data.datasets[4].data = parsed.data.mindanao;
+           chart.update(); // finally update our chart
+       }
+  });
 }
+
+$( ".selectpicker" ).change(function() {
+   var province = $("#province_id").find(":selected").text();
+   var city = $("#city_id").find(":selected").text();
+   var payment = $("#payment_id").find(":selected").text();
+   getVolumeSharing(chartVolumeSharing, province, city, payment);
+});

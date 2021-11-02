@@ -10,6 +10,7 @@ class Trend extends MX_Controller{
         $this->smodule = strtolower(__CLASS__);
         $this->load->module("core/app");
 		$this->load->module("site/template");
+		$this->load->model("dashboard/XDE_model", 'xde');
 		$this->load->model("Trend_model", 'trend');
 		include("SimpleXLSX.php");
 		if(empty($this->session->userdata('login'))){
@@ -32,40 +33,39 @@ class Trend extends MX_Controller{
 		$this->app->use_css(array("source"=>"dashboard/graph","cache"=>false));
 		$this->app->use_css(array("source"=>"dashboard/table","cache"=>false));
 
-		$this->app->use_js(array("source"=>"trend/weeklyTrend","cache"=>false));
-		$this->app->use_js(array("source"=>"trend/weeklyTrendTable","cache"=>false));
-		$this->app->use_js(array("source"=>"trend/weeklyVolumeSharing","cache"=>false));
-		$this->app->use_js(array("source"=>"trend/weeklyVolumeSharingTable","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/weekly/weeklyTrend","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/weekly/weeklyTrendTable","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/weekly/weeklyVolumeSharing","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/weekly/weeklyVolumeSharingTable","cache"=>false));
 
-		$this->app->use_js(array("source"=>"trend/volumePercent","cache"=>false));
-		$this->app->use_js(array("source"=>"trend/volumeTable","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/weekly/volumePercent","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/weekly/volumeTable","cache"=>false));
 		
-		$this->app->use_js(array("source"=>"trend/packagePercent","cache"=>false));
-		$this->app->use_js(array("source"=>"trend/packageTable","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/weekly/packagePercent","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/weekly/packageTable","cache"=>false));
 
 		$header['header_data'] = "Weekly Trend";
 		$this->template->adminHeaderTpl($header);
 		$this->template->adminSideBarTpl();
 		
-		
-		$this->load->view('index');
+		$data['provinces'] = $this->xde->find_all_province() ? $this->xde->find_all_province() : [];
+		$data['cities'] = $this->xde->find_all_city() ? $this->xde->find_all_city() : [];
+		$data['payments'] = $this->xde->find_all_payment() ? $this->xde->find_all_payment() : [];
+		$this->load->view('index', $data);
 		$this->template->adminFooterTpl();
 	}
 
 	//graphs
 	public function weekly_trend(){
-		$datas = $this->trend->get_weekly_volume();
-		$week_no = array();
-		$gma = array();
-		$north = array();
-		$south = array();
-		$visayas = array();
-		$mindanao = array();
-		$volume = array();
-		$ave = array();
+		$group = $this->input->get('group');
+		$province = str_replace("-", " ",$this->input->get('province'));
+		$city = str_replace("-", " ",$this->input->get('city'));
+		$payment = $this->input->get('payment');
+		$datas = $this->trend->get_weekly_volume($group, $province, $city, $payment);
+		
 		if($datas){
 			foreach($datas as $data){
-				$week_no[] = $data->week_no;
+				$label[] = $data->$group;
 				$gma[] = $data->gma;
 				$north[] = $data->north;
 				$south[] = $data->south;
@@ -75,7 +75,7 @@ class Trend extends MX_Controller{
 				$ave[] = $data->ave;
 			}
 	
-			$result['week_no'] = $week_no;
+			$result['label'] = $label;
 			$result['data'] = array(
 				'gma' => $gma,
 				'north' => $north,
@@ -86,15 +86,15 @@ class Trend extends MX_Controller{
 				'ave' => $ave
 			); 
 		}else{
-			$result['week_no'] = [];
+			$result['label'] = [];
 			$result['data'] = array(
-				'gma' => $gma,
-				'north' => $north,
-				'south' => $south,
-				'visayas' => $visayas,
-				'mindanao' => $mindanao,
-				'volume' => $volume,
-				'ave' => $ave
+				'gma' => [],
+				'north' => [],
+				'south' => [],
+				'visayas' => [],
+				'mindanao' => [],
+				'volume' => [],
+				'ave' => [],
 			); 
 		}
 		
@@ -106,10 +106,11 @@ class Trend extends MX_Controller{
 	}
 
 	public function volume_percentage(){
-		$count = $this->trend->get_count();
-		$datas = $this->trend->get_volume_percentage($count->count);
-		$area = array();
-		$percentage = array();
+		$province = str_replace("-", " ",$this->input->get('province'));
+		$city = str_replace("-", " ",$this->input->get('city'));
+		$payment = $this->input->get('payment');
+		$count = $this->trend->get_count($province, $city, $payment);
+		$datas = $this->trend->get_volume_percentage($count->count, $province, $city, $payment);
 		
 		if($datas){
 			foreach($datas as $data){
@@ -126,7 +127,7 @@ class Trend extends MX_Controller{
 		}else{
 			$result['area'] = [];
 			$result['data'] = array(
-				'percentage' => $percentage,
+				'percentage' => [],
 				
 			); 
 		}
@@ -139,9 +140,10 @@ class Trend extends MX_Controller{
 	}
 
 	public function package_percentage(){
-		$datas = $this->trend->get_package_percentage();
-		$package = array();
-		$percentage = array();
+		$province = str_replace("-", " ",$this->input->get('province'));
+		$city = str_replace("-", " ",$this->input->get('city'));
+		$payment = $this->input->get('payment');
+		$datas = $this->trend->get_package_percentage($province, $city, $payment);
 		
 		if($datas){
 
@@ -174,7 +176,11 @@ class Trend extends MX_Controller{
 
 	//tables
 	public function trend_table(){
-		$data = $this->trend->get_weekly_table_volume();
+		$group = $this->input->get('group');
+		$province = str_replace("-", " ",$this->input->get('province'));
+		$city = str_replace("-", " ",$this->input->get('city'));
+		$payment = $this->input->get('payment');
+		$data = $this->trend->get_weekly_table_volume($group, $province, $city, $payment);
 	
 		if($data){
 			$result['data'] = $data;
@@ -187,9 +193,13 @@ class Trend extends MX_Controller{
 	}
 	
 	public function volume_sharing_table(){
-		$count = $this->trend->get_count();
+		$group = $this->input->get('group');
+		$province = str_replace("-", " ",$this->input->get('province'));
+		$city = str_replace("-", " ",$this->input->get('city'));
+		$payment = $this->input->get('payment');
+		$count = $this->trend->get_count($province, $city, $payment);
 
-		$data = $this->trend->get_volume_sharing_table($count->count);
+		$data = $this->trend->get_volume_sharing_table($count->count, $group, $province, $city, $payment);
 	
 		if($data){
 			$result['data'] = $data;
@@ -202,9 +212,13 @@ class Trend extends MX_Controller{
 	}
 
 	public function volume_table(){
-		$count = $this->trend->get_count();
+		$group = $this->input->get('group');
+		$province = str_replace("-", " ",$this->input->get('province'));
+		$city = str_replace("-", " ",$this->input->get('city'));
+		$payment = $this->input->get('payment');
+		$count = $this->trend->get_count($province, $city, $payment);
 
-		$data = $this->trend->get_volume_percentage_table($count->count);
+		$data = $this->trend->get_volume_percentage_table($count->count, $group, $province, $city, $payment);
 	
 		if($data){
 			$result['data'] = $data;
@@ -217,8 +231,13 @@ class Trend extends MX_Controller{
 	}
 
 	public function package_table(){
-		$count = $this->trend->get_count();
-		$data = $this->trend->get_package_percentage();
+		$group = $this->input->get('group');
+		$province = str_replace("-", " ",$this->input->get('province'));
+		$city = str_replace("-", " ",$this->input->get('city'));
+		$payment = $this->input->get('payment');
+		$count = $this->trend->get_count($province, $city, $payment);
+
+		$data = $this->trend->get_package_percentage($province, $city, $payment);
 		$output_data = array();
 		if($data){
 			$output_data[] = array(
