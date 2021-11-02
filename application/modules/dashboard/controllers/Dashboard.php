@@ -57,6 +57,43 @@ class Dashboard extends MX_Controller{
 		$this->template->adminFooterTpl();
 	}
 
+	public function daily(){
+		$this->app->use_css(array("source"=>$this->environment->assets_path."site/vendor/select2/css/select2.min.css","cache"=>false));
+		$this->app->use_js(array("source"=>$this->environment->assets_path."site/vendor/select2/js/select2.min.js","cache"=>false));
+		$this->app->use_css(array("source"=>$this->environment->assets_path."site/vendor/datatables/css-bootstrap/dataTables.bootstrap.min.css","cache"=>false));
+		$this->app->use_css(array("source"=>$this->environment->assets_path."site/vendor/font-awesome/css/font-awesome.min.css","cache"=>false));
+		
+		$this->app->use_js(array("source"=>"home/landing_page","cache"=>false));
+		$this->app->use_js(array("source"=>$this->environment->assets_path.'site/js/datatable.js',"cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/Chart.bundle.min","cache"=>false));
+		$this->app->use_css(array("source"=>"dashboard/graph","cache"=>false));
+		$this->app->use_css(array("source"=>"dashboard/table","cache"=>false));
+
+		$this->app->use_js(array("source"=>"dashboard/daily/deliveryPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/daily/deliveryOTPPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/daily/firstAttempt","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/daily/pickupIb","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/daily/deliveryLeadtime","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/daily/dispatchLeadtime","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/daily/failedPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/daily/openItems","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/daily/linehaulLeadtime","cache"=>false));
+
+		$this->app->use_js(array("source"=>"dashboard/daily/deliveryPerformance","cache"=>false));
+		
+		$header['header_data'] = "Daily Dashboard";
+		$this->template->adminHeaderTpl($header);
+		$this->template->adminSideBarTpl();
+		
+		$data['areas'] = $this->xde->find_all_area() ? $this->xde->find_all_area() : [];
+		$data['area2s'] = $this->xde->find_all_area2() ? $this->xde->find_all_area2() : [];
+		$data['provinces'] = $this->xde->find_all_province() ? $this->xde->find_all_province() : [];
+		$data['cities'] = $this->xde->find_all_city() ? $this->xde->find_all_city() : [];
+		$data['payments'] = $this->xde->find_all_payment() ? $this->xde->find_all_payment() : [];
+		$this->load->view('daily', $data);
+		$this->template->adminFooterTpl();
+	}
+
 	//graphs
 	public function del_percentage(){
 		$group = $this->input->get('group');

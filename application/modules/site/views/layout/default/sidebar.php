@@ -30,7 +30,9 @@
 				<nav>
 					<ul class="nav" id="sidebar-nav-menu">
 						<li class="menu-group">Dashboard</li>
-						<li><a href="<?= base_url()?>"><i class="ti-list"></i> <span class="title">Summary</span></a></li>
+						<li><a href="<?= base_url()?>"><i class="ti-list"></i> <span class="title">Weekly Summary</span></a></li>
+						<li><a href="<?= base_url()?>dashboard/daily"><i class="ti-list"></i> <span class="title">Daily Summary</span></a></li>
+						<li><a href="<?= base_url()?>dashboard/weekly"><i class="ti-list"></i> <span class="title">Monthly Summary</span></a></li>
 						<li><a href="<?= base_url()?>trend"><i class="ti-list"></i> <span class="title">Weekly Volume Trend</span></a></li>
 						<li><a href="<?= base_url()?>fdsplit"><i class="ti-list"></i> <span class="title">FD Split (COD & N-COD)</span></a></li>
 						<li><a href="<?= base_url()?>raw_data"><i class="ti-list"></i> <span class="title">Upload Data</span></a></li>

@@ -1,7 +1,7 @@
 <div class="main">
     <div class="main-content">
         <div class="content-heading clearfix">
-            <h2> Weekly Summary </h2>
+            <h2> Daily Summary </h2>
         </div>
         <div class="container-fluid" style="margin-top: 20px;" >
             <div class="col-md-12">
@@ -61,7 +61,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                    <div class="col-sm-8 col-md-12" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Delivery Percentage</div>
                                             <div class="card-body">
@@ -77,7 +77,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                    <div class="col-sm-8 col-md-12" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Delivery OTP Percentage</div>
                                             <div class="card-body">
@@ -93,7 +93,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                    <div class="col-sm-8 col-md-12" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">1st Attempt Success</div>
                                             <div class="card-body">
@@ -109,7 +109,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                    <div class="col-sm-8 col-md-12" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Pickup - IB Leadtime</div>
                                             <div class="card-body">
@@ -125,7 +125,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                    <div class="col-sm-8 col-md-12" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">LM Dispatch Leadtime</div>
                                             <div class="card-body">
@@ -141,7 +141,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                    <div class="col-sm-8 col-md-12" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Delivery Leadtime</div>
                                             <div class="card-body">
@@ -157,7 +157,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                    <div class="col-sm-8 col-md-12" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Failed Delivery Percentage</div>
                                             <div class="card-body">
@@ -173,7 +173,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                    <div class="col-sm-8 col-md-12" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Open Items</div>
                                             <div class="card-body">
@@ -189,7 +189,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                    <div class="col-sm-8 col-md-12" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Linehaul Leadtime</div>
                                             <div class="card-body">
@@ -210,7 +210,7 @@
                                     <div class="col-sm-8 col-md-12" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Lazada LM Delivery Performance</div>
-                                            <div class="card-body" style="overflow-x: auto; ">
+                                            <div class="card-body"  style="overflow-x: auto; overflow-y:auto; height: 400px">
                                                 <table id="delivery-performance" class="table color">
                                         
                                                 </table>
