@@ -283,20 +283,31 @@
 			}
 		}
 
-		public function get_del_leadtime($area_id, $area2_id){
-			$this->db->select('week_no');
+		public function get_del_leadtime($group, $area, $area2, $province, $city, $payment){
+
+			$select_group = $group =='handover_date' ?  'date(handover_date) as handover_date' : $group;
+			$this->db->select($select_group);
 			$this->db->select('count(xde_id) as ship_vol');
 			$this->db->select('SUM(if(status = "delivery_successful", 1, 0)) AS del_vol');
 			$this->db->select('AVG(lt) AS ave');
 			$this->db->from( $this->table );
-			if($area_id != 'All'){
-				$this->db->where('area', $area_id);
+			if($area != 'All'){
+				$this->db->where('area', $area);
 			}
-			if($area2_id != 'All'){
-				$this->db->where('area2', $area2_id);
+			if($area2 != 'All'){
+				$this->db->where('area2', $area2);
 			}
-			$this->db->group_by('week_no');
-			$this->db->order_by('week_no');
+			if($province != 'All'){
+				$this->db->where('consignee_province', $province);
+			}
+			if($city != 'All'){
+				$this->db->where('consignee_city', $city);
+			}
+			if($payment != 'All'){
+				$this->db->where('payment_type', $payment);
+			}
+			$this->db->group_by($select_group);
+			$this->db->order_by($group);
 			$query = $this->db->get();
 			if ( $query->result() != NULL ) {
 				return $query->result();
