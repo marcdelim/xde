@@ -34,6 +34,8 @@
 						<li><a href="<?= base_url()?>dashboard/daily"><i class="ti-list"></i> <span class="title">Daily Summary</span></a></li>
 						<li><a href="<?= base_url()?>dashboard/monthly"><i class="ti-list"></i> <span class="title">Monthly Summary</span></a></li>
 						<li><a href="<?= base_url()?>trend"><i class="ti-list"></i> <span class="title">Weekly Volume Trend</span></a></li>
+						<li><a href="<?= base_url()?>trend/daily"><i class="ti-list"></i> <span class="title">Daily Volume Trend</span></a></li>
+						<li><a href="<?= base_url()?>trend/monthly"><i class="ti-list"></i> <span class="title">Monthly Volume Trend</span></a></li>
 						<li><a href="<?= base_url()?>fdsplit"><i class="ti-list"></i> <span class="title">FD Split (COD & N-COD)</span></a></li>
 						<li><a href="<?= base_url()?>raw_data"><i class="ti-list"></i> <span class="title">Upload Data</span></a></li>
 						<li><a href="<?= base_url()?>user"><i class="ti-list"></i> <span class="title">User</span></a></li>

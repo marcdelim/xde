@@ -89,6 +89,40 @@ class Trend extends MX_Controller{
 		$this->template->adminFooterTpl();
 	}
 
+	public function monthly(){
+		$this->app->use_css(array("source"=>$this->environment->assets_path."site/vendor/select2/css/select2.min.css","cache"=>false));
+		$this->app->use_js(array("source"=>$this->environment->assets_path."site/vendor/select2/js/select2.min.js","cache"=>false));
+		$this->app->use_css(array("source"=>$this->environment->assets_path."site/vendor/datatables/css-bootstrap/dataTables.bootstrap.min.css","cache"=>false));
+		$this->app->use_css(array("source"=>$this->environment->assets_path."site/vendor/font-awesome/css/font-awesome.min.css","cache"=>false));
+		
+		$this->app->use_js(array("source"=>"home/landing_page","cache"=>false));
+		$this->app->use_js(array("source"=>$this->environment->assets_path.'site/js/datatable.js',"cache"=>false));
+		$this->app->use_js(array("source"=>"trend/Chart","cache"=>false));
+		$this->app->use_css(array("source"=>"dashboard/graph","cache"=>false));
+		$this->app->use_css(array("source"=>"dashboard/table","cache"=>false));
+
+		$this->app->use_js(array("source"=>"trend/monthly/trends","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/monthly/trendTable","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/monthly/volumeSharing","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/monthly/volumeSharingTable","cache"=>false));
+
+		$this->app->use_js(array("source"=>"trend/monthly/volumePercent","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/monthly/volumeTable","cache"=>false));
+		
+		$this->app->use_js(array("source"=>"trend/monthly/packagePercent","cache"=>false));
+		$this->app->use_js(array("source"=>"trend/monthly/packageTable","cache"=>false));
+
+		$header['header_data'] = "Monthly Trend";
+		$this->template->adminHeaderTpl($header);
+		$this->template->adminSideBarTpl();
+		
+		$data['provinces'] = $this->xde->find_all_province() ? $this->xde->find_all_province() : [];
+		$data['cities'] = $this->xde->find_all_city() ? $this->xde->find_all_city() : [];
+		$data['payments'] = $this->xde->find_all_payment() ? $this->xde->find_all_payment() : [];
+		$this->load->view('monthly', $data);
+		$this->template->adminFooterTpl();
+	}
+
 	//graphs
 	public function trends(){
 		$group = $this->input->get('group');
