@@ -49,8 +49,12 @@ class Dashboard extends MX_Controller{
 		$this->template->adminHeaderTpl($header);
 		$this->template->adminSideBarTpl();
 		
-		
-		$this->load->view('index');
+		$data['areas'] = $this->xde->find_all_area() ? $this->xde->find_all_area() : [];
+		$data['area2s'] = $this->xde->find_all_area2() ? $this->xde->find_all_area2() : [];
+		$data['provinces'] = $this->xde->find_all_province() ? $this->xde->find_all_province() : [];
+		$data['cities'] = $this->xde->find_all_city() ? $this->xde->find_all_city() : [];
+		$data['payments'] = $this->xde->find_all_payment() ? $this->xde->find_all_payment() : [];
+		$this->load->view('index', $data);
 		$this->template->adminFooterTpl();
 	}
 

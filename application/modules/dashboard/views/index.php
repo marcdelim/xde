@@ -18,29 +18,50 @@
                                         <label for="area_id">Area:</label>
                                         <select class="form-control selectpicker" data-container="body" data-live-search="true" id="area_id" name="area_id">
                                             <option value="All" selected>All</option>
-                                            <option value="GMA">GMA</option>
-                                            <option value="N-Luzon">N-Luzon</option>
-                                            <option value="S-Luzon">S-Luzon</option>
-                                            <option value="Visayas">Visayas</option>
-                                            <option value="Mindanao">Mindanao</option>
+                                            <?php foreach ($areas as $area): ?>
+                                                <option value="<?php echo $area->area ?>"><?php echo $area->area ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="col-sm-8 col-md-6">
                                         <label for="area2_id">Area 2:</label>
                                         <select class="form-control selectpicker" data-container="body" data-live-search="true" id="area2_id" name="area2_id">
                                             <option value="All" selected>All</option>
-                                            <option value="GMA">GMA</option>
-                                            <option value="Luzon-1">Luzon 1</option>
-                                            <option value="Luzon-2">Luzon 2</option>
-                                            <option value="Luzon-3">Luzon 3</option>
-                                            <option value="Visayas-1">Visayas 1</option>
-                                            <option value="Visayas-2">Visayas 2</option>
-                                            <option value="Visayas-3">Visayas 3</option>
-                                            <option value="Mindanao-1">Mindanao 1</option>
-                                            <option value="Mindanao-2">Mindanao 2</option>
+                                            <?php foreach ($area2s as $area2): ?>
+                                                <option value="<?php echo $area2->area2 ?>"><?php echo $area2->area2 ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="col-sm-8 col-md-6"style="margin-top:10px">
+                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                        <label for="province_id">Province:</label>
+                                        <select class="form-control selectpicker" data-container="body" data-live-search="true" id="province_id" name="province_id">
+                                            <option value="All" selected>All</option>
+                                            <?php foreach ($provinces as $province): ?>
+                                                <option value="<?php echo $province->province ?>"><?php echo $province->province ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                        <label for="city_id">City:</label>
+                                        <select class="form-control selectpicker" data-container="body" data-live-search="true" id="city_id" name="city_id">
+                                            <option value="All" selected>All</option>
+                                            <?php foreach ($cities as $city): ?>
+                                                <option value="<?php echo $city->city ?>"><?php echo $city->city ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                        <label for="payment_id">Payment Method:</label>
+                                        <select class="form-control selectpicker" data-container="body" data-live-search="true" id="payment_id" name="payment_id">
+                                            <option value="All" selected>All</option>
+                                            <?php foreach ($payments as $payment): ?>
+                                                <option value="<?php echo $payment->payment ?>"><?php echo $payment->payment ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Delivery Percentage</div>
                                             <div class="card-body">

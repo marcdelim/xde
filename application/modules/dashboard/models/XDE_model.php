@@ -21,6 +21,71 @@
 			}
 		}
 
+		public function find_all_area () {
+
+			$this->db->select('distinct(area) as area');
+			$this->db->from( $this->table );
+			$this->db->order_by('area');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+		}
+
+		public function find_all_area2 () {
+
+			$this->db->select('distinct(area2) as area2');
+			$this->db->from( $this->table );
+			$this->db->order_by('area2');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+		}
+
+		public function find_all_province () {
+
+			$this->db->select('distinct(consignee_province) as province');
+			$this->db->from( $this->table );
+			$this->db->order_by('consignee_province');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+		}
+
+		public function find_all_city() {
+
+			$this->db->select('distinct(consignee_city) as city');
+			$this->db->from( $this->table );
+			$this->db->order_by('consignee_city');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+		}
+
+		public function find_all_payment() {
+
+			$this->db->select('distinct(payment_type) as payment');
+			$this->db->from( $this->table );
+			$this->db->order_by('payment_type');
+			$query = $this->db->get();
+			if ( $query->result() != NULL ) {
+				return $query->result();
+			} else {
+				return FALSE;
+			}
+		}
+
 		public function get_by_attribute ( $field, $value ) {
 			$this->db->from( $this->table );
 			$this->db->where( $field, $value );
