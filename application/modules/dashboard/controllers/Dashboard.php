@@ -12,12 +12,12 @@ class Dashboard extends MX_Controller{
 		$this->load->module("site/template");
 		$this->load->model("XDE_model", 'xde');
 		include("SimpleXLSX.php");
-		if(empty($this->session->userdata('login'))){
-			redirect('login');
-		}
-		if(($this->session->userdata('temp_pass'))){
-			redirect('changepass');
-		}
+		// if(empty($this->session->userdata('login'))){
+		// 	redirect('login');
+		// }
+		// if(($this->session->userdata('temp_pass'))){
+		// 	redirect('changepass');
+		// }
 	}
 	
 	public function index(){
@@ -60,29 +60,34 @@ class Dashboard extends MX_Controller{
 
 	//graphs
 	public function del_percentage(){
-		$area_id = $this->input->get('area_id');
-		$area2_id = str_replace("-", " ",$this->input->get('area2_id'));
-		$datas = $this->xde->get_del_percentage($area_id, $area2_id);
+		$group = $this->input->get('group');
+		$area = $this->input->get('area');
+		$area2 = str_replace("-", " ",$this->input->get('area2'));
+		$area2 = str_replace("-", " ",$this->input->get('area2'));
+		$province = str_replace("-", " ",$this->input->get('province'));
+		$city = str_replace("-", " ",$this->input->get('city'));
+		$payment = $this->input->get('payment');
+		$datas = $this->xde->get_del_percentage($group, $area, $area2, $province, $city, $payment);
 		$week_no = array();
 		$ship_vol = array();
 		$del_vol = array();
 		if($datas){
 			foreach($datas as $data){
-				$week_no[] = $data->week_no;
+				$label[] = $data->$group;
 				$ship_vol[] = $data->ship_vol;
 				$del_vol[] = $data->del_vol;
 				$compute = ($data->del_vol > 0 AND $data->ship_vol > 0) ? ($data->del_vol/$data->ship_vol) * 100 : 0;
 				$percentage[] = round($compute, 2);
 			}
 	
-			$result['week_no'] = $week_no;
+			$result['label'] = $label;
 			$result['data'] = array(
 				'ship_vol' => $ship_vol,
 				'del_vol' => $del_vol,
 				'percentage' => $percentage,
 			); 
 		}else{
-			$result['week_no'] = [];
+			$result['label'] = [];
 			$result['data'] = array(
 				'ship_vol' => [],
 				'del_vol' => [],
