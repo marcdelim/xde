@@ -91,7 +91,8 @@
 			}
 		}
 
-		public function get_weekly_table_volume($group, $province, $city, $payment){
+		public function get_table_volume($group, $province, $city, $payment){
+			$count = $this->count_week();
 			$select_group = ($group =='handover_date') ?  'date(handover_date)' : $group;
 			$this->db->select($select_group.' as "'.ucwords(str_replace(array('_', 'date(', ')'), ' ',$select_group)).'"');	
 			$this->db->select('SUM(if(area = "GMA", 1, 0)) AS "GMA"');
@@ -100,7 +101,11 @@
 			$this->db->select('SUM(if(area = "Visayas", 1, 0)) AS "Visayas"');
 			$this->db->select('SUM(if(area = "Mindanao", 1, 0)) AS "Mindanao"');
 			$this->db->select('count(xde_id) as "Volume"');
-			$this->db->select('ROUND(count(xde_id) / 6) AS "Daily Ave"');
+			if($group=="week_no"){
+				$this->db->select('ROUND((count(xde_id)/6), 2) AS "Daily Average"');
+			}else if($group=="month"){
+				$this->db->select('ROUND((count(xde_id)/26), 2) AS "Daily Average"');
+			}
 			$this->db->from( $this->table );
 			if($province != 'All'){
 				$this->db->where('consignee_province', $province);
@@ -121,7 +126,11 @@
 			$this->db->select('SUM(if(area = "Visayas", 1, 0)) AS "Visayas"');
 			$this->db->select('SUM(if(area = "Mindanao", 1, 0)) AS "Mindanao"');
 			$this->db->select('count(xde_id) as "Volume"');
-			$this->db->select('ROUND(count(xde_id) / 6) AS "Daily Ave"');
+			if($group=="week_no"){
+				$this->db->select('ROUND((count(xde_id)/6)/'.$count->week_count.', 2) AS "Daily Average"');
+			}else if($group=="month"){
+				$this->db->select('ROUND((count(xde_id)/26), 2) AS "Daily Average"');
+			}
 			$this->db->from( $this->table );
 			if($province != 'All'){
 				$this->db->where('consignee_province', $province);
@@ -159,6 +168,7 @@
 		}
 
 		public function get_volume_sharing_table($count, $group, $province, $city, $payment){
+			$count_week = $this->count_week();
 			$select_group = ($group =='handover_date') ?  'date(handover_date)' : $group;
 			$this->db->select($select_group.' as "'.ucwords(str_replace(array('_', 'date(', ')'), ' ',$select_group)).'"');
 			$this->db->select('SUM(if(area = "GMA", 1, 0)) AS "GMA"');
@@ -199,26 +209,49 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$query2 = $this->db->get();
-
-			$this->db->select('"Daily Ave" as "Week No."');
-			$this->db->select('ROUND((SUM(if(area = "GMA", 1, 0)/6)/4), 2) AS "GMA"');
-			$this->db->select('ROUND((SUM(if(area = "N-Luzon", 1, 0)/6)/4), 2) AS "N-Luzon"');
-			$this->db->select('ROUND((SUM(if(area = "S-Luzon", 1, 0)/6)/4), 2) AS "S-Luzon"');
-			$this->db->select('ROUND((SUM(if(area = "Visayas", 1, 0)/6)/4), 2) AS "Visayas"');
-			$this->db->select('ROUND((SUM(if(area = "Mindanao", 1, 0)/6)/4), 2) AS "Mindanao"');
-			$this->db->select('ROUND(('.$count.'/6)/4, 2) AS "Grand Total"');
-			$this->db->from( $this->table );
-			if($province != 'All'){
-				$this->db->where('consignee_province', $province);
+			if($group=="week_no"){
+				$this->db->select('"Daily Ave" as "Week No."');
+				$this->db->select('ROUND((SUM(if(area = "GMA", 1, 0))/6)/'.$count_week->week_count.', 2) AS "GMA"');
+				$this->db->select('ROUND((SUM(if(area = "N-Luzon", 1, 0))/6)/'.$count_week->week_count.', 2)  AS "N-Luzon"');
+				$this->db->select('ROUND((SUM(if(area = "S-Luzon", 1, 0))/6)/'.$count_week->week_count.', 2) AS "S-Luzon"');
+				$this->db->select('ROUND((SUM(if(area = "Visayas", 1, 0))/6)/'.$count_week->week_count.', 2) AS "Visayas"');
+				$this->db->select('ROUND((SUM(if(area = "Mindanao", 1, 0))/6)/'.$count_week->week_count.', 2) "Mindanao"');
+				$total = ($count/6)/$count_week->week_count;
+				$this->db->select('ROUND('.$total.', 2) AS "Grand Total"');
+				$this->db->from( $this->table );
+				if($province != 'All'){
+					$this->db->where('consignee_province', $province);
+				}
+				if($city != 'All'){
+					$this->db->where('consignee_city', $city);
+				}
+				if($payment != 'All'){
+					$this->db->where('payment_type', $payment);
+				}
+				$query3 = $this->db->get();
+				
+			}else if($group=="month"){
+				$this->db->select('"Daily Ave" as "Week No."');
+				$this->db->select('ROUND((SUM(if(area = "GMA", 1, 0))/26), 2) AS "GMA"');
+				$this->db->select('ROUND((SUM(if(area = "N-Luzon", 1, 0))/26), 2)  AS "N-Luzon"');
+				$this->db->select('ROUND((SUM(if(area = "S-Luzon", 1, 0))/26), 2) AS "S-Luzon"');
+				$this->db->select('ROUND((SUM(if(area = "Visayas", 1, 0))/26), 2) AS "Visayas"');
+				$this->db->select('ROUND((SUM(if(area = "Mindanao", 1, 0))/26), 2) "Mindanao"');
+				$total = ($count/26);
+				$this->db->select('ROUND('.$total.', 2) AS "Grand Total"');
+				$this->db->from( $this->table );
+				if($province != 'All'){
+					$this->db->where('consignee_province', $province);
+				}
+				if($city != 'All'){
+					$this->db->where('consignee_city', $city);
+				}
+				if($payment != 'All'){
+					$this->db->where('payment_type', $payment);
+				}
+				$query3 = $this->db->get();
 			}
-			if($city != 'All'){
-				$this->db->where('consignee_city', $city);
-			}
-			if($payment != 'All'){
-				$this->db->where('payment_type', $payment);
-			}
-			$query3 = $this->db->get();
-
+				
 			$this->db->select('"Volume %" as "Week No."');
 			$this->db->select('ROUND((SUM(if(area = "GMA", 1, 0)/'.$count.') * 100), 2) AS "GMA"');
 			$this->db->select('ROUND((SUM(if(area = "N-Luzon", 1, 0)/'.$count.') * 100), 2) AS "N-Luzon"');
@@ -238,7 +271,12 @@
 			}
 			$query4 = $this->db->get();
 			if ( $query->result() != NULL ) {
-				$query_result = array_merge($query->result(), $query2->result(), $query3->result(), $query4->result());
+				if($group != "handover_date"){
+					$query_result = array_merge($query->result(), $query2->result(), $query3->result(), $query4->result());
+				}else{
+					$query_result = array_merge($query->result(), $query2->result(), $query4->result());
+				}
+				
 				return $query_result;
 			} else {
 				return FALSE;
@@ -273,9 +311,14 @@
 		}
 
 		public function get_volume_percentage_table($count, $group, $province, $city, $payment){
+			$count_week = $this->count_week();
 			$this->db->select('area as Area');
 			$this->db->select('count(xde_id) as Volume');
-			$this->db->select('ROUND((count(xde_id)/6)/4, 2) AS "Daily Ave"');
+			if($group=="week_no"){
+				$this->db->select('ROUND((count(xde_id)/6)/'.$count_week->week_count.', 2) AS "Daily Average"');
+			}else if($group=="month"){
+				$this->db->select('ROUND((count(xde_id)/26), 2) AS "Daily Average"');
+			}
 			$this->db->select('ROUND((count(xde_id) /'.$count.') * 100, 2) AS "Volume %"');
 			$this->db->from( $this->table );
 			if($province != 'All'){
@@ -293,7 +336,11 @@
 
 			$this->db->select('"Grand Total" as Area');
 			$this->db->select('count(xde_id) as Volume');
-			$this->db->select('ROUND(('.$count.'/6)/4, 2) AS "Daily Ave"');
+			if($group=="week_no"){
+				$this->db->select('ROUND((count(xde_id)/6)/'.$count_week->week_count.', 2) AS "Daily Average"');
+			}else if($group=="month"){
+				$this->db->select('ROUND((count(xde_id)/26), 2) AS "Daily Average"');
+			}
 			$this->db->select('ROUND((count(xde_id) /'.$count.') * 100, 2) AS "Volume %"');
 			$this->db->from( $this->table );
 			if($province != 'All'){
@@ -362,4 +409,12 @@
 			return (isset( $row )) ? $row : FALSE;
 		}
 
+		
+		public function count_week(){
+			$this->db->select('count(distinct(week_no)) as week_count');
+			$this->db->from( $this->table );
+			$query = $this->db->get();
+			$row = $query->row();
+			return (isset( $row )) ? $row : FALSE;
+		}
 	}

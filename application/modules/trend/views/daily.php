@@ -62,7 +62,7 @@
                                     <div class="col-sm-8 col-md-12" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Volume Trend </div>
-                                            <div class="card-body" style="overflow-x: auto; overflow-y:auto; height: 400px">>
+                                            <div class="card-body" style="overflow-x: auto; overflow-y:auto; height: 400px">
                                                 <table id="trend-table" class="table color">
                                         
                                                 </table>
@@ -91,7 +91,7 @@
                                     <div class="col-sm-8 col-md-12" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Volume Sharing per LM Area </div>
-                                            <div class="card-body" style="overflow-x: auto; overflow-y:auto; height: 400px">>
+                                            <div class="card-body" style="overflow-x: auto; overflow-y:auto; height: 400px">
                                                 <table id="volume-sharing" class="table">
                                         
                                                 </table>

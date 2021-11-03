@@ -32,7 +32,7 @@ function generateTableHead(table, data) {
 async function getVolumeTable(province, city, payment){
     $.ajax({
         type: "GET",
-        data: "group=week_no&province="+province+"&city="+city+"&payment="+payment,
+        data: "group=handover_date&province="+province+"&city="+city+"&payment="+payment,
         url: 'trend/volume_table',
         success: function(response){
             let queryData =  JSON.parse(response);

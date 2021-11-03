@@ -248,7 +248,7 @@ class Trend extends MX_Controller{
 		$province = str_replace("-", " ",$this->input->get('province'));
 		$city = str_replace("-", " ",$this->input->get('city'));
 		$payment = $this->input->get('payment');
-		$data = $this->trend->get_weekly_table_volume($group, $province, $city, $payment);
+		$data = $this->trend->get_table_volume($group, $province, $city, $payment);
 	
 		if($data){
 			$result['data'] = $data;
@@ -304,40 +304,100 @@ class Trend extends MX_Controller{
 		$city = str_replace("-", " ",$this->input->get('city'));
 		$payment = $this->input->get('payment');
 		$count = $this->trend->get_count($province, $city, $payment);
-
+		$count_week = $this->trend->count_week();
 		$data = $this->trend->get_package_percentage($province, $city, $payment);
 		$output_data = array();
 		if($data){
-			$output_data[] = array(
-				"Package Type" => "Fast Freight",
-				"Volume"	=> $data->fast_freight + $data->fast_freight_weight,
-				"Daily Ave" => number_format((($data->fast_freight + $data->fast_freight_weight) /6)/4,2),
-				"Volume %"	=> number_format(($data->fast_freight + $data->fast_freight_weight)/$count->count * 100,2)
-			);
-			$output_data[] = array(
-				"Package Type" => "Mid Bulky",
-				"Volume"	=> $data->mid_bulky + $data->mid_bulky_weight,
-				"Daily Ave" => number_format((($data->mid_bulky + $data->mid_bulky_weight) /6)/4,2),
-				"Volume %"	=> number_format(($data->mid_bulky + $data->mid_bulky_weight)/$count->count * 100,2)
-			);
-			$output_data[] = array(
-				"Package Type" => "Bulky",
-				"Volume"	=> $data->bulky + $data->bulky_weight,
-				"Daily Ave" => number_format((($data->bulky + $data->bulky_weight) /6)/4,2),
-				"Volume %"	=> number_format(($data->bulky + $data->bulky_weight)/$count->count * 100,2)
-			);
-			$output_data[] = array(
-				"Package Type" => "Super Bulky",
-				"Volume"	=> $data->super_bulky + $data->super_bulky_weight,
-				"Daily Ave" => number_format((($data->super_bulky + $data->super_bulky_weight) /6)/4,2),
-				"Volume %"	=> number_format(($data->super_bulky + $data->super_bulky_weight)/$count->count  * 100,2)
-			);
-			$output_data[] = array(
-				"Package Type" => "Grand Total",
-				"Volume"	=> $count->count,
-				"Daily Ave" => number_format(($count->count /6)/4,2),
-				"Volume %"	=> number_format($count->count/$count->count  * 100,2)
-			);
+			if($group=="week_no"){
+				$output_data[] = array(
+					"Package Type" => "Fast Freight",
+					"Volume"	=> $data->fast_freight + $data->fast_freight_weight,
+					"Daily Ave" => number_format((($data->fast_freight + $data->fast_freight_weight) /6)/$count_week->week_count,2),
+					"Volume %"	=> number_format(($data->fast_freight + $data->fast_freight_weight)/$count->count * 100,2)
+				);
+				$output_data[] = array(
+					"Package Type" => "Mid Bulky",
+					"Volume"	=> $data->mid_bulky + $data->mid_bulky_weight,
+					"Daily Ave" => number_format((($data->mid_bulky + $data->mid_bulky_weight) /6)/$count_week->week_count,2),
+					"Volume %"	=> number_format(($data->mid_bulky + $data->mid_bulky_weight)/$count->count * 100,2)
+				);
+				$output_data[] = array(
+					"Package Type" => "Bulky",
+					"Volume"	=> $data->bulky + $data->bulky_weight,
+					"Daily Ave" => number_format((($data->bulky + $data->bulky_weight) /6)/$count_week->week_count,2),
+					"Volume %"	=> number_format(($data->bulky + $data->bulky_weight)/$count->count * 100,2)
+				);
+				$output_data[] = array(
+					"Package Type" => "Super Bulky",
+					"Volume"	=> $data->super_bulky + $data->super_bulky_weight,
+					"Daily Ave" => number_format((($data->super_bulky + $data->super_bulky_weight) /6)/$count_week->week_count,2),
+					"Volume %"	=> number_format(($data->super_bulky + $data->super_bulky_weight)/$count->count  * 100,2)
+				);
+				$output_data[] = array(
+					"Package Type" => "Grand Total",
+					"Volume"	=> $count->count,
+					"Daily Ave" => number_format(($count->count /6)/$count_week->week_count,2),
+					"Volume %"	=> number_format($count->count/$count->count  * 100,2)
+				);
+			}else if($group=="month"){
+				$output_data[] = array(
+					"Package Type" => "Fast Freight",
+					"Volume"	=> $data->fast_freight + $data->fast_freight_weight,
+					"Daily Ave" => number_format((($data->fast_freight + $data->fast_freight_weight) /26),2),
+					"Volume %"	=> number_format(($data->fast_freight + $data->fast_freight_weight)/$count->count * 100,2)
+				);
+				$output_data[] = array(
+					"Package Type" => "Mid Bulky",
+					"Volume"	=> $data->mid_bulky + $data->mid_bulky_weight,
+					"Daily Ave" => number_format((($data->mid_bulky + $data->mid_bulky_weight) /26),2),
+					"Volume %"	=> number_format(($data->mid_bulky + $data->mid_bulky_weight)/$count->count * 100,2)
+				);
+				$output_data[] = array(
+					"Package Type" => "Bulky",
+					"Volume"	=> $data->bulky + $data->bulky_weight,
+					"Daily Ave" => number_format((($data->bulky + $data->bulky_weight) /26),2),
+					"Volume %"	=> number_format(($data->bulky + $data->bulky_weight)/$count->count * 100,2)
+				);
+				$output_data[] = array(
+					"Package Type" => "Super Bulky",
+					"Volume"	=> $data->super_bulky + $data->super_bulky_weight,
+					"Daily Ave" => number_format((($data->super_bulky + $data->super_bulky_weight) /26),2),
+					"Volume %"	=> number_format(($data->super_bulky + $data->super_bulky_weight)/$count->count  * 100,2)
+				);
+				$output_data[] = array(
+					"Package Type" => "Grand Total",
+					"Volume"	=> $count->count,
+					"Daily Ave" => number_format(($count->count /26),2),
+					"Volume %"	=> number_format($count->count/$count->count  * 100,2)
+				);
+			}else if($group == "handover_date"){
+				$output_data[] = array(
+					"Package Type" => "Fast Freight",
+					"Volume"	=> $data->fast_freight + $data->fast_freight_weight,
+					"Volume %"	=> number_format(($data->fast_freight + $data->fast_freight_weight)/$count->count * 100,2)
+				);
+				$output_data[] = array(
+					"Package Type" => "Mid Bulky",
+					"Volume"	=> $data->mid_bulky + $data->mid_bulky_weight,
+					"Volume %"	=> number_format(($data->mid_bulky + $data->mid_bulky_weight)/$count->count * 100,2)
+				);
+				$output_data[] = array(
+					"Package Type" => "Bulky",
+					"Volume"	=> $data->bulky + $data->bulky_weight,
+					"Volume %"	=> number_format(($data->bulky + $data->bulky_weight)/$count->count * 100,2)
+				);
+				$output_data[] = array(
+					"Package Type" => "Super Bulky",
+					"Volume"	=> $data->super_bulky + $data->super_bulky_weight,
+					"Volume %"	=> number_format(($data->super_bulky + $data->super_bulky_weight)/$count->count  * 100,2)
+				);
+				$output_data[] = array(
+					"Package Type" => "Grand Total",
+					"Volume"	=> $count->count,
+					"Volume %"	=> number_format($count->count/$count->count  * 100,2)
+				);
+			}
+			
 			$result['data'] = $output_data;
 		}else{
 			
