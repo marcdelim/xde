@@ -33,7 +33,7 @@ class Dashboard extends MX_Controller{
 		$this->app->use_css(array("source"=>"dashboard/table","cache"=>false));
 
 		$this->app->use_js(array("source"=>"dashboard/weekly/deliveryPercentage","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/weekly/deliveryOTPPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/weekly/deliveryOtpPercentage","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/weekly/firstAttempt","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/weekly/pickupIb","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/weekly/deliveryLeadtime","cache"=>false));
@@ -70,7 +70,7 @@ class Dashboard extends MX_Controller{
 		$this->app->use_css(array("source"=>"dashboard/table","cache"=>false));
 
 		$this->app->use_js(array("source"=>"dashboard/daily/deliveryPercentage","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/daily/deliveryOTPPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/daily/deliveryOtpPercentage","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/daily/firstAttempt","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/daily/pickupIb","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/daily/deliveryLeadtime","cache"=>false));
@@ -107,7 +107,7 @@ class Dashboard extends MX_Controller{
 		$this->app->use_css(array("source"=>"dashboard/table","cache"=>false));
 
 		$this->app->use_js(array("source"=>"dashboard/monthly/deliveryPercentage","cache"=>false));
-		$this->app->use_js(array("source"=>"dashboard/monthly/deliveryOTPPercentage","cache"=>false));
+		$this->app->use_js(array("source"=>"dashboard/monthly/deliveryOtpPercentage","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/monthly/firstAttempt","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/monthly/pickupIb","cache"=>false));
 		$this->app->use_js(array("source"=>"dashboard/monthly/deliveryLeadtime","cache"=>false));
