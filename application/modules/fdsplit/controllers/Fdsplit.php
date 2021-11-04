@@ -33,14 +33,14 @@ class Fdsplit extends MX_Controller{
 		$this->app->use_css(array("source"=>"dashboard/graph","cache"=>false));
 		$this->app->use_css(array("source"=>"dashboard/table","cache"=>false));
 
-		$this->app->use_js(array("source"=>"fdsplit/failedCod","cache"=>false));
-		$this->app->use_js(array("source"=>"fdsplit/failedNonCod","cache"=>false));
-		$this->app->use_js(array("source"=>"fdsplit/failedCodTable","cache"=>false));
-		$this->app->use_js(array("source"=>"fdsplit/failedNonCodTable","cache"=>false));
-		$this->app->use_js(array("source"=>"fdsplit/failedAreaCod","cache"=>false));
-		$this->app->use_js(array("source"=>"fdsplit/failedAreaNonCod","cache"=>false));
-		$this->app->use_js(array("source"=>"fdsplit/failedReasonCod","cache"=>false));
-		$this->app->use_js(array("source"=>"fdsplit/failedReasonNonCod","cache"=>false));
+		$this->app->use_js(array("source"=>"fdsplit/weekly/failedCod","cache"=>false));
+		$this->app->use_js(array("source"=>"fdsplit/weekly/failedNonCod","cache"=>false));
+		$this->app->use_js(array("source"=>"fdsplit/weekly/failedCodTable","cache"=>false));
+		$this->app->use_js(array("source"=>"fdsplit/weekly/failedNonCodTable","cache"=>false));
+		$this->app->use_js(array("source"=>"fdsplit/weekly/failedAreaCod","cache"=>false));
+		$this->app->use_js(array("source"=>"fdsplit/weekly/failedAreaNonCod","cache"=>false));
+		$this->app->use_js(array("source"=>"fdsplit/weekly/failedReasonCod","cache"=>false));
+		$this->app->use_js(array("source"=>"fdsplit/weekly/failedReasonNonCod","cache"=>false));
 		
 		$header['header_data'] = "FD Split";
 		$this->template->adminHeaderTpl($header);
