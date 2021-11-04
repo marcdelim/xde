@@ -1,7 +1,7 @@
 <div class="main">
     <div class="main-content">
         <div class="content-heading clearfix">
-            <h2> Daily FD Split (COD & N-COD) </h2>
+            <h2> Monthly FD Split (COD & N-COD) </h2>
         </div>
         <div class="container-fluid" style="margin-top: 20px;" >
             <div class="col-md-12">
@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="row">
                                     
-                                    <div class="col-sm-8 col-md-12"style="margin-top:10px">
+                                    <div class="col-sm-8 col-md-6"style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Failed Delivery (COD) </div>
                                             <div class="card-body">
@@ -52,7 +52,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8 col-md-12"style="margin-top:10px">
+                                    <div class="col-sm-8 col-md-6"style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Failed Delivery (N-COD) </div>
                                             <div class="card-body">
@@ -73,7 +73,7 @@
                                     <div class="col-sm-8 col-md-6" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Failed Delivery (COD) </div>
-                                            <div class="card-body" style="overflow-x: auto; overflow-y:auto; height: 400px">
+                                            <div class="card-body" style="overflow-x: auto; ">
                                                 <table id="failed-cod" class="table color">
                                         
                                                 </table>
@@ -83,7 +83,7 @@
                                     <div class="col-sm-8 col-md-6" style="margin-top:10px">
                                         <div class="card">
                                             <div class="card-header">Failed Delivery (N-COD)</div>
-                                            <div class="card-body" style="overflow-x: auto; overflow-y:auto; height: 400px">
+                                            <div class="card-body" style="overflow-x: auto;">
                                                 <table id="failed-non-cod" class="table color">
 
                                                 </table>

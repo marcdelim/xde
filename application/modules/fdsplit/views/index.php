@@ -1,7 +1,7 @@
 <div class="main">
     <div class="main-content">
         <div class="content-heading clearfix">
-            <h2> FD Split (COD & N-COD) </h2>
+            <h2> Weekly FD Split (COD & N-COD) </h2>
         </div>
         <div class="container-fluid" style="margin-top: 20px;" >
             <div class="col-md-12">
