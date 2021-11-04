@@ -85,7 +85,7 @@
 		}
 
 		public function get_failed_table($payment_type, $group, $province, $city){
-			$select_group = ($group =='handover_date') ?  'date(handover_date) as handover_date' : $group;
+			$select_group = ($group =='handover_date') ?  'date(handover_date)' : $group;
 			$this->db->select($select_group.' as "'.ucwords(str_replace(array('_', 'date(', ')'), ' ',$select_group)).'"');
 			$this->db->select('count(xde_id) as "Ship Vol"');
 			$this->db->select('SUM(if(fd = 1 and payment_type = "'.$payment_type.'" , 1, 0)) as "FD Vol"');
