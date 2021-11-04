@@ -1,9 +1,9 @@
 .navbar-default,
 .layout-topnav .top-bar {
-  background: #0bc3c3;
-  background: -moz-linear-gradient(left, #0bc3c3 0%, #009cff 100%);
-  background: -webkit-linear-gradient(left, #0bc3c3 0%, #009cff 100%);
-  background: linear-gradient(to right, #0bc3c3 0%, #009cff 100%);
+  background: #f46322;
+  background: -moz-linear-gradient(left, #f46322 0%, #ac3a05 100%);
+  background: -webkit-linear-gradient(left, #f46322 0%, #ac3a05 100%);
+  background: linear-gradient(to right, #f46322 0%, #ac3a05 100%);
 }
 
 .navbar-form.search-form .form-control, .navbar-form.search-form .form-control:focus {

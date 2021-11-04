@@ -1,5 +1,5 @@
 body {
-    background-image:linear-gradient(to right, rgb(11, 195, 195) 0%, rgb(0, 156, 255) 100%)  !important;
+    background-image:linear-gradient(to right, #f46322 0%, #ac3a05 100%)  !important;
 }
 .card {
     border: 1px solid #28a745;

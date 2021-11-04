@@ -13,7 +13,7 @@
             <div class="card card-login mx-auto text-center">
                     
                 <div class="card-body">
-                    <span> <img src="<?php base_url() ?>assets/images/dashboard.jpg" class="w-75" alt="Logo"> </span><br/>
+                    <span> <img src="<?php base_url() ?>assets/images/xde.jpg" class="w-75" alt="Logo"> </span><br/>
                     <form action="" method="post">
                         <?php if(isset($error)): ?>
                             <div class="alert alert-danger" role="alert">
@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="submit" name="submit" value="Login" class="btn btn-outline-danger login_btn">
+                            <input type="submit" name="submit" value="Login" class="btn btn-danger login_btn">
                             
                         </div>
 

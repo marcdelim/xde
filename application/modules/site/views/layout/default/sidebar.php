@@ -29,18 +29,41 @@
 				
 				<nav>
 					<ul class="nav" id="sidebar-nav-menu">
+						
 						<li class="menu-group">Dashboard</li>
-						<li><a href="<?= base_url()?>"><i class="ti-list"></i> <span class="title">Weekly Summary</span></a></li>
-						<li><a href="<?= base_url()?>dashboard/daily"><i class="ti-list"></i> <span class="title">Daily Summary</span></a></li>
-						<li><a href="<?= base_url()?>dashboard/monthly"><i class="ti-list"></i> <span class="title">Monthly Summary</span></a></li>
-						<li><a href="<?= base_url()?>trend"><i class="ti-list"></i> <span class="title">Weekly Volume Trend</span></a></li>
-						<li><a href="<?= base_url()?>trend/daily"><i class="ti-list"></i> <span class="title">Daily Volume Trend</span></a></li>
-						<li><a href="<?= base_url()?>trend/monthly"><i class="ti-list"></i> <span class="title">Monthly Volume Trend</span></a></li>
-						<li><a href="<?= base_url()?>fdsplit"><i class="ti-list"></i> <span class="title">Weekly FD Split (COD & N-COD)</span></a></li>
-						<li><a href="<?= base_url()?>fdsplit/daily"><i class="ti-list"></i> <span class="title">Daily FD Split (COD & N-COD)</span></a></li>
-						<li><a href="<?= base_url()?>fdsplit/monthly"><i class="ti-list"></i> <span class="title">Monthly FD Split (COD & N-COD)</span></a></li>
-						<li><a href="<?= base_url()?>raw_data"><i class="ti-list"></i> <span class="title">Upload Data</span></a></li>
-						<li><a href="<?= base_url()?>user"><i class="ti-list"></i> <span class="title">User</span></a></li>
+						<li class="dropdown xde">
+							<a href="index.html#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="ti-list"></i><span>Summary</span>
+							</a>
+							<ul class="dropdown-menu logged-user-menu">
+								<li><a href="<?= base_url()?>"> <span>Weekly</span></a></li>
+								<li><a href="<?= base_url()?>dashboard/daily"> <span>Daily</span></a></li>
+								<li><a href="<?= base_url()?>dashboard/monthly"><span>Monthly</span></a></li>
+							</ul>
+						</li>
+						<li class="dropdown xde">
+							<a href="index.html#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="ti-list"></i><span>Volume Trend</span>
+							</a>
+							<ul class="dropdown-menu logged-user-menu">
+								<li><a href="<?= base_url()?>trend"> <span>Weekly</span></a></li>
+								<li><a href="<?= base_url()?>trend/daily"> <span>Daily</span></a></li>
+								<li><a href="<?= base_url()?>trend/monthly"><span>Monthly</span></a></li>
+							</ul>
+						</li>
+						<li class="dropdown xde">
+							<a href="index.html#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="ti-list"></i><span>FD Split (COD & N-COD)</span>
+							</a>
+							<ul class="dropdown-menu logged-user-menu">
+								<li><a href="<?= base_url()?>fdsplit"> <span>Weekly</span></a></li>
+								<li><a href="<?= base_url()?>fdsplit/daily"> <span>Daily</span></a></li>
+								<li><a href="<?= base_url()?>fdsplit/monthly"><span>Monthly</span></a></li>
+							</ul>
+						</li>
+						
+						<li><a href="<?= base_url()?>raw_data"><span class="title">Upload Data</span></a></li>
+						<li><a href="<?= base_url()?>user"> <span class="title">User</span></a></li>
 						
 					</ul>
 					

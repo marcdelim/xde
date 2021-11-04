@@ -1,28 +1,32 @@
 #wrapper .sidebar {
-  background-image:linear-gradient( rgb(11, 195, 195) 0%, rgb(0, 156, 255) 100%)  !important;
+  background-image:linear-gradient( #f46322 0%,  #ac3a05 100%)  !important;
 }
 
 .sidebar .nav li > a {
-  color: #ffffff;
+  color: black;
 }
 
 .sidebar .nav li > a:hover, .sidebar .nav li > a.active {
-  background-color: #333333;
+  background-color: white;
 }
 
 .sidebar .nav>li.menu-group {
   padding: 10px 15px;
   margin-top: 20px;
-  color: #ffffff;
+  color: black;
 }
 
+.sidebar .nav>li>a[aria-expanded="true"], .sidebar .nav>li>a.active {
+  border-left-color: white;
+  background-color: #f9f9f9;
+}
 .sidebar .nav li > a[aria-expanded="true"], .sidebar .nav li > a.active {
-  background-color: transparent;
-  color: #00AAFF;
+  background-color: black;
+  color: white;
 }
 
 .sidebar .nav li > a.active:hover {
-  background-color: #333333;
+  background-color: white;
 }
 
 .sidebar .nav li > a:focus {
@@ -50,7 +54,7 @@
 
 .sidebar-minified .sidebar .nav > li:hover > a,
 .sidebar-minified .sidebar .nav li:hover > a > .title {
-  background: #353535;
+  background: white;
 }
 
 .btn-toggle-minified {
@@ -60,8 +64,8 @@
 }
 
 .btn-toggle-minified:hover {
-  color: #929598;
-  background: #2e2e2e;
+  color: white;
+  background: white;
 }
 
 .right-sidebar {
