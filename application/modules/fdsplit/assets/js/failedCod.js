@@ -60,18 +60,19 @@ var FailedCodChart = new Chart(ctxFailedCod, {
 
 $(document).ready(function() {
     
-    getFailedCod(FailedCodChart);
+    getFailedCod(FailedCodChart, 'All', 'All');
 
 });
 
 
-async function getFailedCod(chart){
+async function getFailedCod(chart, province, city){
     $.ajax({
         type: "GET",
+        data: "group=week_no&province="+province+"&city="+city,
         url: 'fdsplit/failed_cod',
         success: function(response){
             var parsed = JSON.parse(response);
-            chart.data.labels = parsed.week_no;
+            chart.data.labels = parsed.label;
             chart.data.datasets[0].data = parsed.data.percentage;
             chart.data.datasets[1].data = parsed.data.ship_vol;
             chart.data.datasets[2].data = parsed.data.failed;
@@ -79,3 +80,11 @@ async function getFailedCod(chart){
         }
    });
 }
+
+
+$( ".selectpicker" ).change(function() {
+    //var id = $(this).attr("id");
+    var province = $("#province_id").find(":selected").text();
+    var city = $("#city_id").find(":selected").text();
+    getFailedCod(FailedCodChart, province, city);
+});

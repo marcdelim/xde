@@ -24,14 +24,15 @@ function generateTableHead(table, data) {
 
   $(document).ready(function() {
     
-    getFailedNonCodTable();
+    getFailedNonCodTable('All', 'All');
 
 });
 
 
-async function getFailedNonCodTable(){
+async function getFailedNonCodTable(province, city){
     $.ajax({
         type: "GET",
+        data: "group=week_no&province="+province+"&city="+city,
         url: 'fdsplit/failed_non_cod_tbl',
         success: function(response){
             let queryData =  JSON.parse(response);
@@ -44,3 +45,10 @@ async function getFailedNonCodTable(){
         }
    });
 }
+
+$( ".selectpicker" ).change(function() {
+  //var id = $(this).attr("id");
+  var province = $("#province_id").find(":selected").text();
+  var city = $("#city_id").find(":selected").text();
+  getFailedNonCodTable( province, city);
+});

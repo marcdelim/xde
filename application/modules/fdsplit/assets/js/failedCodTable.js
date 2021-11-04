@@ -24,14 +24,15 @@ function generateTableHead(table, data) {
 
   $(document).ready(function() {
     
-    getFailedCodTable();
+    getFailedCodTable('All', 'All');
 
 });
 
 
-async function getFailedCodTable(){
+async function getFailedCodTable(province, city){
     $.ajax({
         type: "GET",
+        data: "group=week_no&province="+province+"&city="+city,
         url: 'fdsplit/failed_cod_tbl',
         success: function(response){
             let queryData =  JSON.parse(response);
@@ -44,3 +45,10 @@ async function getFailedCodTable(){
         }
    });
 }
+
+$( ".selectpicker" ).change(function() {
+  //var id = $(this).attr("id");
+  var province = $("#province_id").find(":selected").text();
+  var city = $("#city_id").find(":selected").text();
+  getFailedCodTable( province, city);
+});

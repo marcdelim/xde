@@ -12,7 +12,28 @@
                     <div class="padding">
                         <div class="row">
                             <div class="container-fluid d-flex justify-content-center">
-                                
+                                <div class="row">
+                                    
+                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                        <label for="province_id">Province:</label>
+                                        <select class="form-control selectpicker" data-container="body" data-live-search="true" id="province_id" name="province_id">
+                                            <option value="All" selected>All</option>
+                                            <?php foreach ($provinces as $province): ?>
+                                                <option value="<?php echo $province->province ?>"><?php echo $province->province ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8 col-md-6" style="margin-top:10px">
+                                        <label for="city_id">City:</label>
+                                        <select class="form-control selectpicker" data-container="body" data-live-search="true" id="city_id" name="city_id">
+                                            <option value="All" selected>All</option>
+                                            <?php foreach ($cities as $city): ?>
+                                                <option value="<?php echo $city->city ?>"><?php echo $city->city ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                   
+                                </div>
                                 <div class="row">
                                     
                                     <div class="col-sm-8 col-md-6"style="margin-top:10px">

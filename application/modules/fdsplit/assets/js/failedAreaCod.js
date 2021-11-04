@@ -24,15 +24,16 @@ function generateTableHead(table, data) {
 
   $(document).ready(function() {
     
-    getFailedAreaCodTable();
+    getFailedAreaCodTable('All', 'All');
 
 });
 
 
-async function getFailedAreaCodTable(){
+async function getFailedAreaCodTable(province, city){
     $.ajax({
         type: "GET",
         url: 'fdsplit/failed_area_cod',
+        data: "province="+province+"&city="+city,
         success: function(response){
             let queryData =  JSON.parse(response);
             $('#failed-area-cod tbody').empty();
@@ -44,3 +45,10 @@ async function getFailedAreaCodTable(){
         }
    });
 }
+
+$( ".selectpicker" ).change(function() {
+  //var id = $(this).attr("id");
+  var province = $("#province_id").find(":selected").text();
+  var city = $("#city_id").find(":selected").text();
+  getFailedAreaCodTable( province, city);
+});
