@@ -1,6 +1,6 @@
 <?php
 
-class Raw_data extends MX_Controller{
+class Data_upload extends MX_Controller{
     
     public function process($transaction_details = []){
         $data = $this->input->post();
@@ -64,6 +64,8 @@ class Raw_data extends MX_Controller{
 
     private function spread_sheet_to_array($file){
 		$sheetData = [];
+        var_dump($file);
+        exit();
 		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 		$spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
