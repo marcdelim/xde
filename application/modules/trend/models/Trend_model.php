@@ -117,7 +117,7 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
-			$this->db->order_by($group);
+			$this->db->order_by(str_replace(' as handover_date', '' ,$select_group));
 			$query = $this->db->get();
 			$this->db->select('"Grand Total" as "Week No."');
 			$this->db->select('SUM(if(area = "GMA", 1, 0)) AS "GMA"');
