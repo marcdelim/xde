@@ -13,12 +13,12 @@ class Fdsplit extends MX_Controller{
 		$this->load->model("Fdsplit_model", 'fds');
 		$this->load->model("dashboard/XDE_model", 'xde');
 		include("SimpleXLSX.php");
-		// if(empty($this->session->userdata('login'))){
-		// 	redirect('login');
-		// }
-		// if(($this->session->userdata('temp_pass'))){
-		// 	redirect('changepass');
-		// }
+		if(empty($this->session->userdata('login'))){
+			redirect('login');
+		}
+		if(($this->session->userdata('temp_pass'))){
+			redirect('changepass');
+		}
 	}
 	
 	public function index(){

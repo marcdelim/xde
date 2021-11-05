@@ -13,12 +13,12 @@ class Trend extends MX_Controller{
 		$this->load->model("dashboard/XDE_model", 'xde');
 		$this->load->model("Trend_model", 'trend');
 		include("SimpleXLSX.php");
-		// if(empty($this->session->userdata('login'))){
-		// 	redirect('login');
-		// }
-		// if(($this->session->userdata('temp_pass'))){
-		// 	redirect('changepass');
-		// }
+		if(empty($this->session->userdata('login'))){
+			redirect('login');
+		}
+		if(($this->session->userdata('temp_pass'))){
+			redirect('changepass');
+		}
 	}
 	
 	public function index(){
