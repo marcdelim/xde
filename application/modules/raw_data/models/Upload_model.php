@@ -1,5 +1,5 @@
 <?php
-class Pallet_model extends MY_Model{
+class Upload_model extends MY_Model{
 	public function __construct(){
 		parent::__construct();
     }

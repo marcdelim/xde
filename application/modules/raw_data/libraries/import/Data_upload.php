@@ -16,7 +16,7 @@ class Data_upload extends MX_Controller{
             return json_encode($this->common->apiData("error","error","Invalid file format!"));
             exit();
         }
-        $sales_orders_columns = $this->pallet_model->field_list(); // Get bed data colums/fields
+        $sales_orders_columns = $this->upload_model->field_list(); // Get bed data colums/fields
         $a = [
             array_search('id',array_column($sales_orders_columns,'Field')),
         ];
@@ -52,7 +52,7 @@ class Data_upload extends MX_Controller{
 
 
         $this->db->trans_begin();
-        $this->pallet_model->batch_insert_data($aData);
+        $this->upload_model->batch_insert_data($aData);
         if($this->db->trans_status() === false){
 			$this->db->trans_rollback();
 			return json_encode($this->common->apiData("error","error","An error occurred while saving!"));
@@ -64,8 +64,6 @@ class Data_upload extends MX_Controller{
 
     private function spread_sheet_to_array($file){
 		$sheetData = [];
-        var_dump($file);
-        exit();
 		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 		$spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
