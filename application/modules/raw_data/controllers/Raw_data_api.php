@@ -23,7 +23,7 @@ class Raw_data_api extends MX_Controller
         // $this->common->vd($d3);
         // exit();
         ini_set('memory_limit', '-1');
-        ini_set('max_execution_time', 3000);
+        ini_set('max_execution_time',0);
         $data = $this->input->post();
         $res = $this->upload_model->data_list($data);
         $recordsTotal = count($res);
