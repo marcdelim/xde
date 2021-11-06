@@ -11,7 +11,7 @@ class Data_upload extends MX_Controller{
         }
         $file = $_FILES['file'];
         $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-        if(!in_array($extension,['xlsx','xls'])){
+        if(!in_array($extension,['csv'])){
             // Check if file extension is correct
             return json_encode($this->common->apiData("error","error","Invalid file format!"));
             exit();
@@ -27,6 +27,8 @@ class Data_upload extends MX_Controller{
         $sales_orders_columns = array_merge($sales_orders_columns); // Just to reset indexes after unset $a
 
         $spData = $this->spread_sheet_to_array($file['tmp_name']);
+        // $this->common->vd($spData);
+        // exit();
          // Convert SP to Array
         $spHeader = $spData[0]; // Get SP header
         unset($spData[0]); // Unset SP header from Array Data
@@ -64,7 +66,7 @@ class Data_upload extends MX_Controller{
 
     private function spread_sheet_to_array($file){
 		$sheetData = [];
-		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
 		$spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
 		return $sheetData;
