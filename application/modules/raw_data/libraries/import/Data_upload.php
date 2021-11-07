@@ -125,8 +125,8 @@ class Data_upload extends MX_Controller{
                 }
                 $day_of_week = date('w', strtotime($arrTmp['last_status_date'])) + 1;
                 $arrTmp['lt'] = number_format($val_sub_lt - number_format((($val_sub_lt - $day_of_week + 1) / 7),0) - 1,2);
-                $this->common->vd($arrTmp['lt']);
-                exit();
+                // $this->common->vd($arrTmp['lt']);
+                // exit();
                 if($arrTmp['lt'] < $arrTmp['total_sla']){
                     $arrTmp['otp'] = 1;
                 }
