@@ -35,7 +35,7 @@ var importFile = {
         });
         var formData = new FormData();
         formData.append('file', $('#import_file')[0].files[0]);
-        formData.append('mod', "raw_data|raw_data_api|upload");
+        formData.append('mod', "maintenance|maintenance_api|upload");
         $.ajax({
             url : urls.ajax_url,
             type : "post",

@@ -1,7 +1,7 @@
 <?php
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-class Raw_data extends MX_Controller{
+class Maintenance extends MX_Controller{
 	private $smodule;
 	
 	public function __construct()
@@ -22,15 +22,13 @@ class Raw_data extends MX_Controller{
 		$this->app->use_js(array("source"=>$this->environment->assets_path."site/vendor/sweetalert2/sweetalert2.js","cache"=>false));
 		$this->app->use_js(array("source"=>$this->environment->assets_path."site/plugins/jquery.validate.js","cache"=>false));
 		
-		$this->app->use_js(array("source"=>"raw_data/upload/list","cache"=>false));
-		$this->app->use_js(array("source"=>"raw_data/upload/delete","cache"=>false));
-		$this->app->use_js(array("source"=>"raw_data/upload/import","cache"=>false));
-		$this->app->use_js(array("source"=>"raw_data/upload/create","cache"=>false));
-		$this->app->use_js(array("source"=>"raw_data/upload/export","cache"=>false));
-		$header['header_data'] = "Data Upload";
+		$this->app->use_js(array("source"=>"maintenance/upload/list","cache"=>false));
+		$this->app->use_js(array("source"=>"maintenance/upload/import","cache"=>false));
+		$this->app->use_js(array("source"=>"maintenance/upload/export","cache"=>false));
+		$header['header_data'] = "Maintenance";
 		$this->template->adminHeaderTpl($header);
 		$this->template->adminSideBarTpl();
-		$this->load->view('raw_data/index');
+		$this->load->view('maintenance/index');
 		$this->template->adminFooterTpl();
 	}
 
@@ -62,7 +60,32 @@ class Raw_data extends MX_Controller{
             "consignee_province",
             "consignee_city",
             "consignee_barangay",
+            "port",
+            "area",
+            "area2",
+            "lh",
+            "sla",
             "plus_sla",
+            "total_sla",
+            "volume",
+            "delivered",
+            "lt",
+            "otp",
+            "first_attempt_within_lt",
+            "first_attempt_dispatch_vol",
+            "transfer",
+            "fd",
+            "fd_reason",
+            "open",
+            "claims",
+            "pickup_to_ho_lt",
+            "lh_lt",
+            "lm_dispatch_lt",
+            "week_no",
+            "handover_date2",
+            "month",
+            "year",
+            "m_and_y",
         ];
 
         $filename = "Raw Data Template";

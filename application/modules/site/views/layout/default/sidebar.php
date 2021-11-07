@@ -63,6 +63,7 @@
 						</li>
 						
 						<li><a href="<?= base_url()?>raw_data"><span class="title">Upload Data</span></a></li>
+						<li><a href="<?= base_url()?>maintenance"><span class="title">Maintenance</span></a></li>
 						<li><a href="<?= base_url()?>user"> <span class="title">User</span></a></li>
 						
 					</ul>

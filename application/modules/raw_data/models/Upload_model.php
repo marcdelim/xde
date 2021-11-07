@@ -16,8 +16,8 @@ class Upload_model extends MY_Model{
         return $this->db->insert('xde_table',$data);
     }
 
-    public function delete_data($data){
-        return $this->db->where_in('id',$data)->delete('xde_table');
+    public function clear_uploaded_data(){
+        return $this->db->truncate('xde_table');
     } 
 
     public function data_list($data, $no_limit = false){
@@ -135,5 +135,12 @@ class Upload_model extends MY_Model{
                 return $this->db->get()->result_array();
             }
         }
+    }
+
+    public function get_ref_data($data){
+        $this->db->select('*')
+        ->from('maintenance_table')
+        ->where('port', $data);
+        return $this->db->get()->row_array();
     }
 }
