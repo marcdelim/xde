@@ -117,9 +117,16 @@ class Data_upload extends MX_Controller{
                 $sec_lt =  $date_details_lt->s;
                 $total_sec_lt = $hour_to_sec_lt + $min_to_sec_lt + $sec_lt;
                 $con_decimal_lt = $total_sec_lt / 86400 ;
-                $val_sub_lt = $date_details_lt->d+$con_decimal_lt;
+                if($arrTmp['last_status_date'] < $arrTmp['handover_date']){
+                    $val_sub_lt = -($date_details_lt->d+$con_decimal_lt);
+                }
+                else{
+                    $val_sub_lt = $date_details_lt->d+$con_decimal_lt;
+                }
                 $day_of_week = date('w', strtotime($arrTmp['last_status_date'])) + 1;
                 $arrTmp['lt'] = number_format($val_sub_lt - number_format((($val_sub_lt - $day_of_week + 1) / 7),0) - 1,2);
+                $this->common->vd($arrTmp['lt']);
+                exit();
                 if($arrTmp['lt'] < $arrTmp['total_sla']){
                     $arrTmp['otp'] = 1;
                 }
@@ -139,10 +146,10 @@ class Data_upload extends MX_Controller{
                     $arrTmp['first_attempt_dispatch_vol'] = 0;
                 }
                 if($arrTmp['transfer_date'] == ""){
-                    $arrTmp['transfer'] = 1;
+                    $arrTmp['transfer'] = 0;
                 }
                 else{
-                    $arrTmp['transfer'] = 0;
+                    $arrTmp['transfer'] = 1;
                 }
                 if(in_array($arrTmp['status'],['claims','branch_received_rts','failed_delivery_return','main_received_rts','out_for_return','for_return','refused_rts','received_refused_rts','returned','transfer_refused_rts'])){
                     $arrTmp['fd'] = 1;
