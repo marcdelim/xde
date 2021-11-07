@@ -15,7 +15,7 @@
                                 <span>Import</span>
                             </button> |  
                             <button type="button" id="btn-export" class="btn btn-primary btn-xs btn-export"><i class="fa fa-download"></i>
-                                <span>Export</span>
+                                <span>Export Template</span>
                             </button>
                             </p>
                             <div style="overflow-x:auto;">

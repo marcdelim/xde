@@ -48,7 +48,7 @@ function data_list(){
         ]
     });
 
-    $('#btn-export').on("click", function() {
-        table.button('.buttons-excel').trigger();
-    });
+    // $('#btn-export').on("click", function() {
+    //     table.button('.buttons-excel').trigger();
+    // });
 }
