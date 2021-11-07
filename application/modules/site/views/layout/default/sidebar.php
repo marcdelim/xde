@@ -36,8 +36,8 @@
 							<i class="ti-list"></i><span>Summary</span>
 							</a>
 							<ul class="dropdown-menu logged-user-menu">
-								<li><a href="<?= base_url()?>"> <span>Weekly</span></a></li>
 								<li><a href="<?= base_url()?>dashboard/daily"> <span>Daily</span></a></li>
+								<li><a href="<?= base_url()?>"> <span>Weekly</span></a></li>
 								<li><a href="<?= base_url()?>dashboard/monthly"><span>Monthly</span></a></li>
 							</ul>
 						</li>
@@ -46,8 +46,8 @@
 							<i class="ti-list"></i><span>Volume Trend</span>
 							</a>
 							<ul class="dropdown-menu logged-user-menu">
-								<li><a href="<?= base_url()?>trend"> <span>Weekly</span></a></li>
 								<li><a href="<?= base_url()?>trend/daily"> <span>Daily</span></a></li>
+								<li><a href="<?= base_url()?>trend"> <span>Weekly</span></a></li>
 								<li><a href="<?= base_url()?>trend/monthly"><span>Monthly</span></a></li>
 							</ul>
 						</li>
@@ -56,15 +56,15 @@
 							<i class="ti-list"></i><span>FD Split (COD & N-COD)</span>
 							</a>
 							<ul class="dropdown-menu logged-user-menu">
-								<li><a href="<?= base_url()?>fdsplit"> <span>Weekly</span></a></li>
 								<li><a href="<?= base_url()?>fdsplit/daily"> <span>Daily</span></a></li>
+								<li><a href="<?= base_url()?>fdsplit"> <span>Weekly</span></a></li>
 								<li><a href="<?= base_url()?>fdsplit/monthly"><span>Monthly</span></a></li>
 							</ul>
 						</li>
 						
 						<li><a href="<?= base_url()?>raw_data"><span class="title">Upload Data</span></a></li>
 						<li><a href="<?= base_url()?>maintenance"><span class="title">Maintenance</span></a></li>
-						<li><a href="<?= base_url()?>user"> <span class="title">User</span></a></li>
+						<li><a href="<?= base_url()?>user"> <span class="title">User Management</span></a></li>
 						
 					</ul>
 					
