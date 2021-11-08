@@ -268,7 +268,12 @@ class Data_upload extends MX_Controller{
         }
 
         $this->db->trans_begin();
-        $this->upload_model->batch_insert_data($aData);
+        if(isset($aData)){
+            $this->upload_model->batch_insert_data($aData);
+        }
+        else{
+            return json_encode($this->common->apiData("error","error","No Data to Upload"));
+        }
         if($this->db->trans_status() === false){
 			$this->db->trans_rollback();
 			return json_encode($this->common->apiData("error","error","An error occurred while saving!"));
