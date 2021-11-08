@@ -104,27 +104,33 @@ class Data_upload extends MX_Controller{
                 $sla_total_sec = ($hour_to_sec + $min_to_sec + $sec)/86400;
                 $arrTmp['sla'] = number_format($sla_total_sec + $del_sla,2);
                 $arrTmp['total_sla'] = number_format($sla_total_sec + $del_sla + $arrTmp['plus_sla'],2);
-                $arrTmp['volume'] = number_format($sla_total_sec + $del_sla + $arrTmp['plus_sla'],2);;
+                $arrTmp['volume'] = 1;
                 if(in_array($arrTmp['status'],['delivery_successful','pod_returned'])){
                     $arrTmp['delivered'] = 1;
                 }
                 else{
                     $arrTmp['delivered'] = 0;
                 }
-                $date_details_lt =$date3->diff($date4);
-                $hour_to_sec_lt = $date_details_lt->h * 3600;
-                $min_to_sec_lt = $date_details_lt->i * 60;
-                $sec_lt =  $date_details_lt->s;
-                $total_sec_lt = $hour_to_sec_lt + $min_to_sec_lt + $sec_lt;
-                $con_decimal_lt = $total_sec_lt / 86400 ;
-                if($arrTmp['last_status_date'] < $arrTmp['handover_date']){
-                    $val_sub_lt = -($date_details_lt->d+$con_decimal_lt);
+                if($arrTmp['last_status_date'] == "" OR $arrTmp['handover_date'] ==""){
+                    $arrTmp['lt'] = 0;
                 }
                 else{
-                    $val_sub_lt = $date_details_lt->d+$con_decimal_lt;
-                }
-                $day_of_week = date('w', strtotime($arrTmp['last_status_date'])) + 1;
-                $arrTmp['lt'] = number_format($val_sub_lt - number_format((($val_sub_lt - $day_of_week + 1) / 7),0) - 1,2);
+                    $date_details_lt =$date3->diff($date4);
+                    $hour_to_sec_lt = $date_details_lt->h * 3600;
+                    $min_to_sec_lt = $date_details_lt->i * 60;
+                    $sec_lt =  $date_details_lt->s;
+                    $total_sec_lt = $hour_to_sec_lt + $min_to_sec_lt + $sec_lt;
+                    $con_decimal_lt = $total_sec_lt / 86400 ;
+                    if($arrTmp['last_status_date'] < $arrTmp['handover_date']){
+                        $val_sub_lt = -($date_details_lt->d+$con_decimal_lt);
+                    }
+                    else{
+                        $val_sub_lt = $date_details_lt->d+$con_decimal_lt;
+                    }
+                    $day_of_week = date('w', strtotime($arrTmp['last_status_date'])) + 1;
+                    $arrTmp['lt'] = number_format($val_sub_lt - number_format((($val_sub_lt - $day_of_week + 1) / 7),0) - 1,2);
+                } 
+                
                 // $this->common->vd($arrTmp['lt']);
                 // exit();
                 if($arrTmp['lt'] < $arrTmp['total_sla']){
@@ -199,15 +205,21 @@ class Data_upload extends MX_Controller{
                     $arrTmp['lh_lt'] = number_format($date_details->d+$con_decimal,2);
                 }
 
-                $date_details_ho_lt =$date4->diff($date5);
-                $hour_to_sec_ho_lt = $date_details_ho_lt->h * 3600;
-                $min_to_sec_ho_lt = $date_details_ho_lt->i * 60;
-                $sec_ho_lt =  $date_details_ho_lt->s;
-                $total_sec_ho_lt = $hour_to_sec_ho_lt + $min_to_sec_ho_lt + $sec_ho_lt;
-                $con_decimal_ho_lt = $total_sec_ho_lt / 86400 ;
-                $val_sub_ho_lt = $date_details_ho_lt->d+$con_decimal_ho_lt;
-                $day_of_week = date('w', strtotime($arrTmp['handover_date'])) + 1;
-                $arrTmp['pickup_to_ho_lt'] = number_format($val_sub_ho_lt - number_format((($val_sub_ho_lt - $day_of_week + 1) / 7),0) - 1,2);
+                if($arrTmp['created_at'] == "" OR $arrTmp['handover_date'] ==""){
+                    $arrTmp['pickup_to_ho_lt'] = 0;
+                }
+                else{
+                    $date_details_ho_lt =$date4->diff($date5);
+                    $hour_to_sec_ho_lt = $date_details_ho_lt->h * 3600;
+                    $min_to_sec_ho_lt = $date_details_ho_lt->i * 60;
+                    $sec_ho_lt =  $date_details_ho_lt->s;
+                    $total_sec_ho_lt = $hour_to_sec_ho_lt + $min_to_sec_ho_lt + $sec_ho_lt;
+                    $con_decimal_ho_lt = $total_sec_ho_lt / 86400 ;
+                    $val_sub_ho_lt = $date_details_ho_lt->d+$con_decimal_ho_lt;
+                    $day_of_week = date('w', strtotime($arrTmp['handover_date'])) + 1;
+                    $arrTmp['pickup_to_ho_lt'] = number_format($val_sub_ho_lt - number_format((($val_sub_ho_lt - $day_of_week + 1) / 7),0) - 1,2);
+                }
+               
 
                 if($arrTmp['transfer_date'] == "" OR $arrTmp['handover_date'] ==""){
                     $arrTmp['lh_lt'] = 0;
@@ -246,13 +258,14 @@ class Data_upload extends MX_Controller{
                 $arrTmp['year'] = date('y',strtotime($arrTmp['handover_date']));
                 $arrTmp['m_and_y'] = $arrTmp['month']."-".$arrTmp['year'];
 
+                // $this->common->vd($arrTmp);
+                // exit();
                 $aData[] = $arrTmp;
             }
         }else{
             return json_encode($this->common->apiData("error","error","Missing Column/s! ".implode(',',$headerDiff)));
             exit();
         }
-
 
         $this->db->trans_begin();
         $this->upload_model->batch_insert_data($aData);
