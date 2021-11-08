@@ -97,14 +97,27 @@ class Data_upload extends MX_Controller{
                     $arrTmp['lh'] = number_format($date_details->d+$con_decimal,2);
                 }
                 $del_sla = (isset($get_details['del_sla'])) ? $get_details['del_sla'] : 0;
-                $new_date = date_parse($val[23]);
-                $hour_to_sec = $new_date['hour'] * 3600;
-                $min_to_sec = $new_date['minute'] * 60;
-                $sec =  $new_date['second'];
-                $sla_total_sec = ($hour_to_sec + $min_to_sec + $sec)/86400;
-                $arrTmp['sla'] = number_format($sla_total_sec + $del_sla,2);
-                $arrTmp['total_sla'] = number_format($sla_total_sec + $del_sla + $arrTmp['plus_sla'],2);
-                $arrTmp['volume'] = 1;
+                if($val[23] ==""){
+                    $arrTmp['sla'] = 0;
+                    $arrTmp['total_sla'] = 0;
+                }
+                else{
+                    $new_date = date_parse($val[23]);
+                    $hour_to_sec = $new_date['hour'] * 3600;
+                    $min_to_sec = $new_date['minute'] * 60;
+                    $sec =  $new_date['second'];
+                    $sla_total_sec = ($hour_to_sec + $min_to_sec + $sec)/86400;
+                    $arrTmp['sla'] = number_format($sla_total_sec + $del_sla,2);
+                    $arrTmp['total_sla'] = number_format($sla_total_sec + $del_sla + $arrTmp['plus_sla'],2);
+                }
+                
+                if($arrTmp['tracking_number'] == ""){
+                    $arrTmp['volume'] = 0;
+                }
+                else{
+                    $arrTmp['volume'] = 1;
+                }
+                
                 if(in_array($arrTmp['status'],['delivery_successful','pod_returned'])){
                     $arrTmp['delivered'] = 1;
                 }
