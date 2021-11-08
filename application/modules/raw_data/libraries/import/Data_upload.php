@@ -104,7 +104,7 @@ class Data_upload extends MX_Controller{
                 $sla_total_sec = ($hour_to_sec + $min_to_sec + $sec)/86400;
                 $arrTmp['sla'] = number_format($sla_total_sec + $del_sla,2);
                 $arrTmp['total_sla'] = number_format($sla_total_sec + $del_sla + $arrTmp['plus_sla'],2);
-                $arrTmp['volume'] = 1;
+                $arrTmp['volume'] = number_format($sla_total_sec + $del_sla + $arrTmp['plus_sla'],2);;
                 if(in_array($arrTmp['status'],['delivery_successful','pod_returned'])){
                     $arrTmp['delivered'] = 1;
                 }
