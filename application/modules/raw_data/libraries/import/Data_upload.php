@@ -258,17 +258,16 @@ class Data_upload extends MX_Controller{
                 $arrTmp['year'] = date('y',strtotime($arrTmp['handover_date']));
                 $arrTmp['m_and_y'] = $arrTmp['month']."-".$arrTmp['year'];
 
-                // $this->common->vd($arrTmp);
-                // exit();
                 $aData[] = $arrTmp;
             }
         }else{
             return json_encode($this->common->apiData("error","error","Missing Column/s! ".implode(',',$headerDiff)));
             exit();
         }
-
+                // $this->common->vd($aData);
+                // exit();
         $this->db->trans_begin();
-        if(isset($aData)){
+        if(count($aData) > 0){
             $this->upload_model->batch_insert_data($aData);
         }
         else{
