@@ -147,6 +147,8 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
+			
+			$group = ($group== 'month') ? "MONTH(handover_date)": $group;
 			$this->db->order_by($group);
 			$query = $this->db->get();
 			if ( $query->result() != NULL ) {
@@ -178,6 +180,7 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
+			$group = ($group== 'month') ? "MONTH(handover_date)": $group;
 			$this->db->order_by($group);
 			$query = $this->db->get();
 			if ( $query->result() != NULL ) {
@@ -209,6 +212,7 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
+			$group = ($group== 'month') ? "MONTH(handover_date)": $group;
 			$this->db->order_by($group);
 			
 			$query = $this->db->get();
@@ -241,6 +245,7 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
+			$group = ($group== 'month') ? "MONTH(handover_date)": $group;
 			$this->db->order_by($group);
 			$query = $this->db->get();
 			if ( $query->result() != NULL ) {
@@ -274,6 +279,7 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
+			$group = ($group== 'month') ? "MONTH(handover_date)": $group;
 			$this->db->order_by($group);
 			$query = $this->db->get();
 			if ( $query->result() != NULL ) {
@@ -307,6 +313,7 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
+			$group = ($group== 'month') ? "MONTH(handover_date)": $group;
 			$this->db->order_by($group);
 			$query = $this->db->get();
 			if ( $query->result() != NULL ) {
@@ -339,6 +346,7 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
+			$group = ($group== 'month') ? "MONTH(handover_date)": $group;
 			$this->db->order_by($group);
 			$query = $this->db->get();
 			if ( $query->result() != NULL ) {
@@ -370,6 +378,7 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
+			$group = ($group== 'month') ? "MONTH(handover_date)": $group;
 			$this->db->order_by($group);
 			$query = $this->db->get();
 			if ( $query->result() != NULL ) {
@@ -403,6 +412,7 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
+			$group = ($group== 'month') ? "MONTH(handover_date)": $group;
 			$this->db->order_by($group);
 			$query = $this->db->get();
 			if ( $query->result() != NULL ) {
@@ -456,7 +466,8 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
-			$this->db->order_by(str_replace(' as handover_date', '' ,$select_group));
+			$group = ($group== 'month') ? "MONTH(handover_date)": $group;
+			$this->db->order_by($group);
 			$query = $this->db->get();
 			$this->db->select('"Grand Total" as total');
 			$this->db->select('count(xde_id) as "Ship Vol"');

@@ -82,7 +82,8 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
-			$this->db->order_by(str_replace(' as handover_date', '' ,$select_group));
+			$group = ($group== 'month') ? "MONTH(handover_date)": $group;
+			$this->db->order_by($group);
 			$query = $this->db->get();
 			if ( $query->result() != NULL ) {
 				return $query->result();
@@ -117,7 +118,8 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
-			$this->db->order_by(str_replace(' as handover_date', '' ,$select_group));
+			$group = ($group== 'month') ? "MONTH(handover_date)": $group;
+			$this->db->order_by($group);
 			$query = $this->db->get();
 			$this->db->select('"Grand Total" as "Week No."');
 			$this->db->select('SUM(if(area = "GMA", 1, 0)) AS "GMA"');
@@ -188,7 +190,8 @@
 				$this->db->where('payment_type', $payment);
 			}
 			$this->db->group_by(str_replace(' as handover_date', '' ,$select_group));
-			$this->db->order_by(str_replace(' as handover_date', '' ,$select_group));
+			$group_order = ($group== 'month') ? "MONTH(handover_date)": $group;
+			$this->db->order_by($group_order);
 			$query = $this->db->get();
 
 			$this->db->select('"Grand Total" as "total"');
