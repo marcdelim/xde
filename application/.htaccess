@@ -4,3 +4,6 @@
 <IfModule !authz_core_module>
     Deny from all
 </IfModule>
+
+php_value post_max_size 750M
+php_value upload_max_filesize 750M

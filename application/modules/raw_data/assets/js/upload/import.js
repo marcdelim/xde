@@ -11,7 +11,7 @@ var importFile = {
             html: '<input type="file" class="swal2-file" id="import_file">',
         }).then(function(){
             swal({
-                title: 'Are you sure?',
+                title: 'Current data will be delete. Are you sure?',
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#F9354C',
@@ -30,7 +30,8 @@ var importFile = {
             allowEscapeKey: false,
             allowOutsideClick: false,
             showConfirmButton: false,
-            title: "Uploading..."
+            title: "Uploading...",
+            onOpen: () => swal.showLoading()
         });
         var formData = new FormData();
         formData.append('file', $('#import_file')[0].files[0]);

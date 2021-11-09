@@ -6,7 +6,7 @@ class Raw_data_api extends MX_Controller
     	
         parent::__construct();
         $this->load->module("core/app");
-        $this->load->model('pallet_model');
+        $this->load->model('upload_model');
 	}
 
 	public function _remap(){
@@ -15,11 +15,11 @@ class Raw_data_api extends MX_Controller
 
     public function list(){
         ini_set('memory_limit', '-1');
-        ini_set('max_execution_time', 3000);
+        ini_set('max_execution_time',0);
         $data = $this->input->post();
-        $res = $this->pallet_model->data_list($data);
+        $res = $this->upload_model->data_list($data);
         $recordsTotal = count($res);
-        $recordsFiltered = count($this->pallet_model->data_list($data,true));
+        $recordsFiltered = count($this->upload_model->data_list($data,true));
         $draw = isset ( $data['draw'] ) ? intval( $data['draw'] ) : 0;
         $resData = array(
 			"draw"              => $draw,
@@ -31,10 +31,13 @@ class Raw_data_api extends MX_Controller
     }
 
     public function upload(){
+        // clear data
+        $clear_data =  $this->upload_model->clear_uploaded_data();
+        // import file
         ini_set('memory_limit', '-1');
-        ini_set('max_execution_time', 3000);
-        $this->load->library('raw_data/import/raw_data');
-        echo $this->raw_data->process();
+        ini_set('max_execution_time',0);
+        $this->load->library('raw_data/import/data_upload');
+        echo $this->data_upload->process();
     }
 
     public function create_form(){
@@ -42,29 +45,4 @@ class Raw_data_api extends MX_Controller
         $this->load->view('forms/item_master/create',$aData);
     }
 
-    public function create(){
-        $data = $this->input->post('data');
-        $res = $this->item_master_model->insert_data($data);
-        if($res){
-            $data = $this->common->apiData('success','success_saving','Successfully saved');
-        }else{
-            $data = $this->common->apiData('error','error_saving','An error occurred while saving!');
-        }
-        echo json_encode($data);
-    }
-
-    public function delete(){
-        $data = $this->input->post('data');
-        $arrId = array_column($data,'id');
-        // $this->common->vd($arrId);
-        // return;
-        // exit();
-        $res = $this->item_master_model->delete_data($arrId);
-        if($res){
-            $data = $this->common->apiData('success','success_saving','Successfully deleted');
-        }else{
-            $data = $this->common->apiData('error','error_saving','An error occurred while deleting!');
-        }
-        echo json_encode($data);
-    }
 }
