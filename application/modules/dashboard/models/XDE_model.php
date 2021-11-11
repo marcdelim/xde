@@ -162,7 +162,7 @@
 			$select_group = ($group =='handover_date') ?  'date(handover_date) as handover_date' : $group;
 			$this->db->select($select_group);
 			$this->db->select('SUM(if(status = "delivery_successful", 1, 0)) AS del_vol');
-			$this->db->select('SUM(if(otp = 1, 1, 0)) AS otp_vol');
+			$this->db->select('SUM(if(status = "delivery_successful" AND otp = 1, 1, 0)) AS otp_vol');
 			$this->db->from( $this->table );
 			if($area != 'All'){
 				$this->db->where('area', $area);
@@ -430,7 +430,7 @@
 			$this->db->select('count(xde_id) as "Ship Vol"');
 			$this->db->select('SUM(if(status = "delivery_successful", 1, 0)) AS "Del Vol"');
 			$this->db->select('ROUND(AVG(lt),2) AS "Average of LT"');
-			$this->db->select('SUM(if(otp = "1", 1, 0)) AS "OTP Vol"');
+			$this->db->select('SUM(if(status = "delivery_successful" AND otp = "1", 1, 0)) AS "OTP Vol"');
 			$this->db->select('SUM(if(first_attempt_status = "delivery_successful", 1, 0)) AS "1st Attempt Vol"');
 			$this->db->select('SUM(if(fd = "1", 1, 0)) AS "FD Vol"');
 			$this->db->select('SUM(if(open = "1", 1, 0)) AS "Open Vol"');
@@ -473,7 +473,7 @@
 			$this->db->select('count(xde_id) as "Ship Vol"');
 			$this->db->select('SUM(if(status = "delivery_successful", 1, 0)) AS "Del Vol"');
 			$this->db->select('ROUND(AVG(lt),2) AS "Average of LT"');
-			$this->db->select('SUM(if(otp = "1", 1, 0)) AS "OTP Vol"');
+			$this->db->select('SUM(if(status = "delivery_successful" AND otp = "1", 1, 0)) AS "OTP Vol"');
 			$this->db->select('SUM(if(first_attempt_status = "delivery_successful", 1, 0)) AS "1st Attempt Vol"');
 			$this->db->select('SUM(if(fd = "1", 1, 0)) AS "FD Vol"');
 			$this->db->select('SUM(if(open = "1", 1, 0)) AS "Open Vol"');
