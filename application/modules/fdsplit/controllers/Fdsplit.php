@@ -11,7 +11,7 @@ class Fdsplit extends MX_Controller{
         $this->load->module("core/app");
 		$this->load->module("site/template");
 		$this->load->model("Fdsplit_model", 'fds');
-		$this->load->model("dashboard/XDE_model", 'xde');
+		$this->load->model("dashboard/Xde_model", 'xde');
 		include("SimpleXLSX.php");
 		if(empty($this->session->userdata('login'))){
 			redirect('login');

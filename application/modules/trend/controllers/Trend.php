@@ -10,7 +10,7 @@ class Trend extends MX_Controller{
         $this->smodule = strtolower(__CLASS__);
         $this->load->module("core/app");
 		$this->load->module("site/template");
-		$this->load->model("dashboard/XDE_model", 'xde');
+		$this->load->model("dashboard/Xde_model", 'xde');
 		$this->load->model("Trend_model", 'trend');
 		include("SimpleXLSX.php");
 		if(empty($this->session->userdata('login'))){

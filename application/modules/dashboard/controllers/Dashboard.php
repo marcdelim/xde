@@ -10,7 +10,7 @@ class Dashboard extends MX_Controller{
         $this->smodule = strtolower(__CLASS__);
         $this->load->module("core/app");
 		$this->load->module("site/template");
-		$this->load->model("XDE_model", 'xde');
+		$this->load->model("Xde_model", 'xde');
 		include("SimpleXLSX.php");
 		if(empty($this->session->userdata('login'))){
 			redirect('login');
